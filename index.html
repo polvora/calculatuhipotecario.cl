@@ -250,7 +250,7 @@
     line-height:1;letter-spacing:-.01em;
   }
   .m-s{font-family:var(--mono);font-size:12px;color:var(--on-dark-soft);font-weight:500;white-space:nowrap;padding-bottom:2px}
-  .m-l-note{font-weight:400;color:var(--on-dark-soft)}
+  .m-l-note{display:block;font-weight:400;font-size:11px;color:var(--on-dark-soft);margin-top:3px;line-height:1.35}
 
   /* tira de stats secundarias (tasa · CAE · plazo) */
   .stats{display:flex;flex-wrap:wrap;gap:9px 20px;margin-top:16px;padding-top:14px;border-top:1px solid var(--panel-line)}
@@ -749,8 +749,8 @@
       ') con <b>'+fmtInt.format(r.pieP)+'% de pie</b> a <b>'+r.plazo+' años</b>.';
 
     $('rentaLabel').innerHTML = (r.bind==='carga')
-      ? 'Renta líquida mínima <span class="m-l-note">(el dividendo + tus deudas no pueden pasar del 45% de tu renta)</span>'
-      : 'Renta líquida mínima <span class="m-l-note">(el dividendo no puede pasar del ' + ratio + '% de tu renta)</span>';
+      ? 'Renta líquida mínima<span class="m-l-note">el dividendo + tus deudas no pueden pasar del 45% de tu renta</span>'
+      : 'Renta líquida mínima<span class="m-l-note">el dividendo no puede pasar del ' + ratio + '% de tu renta</span>';
 
     // desglose
     setCurOut('rDivBase', clp(r.divBaseUF*UF), 'rDivBaseUF', uf(r.divBaseUF));
