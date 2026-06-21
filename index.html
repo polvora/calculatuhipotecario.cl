@@ -269,6 +269,9 @@
     opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .14s,transform .14s;pointer-events:none;
   }
   .tip .tipbox b{color:#7fd8c6;font-weight:600}
+  .tipbox .tt-row{display:flex;justify-content:space-between;gap:16px;margin-top:5px;font-variant-numeric:tabular-nums}
+  .tipbox .tt-row span:last-child{font-weight:600;color:#fff;white-space:nowrap}
+  .tipbox .tt-tot{margin-top:7px;padding-top:6px;border-top:1px solid #34434f}
   .tip:hover .tipbox,.tip:focus .tipbox,.tip:focus-within .tipbox{opacity:1;visibility:visible;transform:translateY(0)}
   .panel .tip{color:#cbe5db;border-bottom-color:rgba(203,229,219,.5)}
   .panel .tip:focus{outline-color:#cbe5db}
@@ -413,31 +416,47 @@
   .faq details p{margin:0 0 16px;color:var(--ink-soft);font-size:14px;line-height:1.65;max-width:66ch}
   .faq details p b{color:var(--ink);font-weight:600}
 
-  /* impresión / guardar PDF (para el banco) */
+  /* impresión / guardar PDF (para el banco) — compacto, 2 columnas como la web */
   @media print{
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    body{background:#fff !important;background-image:none !important;color:#1b2733 !important;font-size:12px}
+    @page{margin:11mm}
+    body{background:#fff !important;background-image:none !important;color:#1b2733 !important;font-size:9.5px;line-height:1.35}
     .app{max-width:none;padding:0}
-    .sharebtn,#rateChips,.faq,details.adv,.linkbtn{display:none !important}
-    .tip .tipbox{display:none !important}
+    .sharebtn,#rateChips,.faq,details.adv,.linkbtn,.hint,.note,.acc-hint,.kicker,.tip .tipbox,.card.qualify{display:none !important}
+    .card:has(#cmpRows){display:none !important}
     .tip{border-bottom:none}
-    .grid{display:block}
+    .masthead{margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #ccc}
+    .hero{margin-bottom:6px}
+    .hero h1{font-size:17px;line-height:1.1}
+    .hero p{display:none}
+    .grid{display:grid !important;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
     .sticky{position:static}
-    .card,.panel{box-shadow:none !important;border:1px solid #ccc !important;break-inside:avoid;page-break-inside:avoid;margin:0 0 10px}
+    .card,.panel{box-shadow:none !important;border:1px solid #ccc !important;padding:9px;margin:0 0 8px;break-inside:avoid}
+    .card + .card,.panel + .card{margin-top:8px}
+    .grp{padding:7px 0}
+    .field{margin-bottom:7px}
+    .field > label{font-size:11px;margin-bottom:3px}
     .panel{background:#fff !important}
     .panel::before{display:none}
+    .panel .top{margin-bottom:6px}
     .panel .top .eb{color:#555 !important}
     .metrics{background:#cfcfcf !important;border-color:#ccc !important}
-    .metric{background:#f4f4f1 !important}
-    .m-l,.m-l-note,.m-s,.hero-sub,.s-l,.note,.lead{color:#444 !important}
-    .m-v{color:#0e3a32 !important}
-    .s-v,.vd-title,.hero-sub b,.note b,.lead b{color:#111 !important}
-    .acc{margin-top:8px}
-    .acc-body{display:block !important;border-color:#ccc !important}
-    .acc-h{background:#f4f4f1 !important;border-color:#ccc !important}
+    .metric{background:#f4f4f1 !important;padding:6px 9px}
+    .m-l,.m-l-note,.m-s,.hero-sub,.s-l,.lead{color:#444 !important}
+    .m-v{color:#0e3a32 !important;font-size:15px}
+    .s-v,.vd-title,.hero-sub b,.lead b{color:#111 !important}
+    .hero-sub{margin-top:8px}
+    .stats{margin-top:8px;padding-top:8px}
+    .acc{margin-top:6px}
+    .acc-body{display:block !important;border-color:#ccc !important;padding:2px 10px 4px}
+    .acc-h{background:#f4f4f1 !important;border-color:#ccc !important;padding:6px 10px}
     .acc-tw{transform:rotate(90deg)}
-    .verdict{border-color:#bbb !important}
-    footer::after{content:"calculatuhipotecario.cl · valores referenciales, no es asesoría financiera.";display:block;margin-top:8px;color:#666}
+    .ttl{margin-bottom:8px}
+    .row{padding:4px 0}
+    input[type=number],input.money{padding:3px 7px;font-size:10px}
+    .seg button{padding:3px 8px;font-size:10px}
+    footer{margin-top:8px;padding-top:6px;font-size:9px}
+    footer::after{content:"calculatuhipotecario.cl · valores referenciales, no es asesoría financiera.";display:block;margin-top:5px;color:#666}
   }
 
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -617,14 +636,14 @@
           </div>
           <div class="metric">
             <div class="m-head">
-              <div class="m-l"><span class="tip" tabindex="0" role="note" aria-label="Dividendo mensual: la cuota que pagas cada mes. Incluye capital, intereses y los seguros de desgravamen e incendio. El desglose completo está más abajo.">Dividendo mensual<span class="tipbox"><b>Dividendo mensual</b> — la cuota de cada mes: <b>capital + intereses + seguros</b> (desgravamen e incendio). El desglose completo está más abajo.</span></span></div>
+              <div class="m-l"><span class="tip" tabindex="0" role="note" aria-label="Dividendo mensual: la cuota que pagas cada mes. Incluye capital, intereses y los seguros de desgravamen e incendio. El desglose completo está más abajo.">Dividendo mensual<span class="tipbox" id="divTipBox"></span></span></div>
               <div class="m-v" id="divOut">$0</div>
             </div>
             <span class="m-s" id="divOutUF">UF 0</span>
           </div>
           <div class="metric">
             <div class="m-head">
-              <div class="m-l"><span class="tip" tabindex="0" role="note" aria-label="Lo que pagarás en total: todo lo que desembolsas por la propiedad a lo largo del crédito. Es el valor de la propiedad más los intereses, los seguros y los gastos. El desglose está más abajo.">Lo que pagarás en total<span class="tipbox"><b>Lo que pagarás en total</b> — todo lo que desembolsas: el <b>valor de la propiedad + intereses + seguros + gastos</b>, en todo el crédito. El desglose está más abajo.</span></span></div>
+              <div class="m-l"><span class="tip" tabindex="0" role="note" aria-label="Lo que pagarás en total: todo lo que desembolsas por la propiedad a lo largo del crédito. Es el valor de la propiedad más los intereses, los seguros y los gastos. El desglose está más abajo.">Lo que pagarás en total<span class="tipbox" id="costoTipBox"></span></span></div>
               <div class="m-v" id="costoOut">$0</div>
             </div>
             <span class="m-s" id="costoOutUF">UF 0</span>
@@ -1060,6 +1079,16 @@
     setCurOut('rCostoTotal', clp(r.costoTotalUF*UF), 'rCostoTotalUF', uf(r.costoTotalUF));
     $('costLead').innerHTML = 'Para tener esta propiedad de <b>'+clp(r.vPropCLP)+'</b> vas a pagar en total <b>'+clp(r.costoTotalUF*UF)+'</b> en <b>'+r.plazo+' años</b> — todo lo que sale de tu bolsillo.';
     $('costNote').innerHTML = 'De ese total, <b>'+clp(r.vPropCLP)+'</b> es la propiedad y <b>'+clp(r.extraUF*UF)+'</b> es lo que cuesta financiarla (intereses + seguros + gastos). Montos en UF; no ajustados por inflación.';
+
+    // tooltips ricos de las métricas (muestran el desglose al pasar el mouse)
+    $('divTipBox').innerHTML = '<b>Tu dividendo mensual</b>'
+      + '<div class="tt-row"><span>Capital + intereses</span><span>'+clp(r.divBaseUF*UF)+'</span></div>'
+      + '<div class="tt-row"><span>Seguros (desgrav. + incendio)</span><span>'+clp(r.segUF*UF)+'</span></div>'
+      + '<div class="tt-row tt-tot"><span>Dividendo total</span><span>'+clp(r.divTotCLP)+'</span></div>';
+    $('costoTipBox').innerHTML = '<b>Lo que pagarás en total</b>'
+      + '<div class="tt-row"><span>Al firmar (pie + gastos)</span><span>'+clp(r.cajaUF*UF)+'</span></div>'
+      + '<div class="tt-row"><span>En cuotas ('+r.plazo+' años)</span><span>'+clp(r.totalCuotasUF*UF)+'</span></div>'
+      + '<div class="tt-row tt-tot"><span>Total</span><span>'+clp(r.costoTotalUF*UF)+'</span></div>';
 
     // veredicto ¿califica? (solo si el usuario ingresó su renta)
     var vc = $('verdictCard');
