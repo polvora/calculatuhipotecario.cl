@@ -1,0 +1,2 @@
+# Dev-only helpers (local preview server), not part of the static site
+.claude/
