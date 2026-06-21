@@ -740,11 +740,12 @@
     ]
   };
   function fmtPct(n){ return n.toFixed(2).replace('.', ',') + '%'; }
+  function escAttr(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function renderChips(){
     var html = '';
     for(var i=0;i<TASAS.refs.length;i++){
       var c = TASAS.refs[i];
-      var t = c.tip ? ' title="'+c.tip+'"' : '';
+      var t = c.tip ? ' title="'+escAttr(c.tip)+'"' : '';
       html += '<button type="button" data-rate="'+c.rate+'"'+t+'>'+c.lab+'<b>'+fmtPct(c.rate)+'</b></button>';
     }
     $('rateChips').innerHTML = html;
