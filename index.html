@@ -281,6 +281,22 @@
   .note{font-size:12px;color:var(--ink-soft);line-height:1.55;margin-top:14px}
   .note b{color:var(--ink-soft);font-weight:600}
 
+  /* desglose expandible (acordeón) */
+  .lead{font-size:13px;color:var(--ink-soft);line-height:1.55;margin:0 0 8px}
+  .lead b{color:var(--ink);font-weight:600}
+  .acc{border-top:1px solid var(--line-soft)}
+  .acc-h{width:100%;display:flex;align-items:baseline;gap:10px;background:none;border:none;cursor:pointer;padding:12px 0;text-align:left;font-family:var(--body)}
+  .acc-h:hover .acc-k{color:var(--accent-deep)}
+  .acc-h:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+  .acc-tw{color:var(--accent);font-size:11px;transition:transform .18s;flex:none;line-height:1.7}
+  .acc-h[aria-expanded="true"] .acc-tw{transform:rotate(90deg)}
+  .acc-k{flex:1;font-size:13.5px;color:var(--ink);font-weight:500;line-height:1.3}
+  .acc-k small{display:block;color:var(--ink-faint);font-size:11px;font-weight:400;margin-top:2px}
+  .acc-v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:700;font-size:15px;color:var(--ink);white-space:nowrap}
+  .acc-body{display:none;padding:0 0 10px 21px}
+  .acc-h[aria-expanded="true"] + .acc-body{display:block}
+  .acc-body .row:first-child{border-top:none;padding-top:0}
+
   footer{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-soft);line-height:1.6}
   footer b{color:var(--ink-soft)}
   footer a{color:var(--accent-deep);text-decoration:none}
@@ -510,40 +526,54 @@
       </div>
 
       <div class="card">
-        <h3 class="ttl">Caja necesaria al firmar</h3>
-        <div class="row">
-          <span class="k">Pie<small><span id="pieEcho">20</span>% del valor</small></span>
-          <span class="v" id="rPie">$0<small id="rPieUF">UF 0</small></span>
-        </div>
-        <div class="row">
-          <span class="k">Gastos operacionales</span>
-          <span class="v" id="rGastos">$0<small id="rGastosUF">UF 0</small></span>
-        </div>
-        <div class="row total hl">
-          <span class="k">Total en efectivo</span>
-          <span class="v" id="rCaja">$0<small id="rCajaUF">UF 0</small></span>
-        </div>
-      </div>
+        <h3 class="ttl">Todo lo que vas a pagar</h3>
+        <p class="lead" id="costLead"></p>
 
-      <div class="card">
-        <h3 class="ttl">Cuánto pides y cuánto pagas</h3>
-        <div class="row">
-          <span class="k">Monto del crédito<small>lo que te presta el banco</small></span>
-          <span class="v" id="rCapital">$0<small id="rCapitalUF">UF 0</small></span>
+        <div class="acc">
+          <button class="acc-h" type="button" aria-expanded="false" aria-controls="accFirmar">
+            <span class="acc-tw" aria-hidden="true">▸</span>
+            <span class="acc-k">Al firmar, de tu bolsillo<small>una sola vez, al comprar</small></span>
+            <span class="acc-v" id="aFirmar">$0</span>
+          </button>
+          <div class="acc-body" id="accFirmar">
+            <div class="row">
+              <span class="k">Pie<small><span id="pieEcho">20</span>% del valor de la propiedad</small></span>
+              <span class="v" id="rPie">$0<small id="rPieUF">UF 0</small></span>
+            </div>
+            <div class="row">
+              <span class="k">Gastos operacionales<small>tasación, notaría, conservador, impuestos</small></span>
+              <span class="v" id="rGastos">$0<small id="rGastosUF">UF 0</small></span>
+            </div>
+          </div>
         </div>
-        <div class="row">
-          <span class="k">+ Intereses del crédito<small>a lo largo de <span id="rN">0</span> cuotas</small></span>
-          <span class="v" id="rInt">$0<small id="rIntUF">UF 0</small></span>
+
+        <div class="acc">
+          <button class="acc-h" type="button" aria-expanded="false" aria-controls="accCuotas">
+            <span class="acc-tw" aria-hidden="true">▸</span>
+            <span class="acc-k">En cuotas, a lo largo del crédito<small><span id="rN">0</span> meses · ~<span id="divEcho">$0</span> al mes</small></span>
+            <span class="acc-v" id="aCuotas">$0</span>
+          </button>
+          <div class="acc-body" id="accCuotas">
+            <div class="row">
+              <span class="k">Capital del crédito<small>el <span id="finEcho2">80</span>% que financia el banco</small></span>
+              <span class="v" id="rCapital">$0<small id="rCapitalUF">UF 0</small></span>
+            </div>
+            <div class="row">
+              <span class="k">Intereses<small>lo que cuesta financiar</small></span>
+              <span class="v" id="rInt">$0<small id="rIntUF">UF 0</small></span>
+            </div>
+            <div class="row">
+              <span class="k">Seguros<small>desgravamen + incendio, todo el período</small></span>
+              <span class="v" id="rSegTot">$0<small id="rSegTotUF">UF 0</small></span>
+            </div>
+          </div>
         </div>
-        <div class="row total">
-          <span class="k">= Total que pagarás<small>capital + intereses, sin seguros</small></span>
-          <span class="v" id="rTotPag">$0<small id="rTotPagUF">UF 0</small></span>
+
+        <div class="row total hl" style="border-top-width:2px">
+          <span class="k">Costo total de la propiedad</span>
+          <span class="v" id="rCostoTotal">$0<small id="rCostoTotalUF">UF 0</small></span>
         </div>
-        <div class="row hl">
-          <span class="k">Por cada $1 que pides, devuelves</span>
-          <span class="v" id="rRatio">$0</span>
-        </div>
-        <p class="note">No incluye seguros (varían con el saldo) ni la inflación: como el crédito está en UF, el monto en pesos sube con el IPC.</p>
+        <p class="note" id="costNote"></p>
       </div>
 
       <div id="warns"></div>
@@ -687,19 +717,28 @@
     rowDiv.classList.toggle('hl', r.bind==='dividendo');
     rowCar.classList.toggle('hl', r.bind==='carga');
 
-    // caja
+    // todo lo que vas a pagar
+    var segTotUF = r.segUF*r.n;                       // seguros de todo el período
+    var totalCuotasUF = r.totPagUF + segTotUF;        // capital + intereses + seguros
+    var costoTotalUF = r.cajaUF + totalCuotasUF;      // + pie + gastos
+    var extraUF = r.intUF + segTotUF + r.gastosUF;    // costo de financiar + trámites
+
     $('pieEcho').textContent = fmtInt.format(r.pieP);
     setCurOut('rPie', clp(r.pieUF*UF), 'rPieUF', uf(r.pieUF));
     setCurOut('rGastos', clp(r.gastosUF*UF), 'rGastosUF', uf(r.gastosUF));
-    setCurOut('rCaja', clp(r.cajaUF*UF), 'rCajaUF', uf(r.cajaUF));
+    $('aFirmar').textContent = clp(r.cajaUF*UF);
 
-    // cuánto pides y cuánto pagas
     $('rN').textContent = fmtInt.format(r.n);
+    $('finEcho2').textContent = fmtInt.format(r.fin);
+    $('divEcho').textContent = clp(r.divTotCLP);
     setCurOut('rCapital', clp(r.montoUF*UF), 'rCapitalUF', uf(r.montoUF));
     setCurOut('rInt', clp(r.intUF*UF), 'rIntUF', uf(r.intUF));
-    setCurOut('rTotPag', clp(r.totPagUF*UF), 'rTotPagUF', uf(r.totPagUF));
-    var ratioPago = r.montoUF>0 ? r.totPagUF/r.montoUF : 0;
-    $('rRatio').textContent = '$'+ratioPago.toFixed(2).replace('.', ',');
+    setCurOut('rSegTot', clp(segTotUF*UF), 'rSegTotUF', uf(segTotUF));
+    $('aCuotas').textContent = clp(totalCuotasUF*UF);
+
+    setCurOut('rCostoTotal', clp(costoTotalUF*UF), 'rCostoTotalUF', uf(costoTotalUF));
+    $('costLead').innerHTML = 'Para tener esta propiedad de <b>'+clp(r.vPropCLP)+'</b> vas a pagar en total <b>'+clp(costoTotalUF*UF)+'</b> en <b>'+r.plazo+' años</b> — todo lo que sale de tu bolsillo.';
+    $('costNote').innerHTML = 'De ese total, <b>'+clp(r.vPropCLP)+'</b> es la propiedad y <b>'+clp(extraUF*UF)+'</b> es lo que cuesta financiarla (intereses + seguros + gastos). Montos en UF; no ajustados por inflación.';
 
     // echoes
     $('finVal').textContent = r.fin;
@@ -866,6 +905,13 @@
   [].forEach.call(document.querySelectorAll('.tip'), function(t){
     t.addEventListener('mouseenter', function(){ placeTip(t); });
     t.addEventListener('focus', function(){ placeTip(t); });
+  });
+
+  // ---- acordeón "todo lo que vas a pagar" ----
+  [].forEach.call(document.querySelectorAll('.acc-h'), function(b){
+    b.addEventListener('click', function(){
+      b.setAttribute('aria-expanded', b.getAttribute('aria-expanded')==='true' ? 'false' : 'true');
+    });
   });
 
   render();
