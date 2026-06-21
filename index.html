@@ -3,7 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de renta hipotecaria · Banca chilena</title>
+<title>Calculadora de crédito hipotecario · Chile</title>
+<meta name="description" content="Calcula gratis cuánta renta líquida necesitas, tu dividendo mensual y el monto del crédito hipotecario en Chile. Con UF en vivo y tasas de referencia actualizadas.">
+<meta name="theme-color" content="#0d7d74">
+<link rel="canonical" href="https://calculatuhipotecario.cl/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2040%2040'%3E%3Crect%20width='40'%20height='40'%20rx='9'%20fill='%230d7d74'/%3E%3Cpath%20d='M11%2021L20%2013L29%2021'%20fill='none'%20stroke='%23fff'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Crect%20x='14.5'%20y='21'%20width='11'%20height='8'%20rx='1.5'%20fill='%23fff'/%3E%3C/svg%3E">
+<meta property="og:title" content="Calculadora de crédito hipotecario · Chile">
+<meta property="og:description" content="Cuánta renta líquida necesitas, tu dividendo mensual y el monto del crédito para una propiedad en Chile. Con UF en vivo.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CL">
+<meta property="og:url" content="https://calculatuhipotecario.cl/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,7 +22,7 @@
     --card:#ffffff;
     --ink:#14202e;
     --ink-soft:#5b6877;
-    --ink-faint:#8b97a4;
+    --ink-faint:#67727e;
     --line:#dbe0e6;
     --line-soft:#e8ebef;
     --accent:#0d7d74;
@@ -40,19 +49,28 @@
   body{
     margin:0;
     background:var(--bg);
+    background-image:
+      radial-gradient(900px 380px at 78% -8%, rgba(13,125,116,.10), transparent 70%),
+      linear-gradient(180deg,#eef1f4 0%, #e7eaee 42%);
+    background-attachment:fixed;
     color:var(--ink);
     font-family:var(--body);
     font-size:15px;
     line-height:1.5;
+    min-height:100vh;
     -webkit-font-smoothing:antialiased;
   }
-  .app{max-width:1160px;margin:0 auto;padding:26px 22px 48px}
+  .app{max-width:1160px;margin:0 auto;padding:26px 22px 56px}
 
   /* ---------- header ---------- */
   header.bar{
     display:flex;align-items:flex-end;justify-content:space-between;
     gap:18px;flex-wrap:wrap;margin-bottom:24px;
   }
+  .brand{display:flex;gap:14px;align-items:flex-start}
+  .logo{flex:none;width:44px;height:44px;border-radius:12px;display:block;
+    box-shadow:0 6px 16px -6px rgba(13,125,116,.55)}
+  .logo svg{display:block;width:44px;height:44px}
   .brand .eyebrow{
     font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--accent-deep);font-weight:600;margin-bottom:7px;
@@ -66,6 +84,7 @@
   .uf-chip{
     display:flex;align-items:center;gap:10px;background:var(--card);
     border:1px solid var(--line);border-radius:11px;padding:9px 12px;
+    box-shadow:0 1px 2px rgba(20,32,46,.03), 0 12px 28px -18px rgba(20,32,46,.22);
   }
   .uf-chip .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);line-height:1.2}
   .uf-chip .lab b{display:block;color:var(--accent-deep);font-weight:600;letter-spacing:.1em}
@@ -96,7 +115,10 @@
   .grid{display:grid;grid-template-columns:1.04fr .96fr;gap:26px;align-items:start}
   @media (max-width:880px){.grid{grid-template-columns:1fr;gap:20px}}
 
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;
+    box-shadow:0 1px 2px rgba(20,32,46,.03), 0 12px 28px -18px rgba(20,32,46,.22);
+  }
   .card + .card{margin-top:18px}
 
   .grp{padding:18px 0;border-top:1px solid var(--line-soft)}
@@ -111,7 +133,7 @@
   .field{margin-bottom:15px}
   .field:last-child{margin-bottom:0}
   .field > label{display:block;font-weight:500;font-size:13.5px;color:var(--ink);margin-bottom:7px}
-  .field .hint{display:block;font-size:11.5px;color:var(--ink-faint);margin-top:6px;line-height:1.45}
+  .field .hint{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:6px;line-height:1.45}
 
   input[type=number]{
     width:100%;border:1px solid var(--line);border-radius:9px;background:#fcfdfd;
@@ -207,21 +229,33 @@
     padding:4px 9px;border-radius:20px;background:rgba(63,217,201,.12);
     color:var(--glow);border:1px solid rgba(63,217,201,.3);white-space:nowrap;
   }
-  .hero-lab{font-size:12.5px;color:var(--on-dark-soft);margin-bottom:4px;font-weight:500}
-  .hero-val{
-    font-family:var(--mono);font-weight:700;color:var(--glow);
-    font-size:clamp(34px,6vw,48px);line-height:1;letter-spacing:-.01em;
-    transition:opacity .14s ease;
-  }
-  .hero-val .cur{color:var(--on-dark);font-weight:500;font-size:.55em;vertical-align:top;margin-right:3px}
-  .hero-sub{color:var(--on-dark-soft);font-size:12.5px;margin-top:11px;line-height:1.5}
+  .hero-sub{color:var(--on-dark-soft);font-size:12.5px;margin-top:16px;line-height:1.5}
   .hero-sub b{color:var(--on-dark);font-weight:600}
 
-  .subreads{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
-  .subread{background:var(--panel-2);border:1px solid var(--panel-line);border-radius:10px;padding:12px 13px}
-  .subread .l{font-size:10.5px;color:var(--on-dark-soft);font-weight:500;margin-bottom:5px;letter-spacing:.02em}
-  .subread .v{font-family:var(--mono);font-weight:700;font-size:18px;color:var(--on-dark)}
-  .subread .v small{font-weight:500;font-size:11px;color:var(--on-dark-soft);display:block;margin-top:2px}
+  /* tres métricas co-protagonistas (filas de igual peso) */
+  .metrics{
+    display:flex;flex-direction:column;gap:1px;
+    background:var(--panel-line);border:1px solid var(--panel-line);border-radius:12px;overflow:hidden;
+  }
+  .metric{
+    background:var(--panel-2);padding:13px 16px;display:flex;align-items:flex-end;
+    justify-content:space-between;gap:8px 16px;flex-wrap:wrap;
+  }
+  .m-head{display:flex;flex-direction:column;gap:4px;min-width:0}
+  .m-l{font-size:11px;letter-spacing:.03em;color:var(--on-dark-soft);font-weight:500;line-height:1.2}
+  .m-v{
+    font-family:var(--mono);font-weight:700;font-size:clamp(21px,3.6vw,28px);color:var(--glow);
+    line-height:1;letter-spacing:-.012em;
+  }
+  .m-s{font-family:var(--mono);font-size:12px;color:var(--on-dark-soft);font-weight:500;white-space:nowrap;padding-bottom:2px}
+
+  /* tira de stats secundarias (tasa · CAE · plazo) */
+  .stats{display:flex;flex-wrap:wrap;gap:9px 20px;margin-top:16px;padding-top:14px;border-top:1px solid var(--panel-line)}
+  .stat{display:flex;align-items:baseline;gap:7px}
+  .s-l{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--on-dark-soft);font-weight:600}
+  .s-v{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--on-dark)}
+  .panel .tip{color:var(--glow);border-bottom-color:rgba(63,217,201,.45)}
+  .panel .tip:focus{outline-color:var(--glow)}
 
   /* ---------- breakdown cards ---------- */
   .ttl{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin:0 0 14px}
@@ -248,10 +282,10 @@
   .warn p + p{margin-top:7px}
   .warn b{color:var(--warn)}
 
-  .note{font-size:12px;color:var(--ink-faint);line-height:1.55;margin-top:14px}
+  .note{font-size:12px;color:var(--ink-soft);line-height:1.55;margin-top:14px}
   .note b{color:var(--ink-soft);font-weight:600}
 
-  footer{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-faint);line-height:1.6}
+  footer{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-soft);line-height:1.6}
   footer b{color:var(--ink-soft)}
   footer a{color:var(--accent-deep);text-decoration:none}
   footer a:hover{text-decoration:underline}
@@ -264,9 +298,20 @@
 
   <header class="bar">
     <div class="brand">
-      <div class="eyebrow">Banca chilena · jun 2026</div>
-      <h1>Calculadora de renta hipotecaria</h1>
-      <p>Cuánta renta líquida necesitas para que un banco te apruebe el crédito de una propiedad de cierto valor.</p>
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="12" fill="url(#lg)"/>
+          <path d="M10.5 21 L20 12.5 L29.5 21" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="14" y="20.5" width="12" height="8.5" rx="1.6" fill="#fff"/>
+          <rect x="18.4" y="24" width="3.2" height="5" rx="0.6" fill="#0a5f58"/>
+          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#15a89c"/><stop offset="1" stop-color="#0a5f58"/></linearGradient></defs>
+        </svg>
+      </span>
+      <div class="brand-txt">
+        <div class="eyebrow">Crédito hipotecario · Chile</div>
+        <h1>Calculadora de crédito hipotecario</h1>
+        <p>Cuánta renta líquida necesitas, tu dividendo mensual y el monto del crédito para una propiedad.</p>
+      </div>
     </div>
     <label class="uf-chip" title="Valor de la UF de hoy — editable">
       <span class="lab">UF<b>hoy</b></span>
@@ -307,7 +352,7 @@
             <input id="financiamiento" type="range" min="50" max="90" step="1" value="80">
             <span class="slide-val"><span id="finVal">80</span>%<br><small id="pieVal">pie 20%</small></span>
           </div>
-          <span class="hint">Estándar: 80% (pie 20%). Hasta 90% (pie 10%) solo con <span class="tip" tabindex="0" role="note" aria-label="FOGAES: Fondo de Garantía Especial del Estado. El Estado avala parte del crédito, lo que permite financiar hasta el 90% (pie de 10%) y acceder a mejores tasas. Es para la compra de tu primera vivienda nueva, con un tope de valor de la propiedad.">FOGAES<span class="tipbox"><b>FOGAES</b> — Fondo de Garantía Especial del Estado. El Estado actúa como <b>aval de parte de tu crédito</b>, así el banco puede financiar hasta el <b>90% (pie de 10%)</b> y ofrecerte una mejor tasa. Aplica a la compra de tu <b>primera vivienda nueva</b>, con un tope de valor (del orden de UF 4.000–4.500 según el programa vigente).</span></span> o Subsidio Dividendo, en vivienda nueva ≤ UF 4.000.</span>
+          <span class="hint">Estándar: 80% (pie 20%). Hasta 90% (pie 10%) solo con <span class="tip" tabindex="0" role="note" aria-label="FOGAES: Fondo de Garantía Especial del Estado. El Estado avala parte del crédito, lo que permite financiar hasta el 90% (pie de 10%) y acceder a mejores tasas. Es para la compra de tu primera vivienda nueva, con un tope de valor de la propiedad.">FOGAES<span class="tipbox"><b>FOGAES</b> — Fondo de Garantía Especial del Estado. El Estado actúa como <b>aval de parte de tu crédito</b>, así el banco puede financiar hasta el <b>90% (pie de 10%)</b> y ofrecerte una mejor tasa. Aplica a la compra de tu <b>primera vivienda nueva</b>, con un tope de valor (del orden de UF 4.000–4.500 según el programa vigente).</span></span> o Subsidio Dividendo, en vivienda nueva (tope ~UF 4.000–4.500 según el programa).</span>
         </div>
       </div>
 
@@ -403,22 +448,43 @@
 
       <div class="panel">
         <div class="top">
-          <span class="eb">Resultado</span>
+          <span class="eb">Resultado de la simulación</span>
           <span class="badge" id="bindBadge">—</span>
         </div>
-        <div class="hero-lab">Renta líquida mínima requerida</div>
-        <div class="hero-val" id="rentaOut"><span class="cur">$</span>0</div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="m-head">
+              <div class="m-l">Renta líquida mínima</div>
+              <div class="m-v" id="rentaOut">$0</div>
+            </div>
+            <span class="m-s">requerida, al mes</span>
+          </div>
+          <div class="metric">
+            <div class="m-head">
+              <div class="m-l">Dividendo mensual</div>
+              <div class="m-v" id="divOut">$0</div>
+            </div>
+            <span class="m-s" id="divOutUF">UF 0</span>
+          </div>
+          <div class="metric">
+            <div class="m-head">
+              <div class="m-l">Monto del crédito</div>
+              <div class="m-v" id="credOut">$0</div>
+            </div>
+            <span class="m-s" id="credOutUF">UF 0</span>
+          </div>
+        </div>
+
         <div class="hero-sub" id="resumen"></div>
 
-        <div class="subreads">
-          <div class="subread">
-            <div class="l">Dividendo mensual</div>
-            <div class="v" id="divOut">$0<small id="divOutUF">UF 0</small></div>
+        <div class="stats">
+          <div class="stat"><span class="s-l">Tasa</span><span class="s-v" id="tasaEcho">—</span></div>
+          <div class="stat">
+            <span class="s-l"><span class="tip" tabindex="0" role="note" aria-label="CAE: Carga Anual Equivalente. Expresa en un solo porcentaje el costo total del crédito incluyendo la tasa de interés y los seguros (desgravamen e incendio). Es mayor que la tasa nominal y sirve para comparar ofertas entre bancos. No incluye los gastos operacionales, que se pagan aparte al inicio.">CAE<span class="tipbox"><b>CAE</b> — Carga Anual Equivalente: el <b>costo total</b> del crédito en un solo porcentaje (tasa + seguros). Mayor que la tasa nominal; sirve para comparar bancos. No incluye gastos operacionales (se pagan aparte).</span></span></span>
+            <span class="s-v" id="caeEcho">—</span>
           </div>
-          <div class="subread">
-            <div class="l">Monto del crédito</div>
-            <div class="v" id="credOut">$0<small id="credOutUF">UF 0</small></div>
-          </div>
+          <div class="stat"><span class="s-l">Plazo</span><span class="s-v" id="plazoEcho2">—</span></div>
         </div>
       </div>
 
@@ -485,8 +551,8 @@
   </div>
 
   <footer>
-    <b>Referencial — no es asesoría financiera ni preaprobación.</b> Cada banco aplica sus propias políticas de riesgo; la cifra final depende de tu historial (<span class="tip r" tabindex="0" role="note" aria-label="REDEC: Registro de Deudores de la CMF, base de datos con el nivel de endeudamiento de cada persona que el banco consulta al evaluarte.">REDEC<span class="tipbox"><b>REDEC</b> — Registro de Deudores de la CMF: base de datos con el <b>nivel de endeudamiento</b> de cada persona, que el banco consulta al evaluarte.</span></span>), antigüedad laboral y la tasación. El cálculo asume una sola renta — con codeudor se suman ingresos (y deudas). La <span class="tip r" tabindex="0" role="note" aria-label="CAE: Carga Anual Equivalente. Expresa el costo total del crédito en un solo porcentaje, incluyendo tasa, seguros y comisiones. Sirve para comparar ofertas de distintos bancos.">CAE<span class="tipbox"><b>CAE</b> — Carga Anual Equivalente: el <b>costo total del crédito</b> en un solo porcentaje (tasa + seguros + comisiones). Sirve para comparar ofertas.</span></span> real del banco será algo mayor a la tasa nominal por seguros y comisiones.<br>
-    Parámetros a junio 2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% (Banco Central) · tasa fija típica a 25–30 años ~5,0% UF · promedio del sistema 4,06% (Banco Central) · rango ~3,4%–5,5% según plazo, perfil y vinculación · <span class="tip" tabindex="0" role="note" aria-label="UF, Unidad de Fomento: unidad reajustable por inflación cuyo valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.">UF<span class="tipbox"><b>UF</b> — Unidad de Fomento: unidad <b>reajustable por inflación</b>; su valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.</span></span> actualizada en vivo desde mindicador.cl. <span class="tip r" tabindex="0" role="note" aria-label="Amortización francesa: sistema de pago con cuota fija en UF; al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.">Amortización francesa<span class="tipbox"><b>Amortización francesa</b> — sistema de <b>cuota fija</b> (en UF): al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.</span></span>, tasa mensual = anual ÷ 12. Fuentes: <a href="https://www.bcentral.cl" target="_blank" rel="noopener">Banco Central de Chile</a> y <a href="https://www.cmfchile.cl" target="_blank" rel="noopener">CMF</a>.
+    <b>Referencial — no es asesoría financiera ni preaprobación.</b> Cada banco aplica sus propias políticas de riesgo; la cifra final depende de tu historial (<span class="tip" tabindex="0" role="note" aria-label="REDEC: Registro de Deudores de la CMF, base de datos con el nivel de endeudamiento de cada persona que el banco consulta al evaluarte.">REDEC<span class="tipbox"><b>REDEC</b> — Registro de Deudores de la CMF: base de datos con el <b>nivel de endeudamiento</b> de cada persona, que el banco consulta al evaluarte.</span></span>), antigüedad laboral y la tasación. El cálculo asume una sola renta — con codeudor se suman ingresos (y deudas). La <span class="tip" tabindex="0" role="note" aria-label="CAE: Carga Anual Equivalente. Expresa el costo total del crédito en un solo porcentaje, incluyendo la tasa de interés y los seguros. Sirve para comparar ofertas de distintos bancos.">CAE<span class="tipbox"><b>CAE</b> — Carga Anual Equivalente: el <b>costo total del crédito</b> en un solo porcentaje (tasa + seguros). Sirve para comparar ofertas.</span></span> real del banco será algo mayor a la tasa nominal por seguros y comisiones.<br>
+    Parámetros a junio 2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% (Banco Central) · tasa fija típica a 25–30 años ~5,0% UF · promedio del sistema 4,06% (Banco Central) · rango ~3,4%–5,5% según plazo, perfil y vinculación · <span class="tip" tabindex="0" role="note" aria-label="UF, Unidad de Fomento: unidad reajustable por inflación cuyo valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.">UF<span class="tipbox"><b>UF</b> — Unidad de Fomento: unidad <b>reajustable por inflación</b>; su valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.</span></span> actualizada en vivo desde mindicador.cl. <span class="tip" tabindex="0" role="note" aria-label="Amortización francesa: sistema de pago con cuota fija en UF; al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.">Amortización francesa<span class="tipbox"><b>Amortización francesa</b> — sistema de <b>cuota fija</b> (en UF): al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.</span></span>, tasa mensual = anual ÷ 12. Fuentes: <a href="https://www.bcentral.cl/contenido/-/detalle/tasas-de-interes" target="_blank" rel="noopener">Banco Central de Chile</a> (tasas de interés) y <a href="https://servicios.cmfchile.cl/simuladorhipotecario/aplicacion?indice=101.2.1" target="_blank" rel="noopener">simulador hipotecario CMF</a>.
   </footer>
 
 </div>
@@ -515,6 +581,22 @@
 
   function setCurOut(el, mainHtml, subId, subText){
     $(el).innerHTML = mainHtml + '<small id="'+subId+'">'+subText+'</small>';
+  }
+
+  // CAE (Carga Anual Equivalente): TIR mensual que iguala el monto del crédito con
+  // el flujo de dividendos (capital + intereses + seguros), anualizada ×12 — misma
+  // convención que la tasa que muestran los bancos. Excluye gastos operacionales (se
+  // pagan aparte al inicio), igual que la CAE de las simulaciones bancarias.
+  function caeAnual(montoUF, cuotaUF, n){
+    if(montoUF<=0 || cuotaUF<=0 || n<=0) return 0;
+    if(cuotaUF*n <= montoUF) return 0;
+    var pv = function(i){ return i===0 ? cuotaUF*n : cuotaUF*(1-Math.pow(1+i,-n))/i; };
+    var lo=0, hi=0.05; // tasa mensual entre 0% y 5% (60% anual) cubre cualquier caso real
+    for(var k=0;k<80;k++){
+      var mid=(lo+hi)/2;
+      if(pv(mid) > montoUF) lo=mid; else hi=mid;
+    }
+    return ((lo+hi)/2)*12*100;
   }
 
   function compute(){
@@ -546,6 +628,9 @@
     var divTotUF = divBaseUF+segUF;
     var divTotCLP = divTotUF*UF;
 
+    // CAE — costo anual incluyendo seguros (excluye gastos operacionales)
+    var cae = caeAnual(montoUF, divTotUF, n);
+
     // renta requerida
     var rentaDiv = divTotCLP/(ratio/100);
     var rentaCarga = (divTotCLP+otras)/0.45;
@@ -562,7 +647,7 @@
     var edadFin = edad>0 ? edad+plazo : 0;
 
     return {UF:UF,vPropUF:vPropUF,vPropCLP:vPropCLP,fin:fin,pieP:pieP,montoUF:montoUF,pieUF:pieUF,
-      plazo:plazo,n:n,divBaseUF:divBaseUF,segUF:segUF,divTotUF:divTotUF,divTotCLP:divTotCLP,
+      plazo:plazo,n:n,tasa:tasa,cae:cae,divBaseUF:divBaseUF,segUF:segUF,divTotUF:divTotUF,divTotCLP:divTotCLP,
       rentaDiv:rentaDiv,rentaCarga:rentaCarga,rentaReq:rentaReq,bind:bind,
       gastosUF:gastosUF,cajaUF:cajaUF,totPagUF:totPagUF,intUF:intUF,edadFin:edadFin,otras:otras};
   }
@@ -571,19 +656,22 @@
     var r = compute();
     var UF = r.UF;
 
-    // hero
-    var hv = $('rentaOut');
-    hv.style.opacity = .35;
-    setTimeout(function(){hv.style.opacity=1;},10);
-    hv.innerHTML = '<span class="cur">$</span>'+fmtCLP.format(Math.round(r.rentaReq));
+    // métricas co-protagonistas (misma jerarquía visual)
+    $('rentaOut').textContent = clp(r.rentaReq);
+    $('divOut').textContent = clp(r.divTotCLP);
+    $('divOutUF').textContent = uf(r.divTotUF);
+    $('credOut').textContent = clp(r.montoUF*UF);
+    $('credOutUF').textContent = uf(r.montoUF);
+
+    // stats secundarias
+    $('tasaEcho').textContent = fmtPct(r.tasa);
+    $('caeEcho').textContent = fmtPct(r.cae);
+    $('plazoEcho2').textContent = r.plazo + (r.plazo===1 ? ' año' : ' años');
 
     $('resumen').innerHTML = 'Para una propiedad de <b>'+uf(r.vPropUF)+'</b> (≈ '+clp(r.vPropCLP)+
       ') con <b>'+fmtInt.format(r.pieP)+'% de pie</b> a <b>'+r.plazo+' años</b>.';
 
     $('bindBadge').textContent = (r.bind==='carga')? 'Limita: carga 45%' : 'Limita: dividendo '+ratio+'%';
-
-    setCurOut('divOut', clp(r.divTotCLP), 'divOutUF', uf(r.divTotUF));
-    setCurOut('credOut', clp(r.montoUF*UF), 'credOutUF', uf(r.montoUF));
 
     // desglose
     setCurOut('rDivBase', clp(r.divBaseUF*UF), 'rDivBaseUF', uf(r.divBaseUF));
@@ -629,15 +717,14 @@
     if(r.fin>90){
       w.push('Financiamiento sobre 90% es excepcional. La mayoría de los bancos llega a 80%, o 90% solo con garantía estatal.');
     } else if(r.pieP<20){
-      w.push('Pie bajo 20%: en general exige <b>FOGAES</b> o <b>Subsidio Dividendo</b>, válido solo para <b>vivienda nueva ≤ UF 4.000</b>. Fuera de eso, espera pie de 20%.');
+      w.push('Pie bajo 20%: en general exige <b>FOGAES</b> o <b>Subsidio Dividendo</b>, válido solo para <b>vivienda nueva</b> bajo cierto tope (UF 4.000–4.500 según el programa). Fuera de eso, espera pie de 20%.');
     }
-    if(r.pieP<20 && r.vPropUF>4000){
-      w.push('Esta propiedad supera UF 4.000, tope de los programas de pie reducido. Para este valor, presupuesta al menos 20% de pie.');
+    if(r.pieP<20 && r.vPropUF>4500){
+      w.push('Esta propiedad supera UF 4.500, el tope de los programas de pie reducido. Para este valor, presupuesta al menos 20% de pie.');
     }
     if(r.edadFin>75){
       w.push('Con esa edad y plazo terminarías de pagar a los <b>'+fmtInt.format(r.edadFin)+' años</b>. Los bancos suelen exigir ≤ 75 al término — acorta el plazo.');
     }
-    if(r.tasaWarn){}
     var box = $('warns');
     if(w.length){
       var html='';
@@ -753,9 +840,9 @@
       'Escenarios de referencia a <b>'+TASAS.actualizado+'</b> (UF). Tu tasa real <b>sube con el plazo</b> y <b>baja</b> ' +
       'con buen perfil, vinculación (abono de sueldo) y garantías como FOGAES; las tasas "desde" que publicitan los bancos ' +
       'son el mejor caso, no lo típico. Promedio del sistema según el ' +
-      '<a href="https://www.bcentral.cl" target="_blank" rel="noopener">Banco Central</a>. ' +
-      'Cotiza en al menos 3 bancos y simula en la ' +
-      '<a href="https://www.cmfchile.cl" target="_blank" rel="noopener">CMF</a>.';
+      '<a href="https://www.bcentral.cl/contenido/-/detalle/tasas-de-interes" target="_blank" rel="noopener">Banco Central</a>. ' +
+      'Cotiza en al menos 3 bancos y compara en el ' +
+      '<a href="https://servicios.cmfchile.cl/simuladorhipotecario/aplicacion?indice=101.2.1" target="_blank" rel="noopener">simulador de la CMF</a>.';
   }
   renderChips();
   $('tasa').value = TASAS.tasaDefault; // default = tasa fija típica a 25–30 años
@@ -763,9 +850,9 @@
   // ---- posición de tooltips: se fija al abrir y se ajusta al viewport (mobile-safe) ----
   function placeTip(t){
     var box = t.querySelector('.tipbox'); if(!box) return;
-    var bw = box.offsetWidth, bh = box.offsetHeight;
-    var r = t.getBoundingClientRect();
     var vw = document.documentElement.clientWidth;
+    var bw = Math.min(box.offsetWidth, vw - 16), bh = box.offsetHeight;
+    var r = t.getBoundingClientRect();
     var left = Math.min(Math.max(8, r.left + r.width/2 - bw/2), vw - bw - 8);
     var top = r.top - bh - 9;
     if(top < 8) top = r.bottom + 9; // si no cabe arriba, se abre abajo
