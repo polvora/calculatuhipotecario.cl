@@ -110,6 +110,7 @@
 
   /* ---------- layout ---------- */
   .grid{display:grid;grid-template-columns:1.04fr .96fr;gap:26px;align-items:start}
+  .grid > *{min-width:0}
   @media (max-width:880px){.grid{grid-template-columns:1fr;gap:20px}}
 
   .card{
