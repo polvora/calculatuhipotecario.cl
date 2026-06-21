@@ -310,16 +310,11 @@
         <div class="field">
           <label for="tasa">Tasa de interés anual (UF + %)</label>
           <div class="with-affix">
-            <input id="tasa" type="number" value="4.5" step="0.01" inputmode="decimal">
+            <input id="tasa" type="number" value="4.06" step="0.01" inputmode="decimal">
             <span class="affix">% anual</span>
           </div>
-          <div class="chips" id="rateChips" role="group" aria-label="Tasas de referencia del mercado">
-            <button type="button" data-rate="3.39">Itaú<b>3,39%</b></button>
-            <button type="button" data-rate="4.06">Promedio<b>4,06%</b></button>
-            <button type="button" data-rate="4.19">B.Estado<b>4,19%</b></button>
-            <button type="button" data-rate="5.0">Conservador<b>5,00%</b></button>
-          </div>
-          <span class="hint">Default conservador para planificar. Referencias de mercado jun-2026 sobre UF; tu tasa real depende de perfil, pie e institución.</span>
+          <div class="chips" id="rateChips" role="group" aria-label="Tasas de referencia del mercado"></div>
+          <span class="hint" id="rateHint"></span>
         </div>
       </div>
 
@@ -478,7 +473,7 @@
 
   <footer>
     <b>Referencial — no es asesoría financiera ni preaprobación.</b> Cada banco aplica sus propias políticas de riesgo; la cifra final depende de tu historial (REDEC), antigüedad laboral y la tasación. El cálculo asume una sola renta — con codeudor se suman ingresos (y deudas). La CAE real del banco será algo mayor a la tasa nominal por seguros y comisiones.<br>
-    Parámetros a jun-2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% · tasas UF Itaú 3,39% / promedio 4,06% / BancoEstado 4,19% · UF ≈ $40.793. Sistema de amortización francés, tasa mensual = anual ÷ 12.
+    Parámetros a junio 2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% (Banco Central) · tasa hipotecaria promedio 4,06% UF, rango de mercado ~3,3%–5,0% según banco y perfil · UF actualizada en vivo desde mindicador.cl. Amortización francesa, tasa mensual = anual ÷ 12. Fuentes: <a href="https://www.bcentral.cl" target="_blank" rel="noopener">Banco Central de Chile</a> y <a href="https://www.cmfchile.cl" target="_blank" rel="noopener">CMF</a>.
   </footer>
 
 </div>
@@ -716,6 +711,38 @@
     }
     render();
   });
+
+  // ---- referencias de tasas de mercado ----
+  // Fuente única: ACTUALIZAR aquí cuando cambien las tasas. Datos del Banco Central
+  // de Chile (promedio del sistema) y tasas publicadas por cada banco.
+  var TASAS = {
+    actualizado: 'junio 2026',
+    promedioSistema: 4.06,
+    refs: [
+      {lab:'FOGAES desde', rate:3.30},
+      {lab:'Itaú',         rate:3.39},
+      {lab:'Promedio',     rate:4.06},
+      {lab:'BancoEstado',  rate:4.19},
+      {lab:'Coopeuch',     rate:4.50},
+      {lab:'Conservador',  rate:5.00}
+    ]
+  };
+  function fmtPct(n){ return n.toFixed(2).replace('.', ',') + '%'; }
+  function renderChips(){
+    var html = '';
+    for(var i=0;i<TASAS.refs.length;i++){
+      var c = TASAS.refs[i];
+      html += '<button type="button" data-rate="'+c.rate+'">'+c.lab+'<b>'+fmtPct(c.rate)+'</b></button>';
+    }
+    $('rateChips').innerHTML = html;
+    $('rateHint').innerHTML =
+      'Referencias de mercado a <b>'+TASAS.actualizado+'</b> sobre UF — promedio del sistema según el ' +
+      '<a href="https://www.bcentral.cl" target="_blank" rel="noopener">Banco Central</a> y tasas publicadas por cada banco. ' +
+      'Las tasas cambian seguido y la tuya depende de perfil, pie e institución: cotiza en al menos 3 bancos y simula en la ' +
+      '<a href="https://www.cmfchile.cl" target="_blank" rel="noopener">CMF</a>.';
+  }
+  renderChips();
+  $('tasa').value = TASAS.promedioSistema; // default = promedio del sistema
 
   render();
 })();
