@@ -474,7 +474,7 @@
             <span>Monto del crédito<small>valor de la propiedad × <span id="finEcho3">80</span>% financiado</small></span>
             <span class="derived-v" id="montoEcho">$0<small id="montoEchoUF">UF 0</small></span>
           </div>
-          <span class="hint">Estándar: 80% (<span class="tip" tabindex="0" role="note" aria-label="Pie: la parte del valor de la propiedad que pagas de tu bolsillo al comprar; el banco financia el resto. Ejemplo: un pie de 20% sobre UF 3.000 son UF 600.">pie<span class="tipbox"><b>Pie</b> — la parte del valor que pagas <b>de tu bolsillo</b> al comprar; el banco financia el resto. Ej: pie 20% sobre UF 3.000 = UF 600.</span></span> 20%). Hasta 90% (pie 10%) solo con<span class="tip" tabindex="0" role="note" aria-label="FOGAES: Fondo de Garantía Especial del Estado. El Estado avala parte del crédito, lo que permite financiar hasta el 90% (pie de 10%) y acceder a mejores tasas. Es para la compra de tu primera vivienda nueva, con un tope de valor de la propiedad.">FOGAES<span class="tipbox"><b>FOGAES</b> — Fondo de Garantía Especial del Estado. El Estado actúa como <b>aval de parte de tu crédito</b>, así el banco puede financiar hasta el <b>90% (pie de 10%)</b> y ofrecerte una mejor tasa. Aplica a la compra de tu <b>primera vivienda nueva</b>, con un tope de valor (del orden de UF 4.000–4.500 según el programa vigente).</span></span> o Subsidio Dividendo, en vivienda nueva (tope ~UF 4.000–4.500 según el programa).</span>
+          <span class="hint">Estándar: 80% (<span class="tip" tabindex="0" role="note" aria-label="Pie: la parte del valor de la propiedad que pagas de tu bolsillo al comprar; el banco financia el resto. Ejemplo: un pie de 20% sobre UF 3.000 son UF 600.">pie<span class="tipbox"><b>Pie</b> — la parte del valor que pagas <b>de tu bolsillo</b> al comprar; el banco financia el resto. Ej: pie 20% sobre UF 3.000 = UF 600.</span></span> 20%). Hasta 90% (pie 10%) solo con <span class="tip" tabindex="0" role="note" aria-label="FOGAES: Fondo de Garantía Especial del Estado. El Estado avala parte del crédito, lo que permite financiar hasta el 90% (pie de 10%) y acceder a mejores tasas. Es para la compra de tu primera vivienda nueva, con un tope de valor de la propiedad.">FOGAES<span class="tipbox"><b>FOGAES</b> — Fondo de Garantía Especial del Estado. El Estado actúa como <b>aval de parte de tu crédito</b>, así el banco puede financiar hasta el <b>90% (pie de 10%)</b> y ofrecerte una mejor tasa. Aplica a la compra de tu <b>primera vivienda nueva</b>, con un tope de valor (del orden de UF 4.000–4.500 según el programa vigente).</span></span> o Subsidio Dividendo, en vivienda nueva (tope ~UF 4.000–4.500 según el programa).</span>
         </div>
       </div>
 
@@ -584,14 +584,14 @@
           </div>
           <div class="metric">
             <div class="m-head">
-              <div class="m-l">Dividendo mensual</div>
+              <div class="m-l"><span class="tip" tabindex="0" role="note" aria-label="Dividendo mensual: la cuota que pagas cada mes. Incluye capital, intereses y los seguros de desgravamen e incendio. El desglose completo está más abajo.">Dividendo mensual<span class="tipbox"><b>Dividendo mensual</b> — la cuota de cada mes: <b>capital + intereses + seguros</b> (desgravamen e incendio). El desglose completo está más abajo.</span></span></div>
               <div class="m-v" id="divOut">$0</div>
             </div>
             <span class="m-s" id="divOutUF">UF 0</span>
           </div>
           <div class="metric">
             <div class="m-head">
-              <div class="m-l">Lo que pagarás en total</div>
+              <div class="m-l"><span class="tip" tabindex="0" role="note" aria-label="Lo que pagarás en total: todo lo que desembolsas por la propiedad a lo largo del crédito. Es el valor de la propiedad más los intereses, los seguros y los gastos. El desglose está más abajo.">Lo que pagarás en total<span class="tipbox"><b>Lo que pagarás en total</b> — todo lo que desembolsas: el <b>valor de la propiedad + intereses + seguros + gastos</b>, en todo el crédito. El desglose está más abajo.</span></span></div>
               <div class="m-v" id="costoOut">$0</div>
             </div>
             <span class="m-s" id="costoOutUF">UF 0</span>
@@ -794,6 +794,7 @@
   var ufEditadoManual = false;
   var codeudorOn = false;
   var FACTOR_HON = 0.70; // los bancos consideran ~70% de la renta por honorarios (castigo ~30%)
+  var FOGAES_TIP = '<span class="tip" tabindex="0" role="note" aria-label="FOGAES: Fondo de Garantía Especial del Estado. El Estado avala parte del crédito, lo que permite financiar hasta el 90% (pie de 10%) y mejores tasas, para la compra de tu primera vivienda nueva con un tope de valor.">FOGAES<span class="tipbox"><b>FOGAES</b> — Fondo de Garantía Especial del Estado. El Estado <b>avala parte de tu crédito</b>; permite financiar hasta el <b>90% (pie 10%)</b> y mejores tasas, para tu <b>primera vivienda nueva</b> (tope ~UF 4.000–4.500 según el programa).</span></span>';
 
   var fmtCLP = new Intl.NumberFormat('es-CL',{maximumFractionDigits:0});
   var fmtUF1 = new Intl.NumberFormat('es-CL',{minimumFractionDigits:1,maximumFractionDigits:1});
@@ -1081,7 +1082,7 @@
     if(r.fin>90){
       w.push('Financiamiento sobre 90% es excepcional. La mayoría de los bancos llega a 80%, o 90% solo con garantía estatal.');
     } else if(r.pieP<20){
-      w.push('Pie bajo 20%: en general exige <b>FOGAES</b> o <b>Subsidio Dividendo</b>, válido solo para <b>vivienda nueva</b> bajo cierto tope (UF 4.000–4.500 según el programa). Fuera de eso, espera pie de 20%.');
+      w.push('Pie bajo 20%: en general exige '+FOGAES_TIP+' o <b>Subsidio Dividendo</b>, válido solo para <b>vivienda nueva</b> bajo cierto tope (UF 4.000–4.500 según el programa). Fuera de eso, espera pie de 20%.');
     }
     if(r.pieP<20 && r.vPropUF>4500){
       w.push('Esta propiedad supera UF 4.500, el tope de los programas de pie reducido. Para este valor, presupuesta al menos 20% de pie.');
@@ -1232,7 +1233,7 @@
     $('rateChips').innerHTML = html;
     $('rateHint').innerHTML =
       'Escenarios de referencia a <b>'+TASAS.actualizado+'</b> (UF). Tu tasa real <b>sube con el plazo</b> y <b>baja</b> ' +
-      'con buen perfil, vinculación (abono de sueldo) y garantías como FOGAES; las tasas "desde" que publicitan los bancos ' +
+      'con buen perfil, vinculación (abono de sueldo) y garantías como '+FOGAES_TIP+'; las tasas "desde" que publicitan los bancos ' +
       'son el mejor caso, no lo típico. Promedio del sistema según el ' +
       '<a href="https://www.bcentral.cl/contenido/-/detalle/tasas-de-interes" target="_blank" rel="noopener">Banco Central</a>. ' +
       'Cotiza en al menos 3 bancos y compara en el ' +
@@ -1247,16 +1248,17 @@
     var vw = document.documentElement.clientWidth;
     var bw = Math.min(box.offsetWidth, vw - 16), bh = box.offsetHeight;
     var r = t.getBoundingClientRect();
+    var vh = window.innerHeight;
     var left = Math.min(Math.max(8, r.left + r.width/2 - bw/2), vw - bw - 8);
     var top = r.top - bh - 9;
     if(top < 8) top = r.bottom + 9; // si no cabe arriba, se abre abajo
+    top = Math.max(8, Math.min(top, vh - bh - 8)); // nunca fuera de la pantalla
     box.style.left = left + 'px';
     box.style.top = top + 'px';
   }
-  [].forEach.call(document.querySelectorAll('.tip'), function(t){
-    t.addEventListener('mouseenter', function(){ placeTip(t); });
-    t.addEventListener('focus', function(){ placeTip(t); });
-  });
+  // delegado: también posiciona tooltips inyectados dinámicamente (avisos, hint de tasas)
+  document.addEventListener('mouseover', function(e){ var t=e.target.closest ? e.target.closest('.tip') : null; if(t) placeTip(t); });
+  document.addEventListener('focusin', function(e){ var t=e.target.closest ? e.target.closest('.tip') : null; if(t) placeTip(t); });
 
   // ---- acordeón "todo lo que vas a pagar" ----
   [].forEach.call(document.querySelectorAll('.acc-h'), function(b){
