@@ -60,7 +60,7 @@
     -webkit-font-smoothing:antialiased;
   }
   .app{max-width:1080px;margin:0 auto;padding:30px 22px 56px}
-  input[type=number],.m-v,.s-v,.slide-val,.chips button b,.row .v,.uf-chip input{font-variant-numeric:tabular-nums}
+  input[type=number],input.money,.m-v,.s-v,.slide-val,.chips button b,.row .v,.uf-chip input{font-variant-numeric:tabular-nums}
 
   /* ---------- header ---------- */
   .masthead{
@@ -132,11 +132,11 @@
   .field > label{display:block;font-weight:500;font-size:13.5px;color:var(--ink);margin-bottom:7px}
   .field .hint{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:6px;line-height:1.45}
 
-  input[type=number]{
+  input[type=number],input.money{
     width:100%;border:1px solid var(--line);border-radius:9px;background:#fcfdfd;
     padding:10px 12px;font-family:var(--mono);font-size:15px;font-weight:500;color:var(--ink);
   }
-  input[type=number]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wash);background:#fff}
+  input[type=number]:focus,input.money:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wash);background:#fff}
   input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{opacity:.4}
 
   .with-affix{position:relative;display:flex;align-items:center}
@@ -200,7 +200,7 @@
   .panel .tip:focus{outline-color:#cbe5db}
 
   /* advanced */
-  details.adv{margin-top:14px}
+  details.adv{margin-top:18px;padding-top:18px;border-top:1px solid var(--line-soft)}
   details.adv summary{
     list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;
     padding:11px 13px;background:#f4f7f5;border:1px solid var(--line);border-radius:9px;
@@ -250,7 +250,7 @@
     line-height:1;letter-spacing:-.01em;
   }
   .m-s{font-family:var(--mono);font-size:12px;color:var(--on-dark-soft);font-weight:500;white-space:nowrap;padding-bottom:2px}
-  #rentaSub{flex-basis:100%;white-space:normal;font-family:var(--body);font-size:12px;color:var(--on-dark-soft);padding:3px 0 0;line-height:1.4}
+  .m-l-note{font-weight:400;color:var(--on-dark-soft)}
 
   /* tira de stats secundarias (tasa · CAE · plazo) */
   .stats{display:flex;flex-wrap:wrap;gap:9px 20px;margin-top:16px;padding-top:14px;border-top:1px solid var(--panel-line)}
@@ -483,10 +483,10 @@
         <div class="metrics">
           <div class="metric">
             <div class="m-head">
-              <div class="m-l">Renta líquida mínima</div>
+              <div class="m-l" id="rentaLabel">Renta líquida mínima</div>
               <div class="m-v" id="rentaOut">$0</div>
             </div>
-            <span class="m-s" id="rentaSub">al mes</span>
+            <span class="m-s">al mes</span>
           </div>
           <div class="metric">
             <div class="m-head">
@@ -727,7 +727,7 @@
     if(r.vPropUF <= 0){
       $('rentaOut').textContent = '—'; $('divOut').textContent = '—'; $('costoOut').textContent = '—';
       $('divOutUF').textContent = ''; $('costoOutUF').textContent = '';
-      $('rentaSub').textContent = '';
+      $('rentaLabel').textContent = 'Renta líquida mínima';
       $('resumen').innerHTML = 'Ingresa el <b>valor de la propiedad</b> para ver tu resultado.';
       $('warns').innerHTML = '';
       return;
@@ -748,9 +748,9 @@
     $('resumen').innerHTML = 'Para una propiedad de <b>'+uf(r.vPropUF)+'</b> (≈ '+clp(r.vPropCLP)+
       ') con <b>'+fmtInt.format(r.pieP)+'% de pie</b> a <b>'+r.plazo+' años</b>.';
 
-    $('rentaSub').textContent = (r.bind==='carga')
-      ? 'al mes — la define tu carga total (la cuota + tus deudas, máx. 45%)'
-      : 'al mes — la define tu cuota (máx. ' + ratio + '% de tu renta líquida)';
+    $('rentaLabel').innerHTML = (r.bind==='carga')
+      ? 'Renta líquida mínima <span class="m-l-note">(el dividendo + tus deudas no pueden pasar del 45% de tu renta)</span>'
+      : 'Renta líquida mínima <span class="m-l-note">(el dividendo no puede pasar del ' + ratio + '% de tu renta)</span>';
 
     // desglose
     setCurOut('rDivBase', clp(r.divBaseUF*UF), 'rDivBaseUF', uf(r.divBaseUF));
