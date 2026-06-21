@@ -165,9 +165,9 @@
   .verdict[data-state="no"]{background:#fbefe9;border-color:#e8c6bb}
   .vd-head{display:flex;align-items:center;gap:10px}
   .vd-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex:none;color:#fff;line-height:1}
-  .verdict[data-state="ok"] .vd-icon{background:#2f8a55}
-  .verdict[data-state="justo"] .vd-icon{background:#c0900c}
-  .verdict[data-state="no"] .vd-icon{background:#b8492c}
+  .verdict[data-state="ok"] .vd-icon{background:#1f7a45}
+  .verdict[data-state="justo"] .vd-icon{background:#8a6300}
+  .verdict[data-state="no"] .vd-icon{background:#a83c22}
   .vd-title{font-family:var(--disp);font-size:17px;font-weight:600;color:var(--ink)}
   .vd-detail{font-size:13px;color:var(--ink-soft);line-height:1.5;margin-top:9px}
   .vd-detail b{color:var(--ink);font-weight:600}
@@ -325,13 +325,14 @@
   .acc-body .row:first-child{border-top:none;padding-top:6px}
   .cmp-wrap{overflow-x:auto}
   .cmp{width:100%;border-collapse:collapse;font-size:12.5px}
-  .cmp th{text-align:right;font-weight:600;color:var(--ink-faint);font-size:11px;padding:5px 7px;border-bottom:1px solid var(--line);white-space:nowrap}
-  .cmp th:first-child{text-align:left}
-  .cmp td{text-align:right;padding:7px 7px;border-bottom:1px solid var(--line-soft);font-family:var(--num);font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
-  .cmp td:first-child{text-align:left;font-family:var(--body);color:var(--ink-soft)}
-  .cmp tr:last-child td{border-bottom:none}
-  .cmp tr.cur td{background:var(--accent-wash);font-weight:700;color:var(--accent-deep)}
-  .cmp tr.cur td:first-child{color:var(--accent-deep)}
+  .cmp thead th{text-align:right;font-weight:600;color:var(--ink-faint);font-size:11px;padding:5px 7px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .cmp thead th:first-child{text-align:left}
+  .cmp td,.cmp tbody th{text-align:right;padding:7px 7px;border-bottom:1px solid var(--line-soft);font-family:var(--num);font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
+  .cmp tbody th{text-align:left;font-family:var(--body);color:var(--ink-soft);font-weight:500}
+  .cmp tbody tr:last-child td,.cmp tbody tr:last-child th{border-bottom:none}
+  .cmp tr.cur td,.cmp tr.cur th{background:var(--accent-wash);font-weight:700;color:var(--accent-deep)}
+  .cmp .cur-tag{font-weight:600;font-size:10.5px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
   .derived{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:11px;padding:9px 12px;background:#f4f7f5;border:1px solid var(--line-soft);border-radius:8px}
   .derived > span:first-child{font-size:12px;color:var(--ink-soft)}
   .derived > span:first-child small{display:block;color:var(--ink-faint);font-size:10.5px;margin-top:1px}
@@ -390,8 +391,8 @@
           </div>
           <div style="margin-top:9px">
             <div class="seg" role="group" aria-label="Unidad del valor">
-              <button id="unitUF" class="on" type="button">UF</button>
-              <button id="unitCLP" type="button">Pesos</button>
+              <button id="unitUF" class="on" type="button" aria-pressed="true">UF</button>
+              <button id="unitCLP" type="button" aria-pressed="false">Pesos</button>
             </div>
           </div>
           <span class="hint" id="vpEcho"></span>
@@ -439,8 +440,8 @@
         <div class="field">
           <label>Dividendo máx. sobre <span class="tip" tabindex="0" role="note" aria-label="Renta líquida: tu sueldo después de los descuentos (AFP, salud e impuestos), lo que efectivamente te llega a la cuenta. El banco evalúa sobre esta, no sobre el sueldo bruto.">renta líquida<span class="tipbox"><b>Renta líquida</b> — tu sueldo <b>después de los descuentos</b> (AFP, salud e impuestos): lo que efectivamente te llega a la cuenta. El banco evalúa sobre esta, no sobre el bruto.</span></span></label>
           <div class="seg" role="group" aria-label="Relación dividendo / renta">
-            <button id="ratio25" class="on" type="button">25% · estricto</button>
-            <button id="ratio30" type="button">30% · flexible</button>
+            <button id="ratio25" class="on" type="button" aria-pressed="true">25% · estricto</button>
+            <button id="ratio30" type="button" aria-pressed="false">30% · flexible</button>
           </div>
           <span class="hint">25% es el criterio prudencial estándar (CMF Educa). Algunos bancos llegan a 30% con buen historial y estabilidad.</span>
         </div>
@@ -463,10 +464,10 @@
             <input id="rentaReal" type="text" value="" placeholder="0" inputmode="numeric" class="money" autocomplete="off">
           </div>
           <div class="seg" role="group" aria-label="Tipo de renta" style="margin-top:9px">
-            <button id="tipo1Dep" class="on" type="button">Sueldo</button>
-            <button id="tipo1Hon" type="button">Honorarios</button>
+            <button id="tipo1Dep" class="on" type="button" aria-pressed="true">Sueldo</button>
+            <button id="tipo1Hon" type="button" aria-pressed="false">Honorarios</button>
           </div>
-          <span class="hint">Por <span class="tip" tabindex="0" role="note" aria-label="Honorarios: como tus ingresos por boletas son variables, el banco castiga esa renta y considera solo alrededor del 70% para evaluarte (varía entre 70% y 80% según el banco). Un sueldo con contrato indefinido se considera al 100%.">honorarios<span class="tipbox"><b>Honorarios / independiente</b> — como tus ingresos son variables, el banco <b>castiga ~30%</b> y considera solo ~70% de tu renta (varía 70–80% según el banco). Un sueldo con contrato: 100%.</span></span> el banco considera ~70% de tu renta; con sueldo (contrato), el 100%.</span>
+          <span class="hint">Por <span class="tip" tabindex="0" role="note" aria-label="Honorarios: como tus ingresos por boletas son variables, el banco castiga esa renta y considera solo alrededor del 70% para evaluarte (varía entre 70% y 80% según el banco). Un sueldo con contrato indefinido se considera al 100%.">honorarios<span class="tipbox"><b>Honorarios / independiente</b> — como tus ingresos son variables, el banco <b>castiga ~30%</b> y considera solo ~70% de tu renta (varía 70–80% según el banco). Un sueldo con contrato: 100%.</span></span> el banco considera ~70% de tu renta (usamos el criterio más estricto; algunos bancos llegan al 80%). Con sueldo a contrato, el 100%.</span>
         </div>
         <div class="field">
           <button type="button" class="linkbtn" id="addCodeudor" aria-expanded="false" aria-controls="codeudorBlock">+ Sumar codeudor</button>
@@ -477,8 +478,8 @@
               <input id="rentaReal2" type="text" value="" placeholder="0" inputmode="numeric" class="money" autocomplete="off">
             </div>
             <div class="seg" role="group" aria-label="Tipo de renta del codeudor" style="margin-top:9px">
-              <button id="tipo2Dep" class="on" type="button">Sueldo</button>
-              <button id="tipo2Hon" type="button">Honorarios</button>
+              <button id="tipo2Dep" class="on" type="button" aria-pressed="true">Sueldo</button>
+              <button id="tipo2Hon" type="button" aria-pressed="false">Honorarios</button>
             </div>
           </div>
         </div>
@@ -575,9 +576,9 @@
         </div>
       </div>
 
-      <div class="card verdict" id="verdictCard" data-state="ok" hidden>
+      <div class="card verdict" id="verdictCard" data-state="ok" role="status" aria-live="polite" aria-atomic="true" hidden>
         <div class="vd-head">
-          <span class="vd-icon" id="vdIcon">✓</span>
+          <span class="vd-icon" id="vdIcon" aria-hidden="true">✓</span>
           <span class="vd-title" id="vdTitle"></span>
         </div>
         <div class="vd-detail" id="vdDetail"></div>
@@ -667,9 +668,10 @@
             <span class="acc-k">Comparar plazos<small>cómo cambian el dividendo y la renta de 15 a 30 años</small></span>
           </button>
           <div class="acc-body" id="cmpBody">
-            <div class="cmp-wrap">
+            <div class="cmp-wrap" tabindex="0" role="region" aria-label="Tabla comparativa de plazos, desplazable horizontalmente">
               <table class="cmp">
-                <thead><tr><th>Plazo</th><th>Dividendo</th><th>Renta mín.</th><th>Intereses</th></tr></thead>
+                <caption class="sr-only">Dividendo, renta mínima e intereses totales según el plazo del crédito</caption>
+                <thead><tr><th scope="col">Plazo</th><th scope="col">Dividendo</th><th scope="col">Renta mín.</th><th scope="col">Intereses</th></tr></thead>
                 <tbody id="cmpRows"></tbody>
               </table>
             </div>
@@ -694,6 +696,7 @@
 (function(){
   "use strict";
   var $ = function(id){return document.getElementById(id);};
+  function segSet(on, off){ on.classList.add('on'); on.setAttribute('aria-pressed','true'); off.classList.remove('on'); off.setAttribute('aria-pressed','false'); }
   var unidad = 'UF';
   var ratio = 25;
   var ufEditadoManual = false;
@@ -845,6 +848,9 @@
       $('rentaLabel').textContent = 'Renta líquida mínima';
       $('resumen').innerHTML = 'Ingresa el <b>valor de la propiedad</b> para ver tu resultado.';
       $('verdictCard').hidden = true;
+      $('cmpRows').innerHTML = '';
+      ['rDivBase','rSeg','rDivTot','rRentaDiv','rRentaCarga','rPie','rGastos','aFirmar','rCapital','rInt','rSegTot','aCuotas','rCostoTotal','montoEcho'].forEach(function(id){ $(id).textContent='—'; });
+      $('costLead').innerHTML=''; $('costNote').innerHTML=''; $('vpEcho').textContent='';
       $('warns').innerHTML = '';
       return;
     }
@@ -926,7 +932,8 @@
     for(var pc=0;pc<plazosCmp.length;pc++){
       var py=plazosCmp[pc];
       var q=quote(py, r.tasa, r.montoUF, r.segUF, ratio, r.otras, UF);
-      cmpHtml += '<tr'+(py===r.plazo?' class="cur"':'')+'><td>'+py+' años</td><td>'+clp(q.divTotCLP)+'</td><td>'+clp(q.rentaReq)+'</td><td>'+clp(q.intCLP)+'</td></tr>';
+      var isCur=(py===r.plazo);
+      cmpHtml += '<tr'+(isCur?' class="cur" aria-current="true"':'')+'><th scope="row">'+py+' años'+(isCur?' <span class="cur-tag">· tu plazo</span>':'')+'</th><td>'+clp(q.divTotCLP)+'</td><td>'+clp(q.rentaReq)+'</td><td>'+clp(q.intCLP)+'</td></tr>';
     }
     $('cmpRows').innerHTML = cmpHtml;
 
@@ -981,22 +988,21 @@
     else { $('valorProp').value = Math.round((v/UF)*10)/10; $('valorProp').step=1; }
     unidad = u;
     $('vpUnit').textContent = (u==='UF')?'UF':'$';
-    $('unitUF').classList.toggle('on', u==='UF');
-    $('unitCLP').classList.toggle('on', u==='CLP');
+    if(u==='UF') segSet($('unitUF'),$('unitCLP')); else segSet($('unitCLP'),$('unitUF'));
     render();
   }
   $('unitUF').addEventListener('click',function(){setUnit('UF');});
   $('unitCLP').addEventListener('click',function(){setUnit('CLP');});
 
   // ---- ratio toggle ----
-  $('ratio25').addEventListener('click',function(){ratio=25;$('ratio25').classList.add('on');$('ratio30').classList.remove('on');render();});
-  $('ratio30').addEventListener('click',function(){ratio=30;$('ratio30').classList.add('on');$('ratio25').classList.remove('on');render();});
+  $('ratio25').addEventListener('click',function(){ratio=25;segSet($('ratio25'),$('ratio30'));render();});
+  $('ratio30').addEventListener('click',function(){ratio=30;segSet($('ratio30'),$('ratio25'));render();});
 
   // ---- tipo de renta (sueldo / honorarios) + codeudor ----
-  $('tipo1Dep').addEventListener('click',function(){tipoRenta1='dep';$('tipo1Dep').classList.add('on');$('tipo1Hon').classList.remove('on');render();});
-  $('tipo1Hon').addEventListener('click',function(){tipoRenta1='hon';$('tipo1Hon').classList.add('on');$('tipo1Dep').classList.remove('on');render();});
-  $('tipo2Dep').addEventListener('click',function(){tipoRenta2='dep';$('tipo2Dep').classList.add('on');$('tipo2Hon').classList.remove('on');render();});
-  $('tipo2Hon').addEventListener('click',function(){tipoRenta2='hon';$('tipo2Hon').classList.add('on');$('tipo2Dep').classList.remove('on');render();});
+  $('tipo1Dep').addEventListener('click',function(){tipoRenta1='dep';segSet($('tipo1Dep'),$('tipo1Hon'));render();});
+  $('tipo1Hon').addEventListener('click',function(){tipoRenta1='hon';segSet($('tipo1Hon'),$('tipo1Dep'));render();});
+  $('tipo2Dep').addEventListener('click',function(){tipoRenta2='dep';segSet($('tipo2Dep'),$('tipo2Hon'));render();});
+  $('tipo2Hon').addEventListener('click',function(){tipoRenta2='hon';segSet($('tipo2Hon'),$('tipo2Dep'));render();});
   $('addCodeudor').addEventListener('click',function(){
     codeudorOn = !codeudorOn;
     $('codeudorBlock').hidden = !codeudorOn;
