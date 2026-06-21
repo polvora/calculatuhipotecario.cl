@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de crédito hipotecario · Chile</title>
 <meta name="description" content="Calcula gratis cuánta renta líquida necesitas, tu dividendo mensual y el monto del crédito hipotecario en Chile. Con UF en vivo y tasas de referencia actualizadas.">
-<meta name="theme-color" content="#0d7d74">
+<meta name="theme-color" content="#0a6b5f">
 <link rel="canonical" href="https://calculatuhipotecario.cl/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2040%2040'%3E%3Crect%20width='40'%20height='40'%20rx='9'%20fill='%230d7d74'/%3E%3Cpath%20d='M11%2021L20%2013L29%2021'%20fill='none'%20stroke='%23fff'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Crect%20x='14.5'%20y='21'%20width='11'%20height='8'%20rx='1.5'%20fill='%23fff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2040%2040'%3E%3Crect%20width='40'%20height='40'%20rx='9'%20fill='%230a6b5f'/%3E%3Cpath%20d='M11%2021L20%2013L29%2021'%20fill='none'%20stroke='%23fff'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Crect%20x='14.5'%20y='21'%20width='11'%20height='8'%20rx='1.5'%20fill='%23fff'/%3E%3C/svg%3E">
 <meta property="og:title" content="Calculadora de crédito hipotecario · Chile">
 <meta property="og:description" content="Cuánta renta líquida necesitas, tu dividendo mensual y el monto del crédito para una propiedad en Chile. Con UF en vivo.">
 <meta property="og:type" content="website">
@@ -15,32 +15,32 @@
 <meta property="og:url" content="https://calculatuhipotecario.cl/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#e7eaee;
+    --bg:#efece4;
     --card:#ffffff;
-    --ink:#14202e;
-    --ink-soft:#5b6877;
-    --ink-faint:#67727e;
-    --line:#dbe0e6;
-    --line-soft:#e8ebef;
-    --accent:#0d7d74;
-    --accent-deep:#0a5f58;
-    --accent-wash:#e3f2f0;
-    --warn:#bf4318;
-    --warn-bg:#fbeee7;
-    --warn-line:#eccab8;
-    /* dark readout panel */
-    --panel:#14202e;
-    --panel-2:#1d2e40;
-    --panel-line:#2a3d52;
-    --on-dark:#eaf1f4;
-    --on-dark-soft:#90a4b5;
-    --glow:#3fd9c9;
-    --radius:14px;
-    --mono:'JetBrains Mono',ui-monospace,monospace;
-    --disp:'Space Grotesk',system-ui,sans-serif;
+    --ink:#1b2733;
+    --ink-soft:#54616e;
+    --ink-faint:#6c7783;
+    --line:#e6e1d6;
+    --line-soft:#efebe1;
+    --accent:#0a6b5f;
+    --accent-deep:#074a42;
+    --accent-wash:#e7f0ed;
+    --warn:#a8521f;
+    --warn-bg:#f8efe6;
+    --warn-line:#e8cdb6;
+    /* readout panel (light, institucional) */
+    --panel:#faf8f2;
+    --panel-2:#ffffff;
+    --panel-line:#e6e1d6;
+    --on-dark:#1b2733;
+    --on-dark-soft:#54616e;
+    --glow:#16324c;
+    --radius:13px;
+    --mono:'Inter',system-ui,sans-serif;
+    --disp:'Source Serif 4',Georgia,'Times New Roman',serif;
     --body:'Inter',system-ui,sans-serif;
   }
 
@@ -48,36 +48,35 @@
   html{-webkit-text-size-adjust:100%}
   body{
     margin:0;
-    background:var(--bg);
-    background-image:
-      radial-gradient(900px 380px at 78% -8%, rgba(13,125,116,.10), transparent 70%),
-      linear-gradient(180deg,#eef1f4 0%, #e7eaee 42%);
+    background:#efece4;
+    background-image:linear-gradient(180deg,#f4f2ec 0%, #ece9e1 55%);
     background-attachment:fixed;
     color:var(--ink);
     font-family:var(--body);
     font-size:15px;
-    line-height:1.5;
+    line-height:1.55;
     min-height:100vh;
     -webkit-font-smoothing:antialiased;
   }
-  .app{max-width:1160px;margin:0 auto;padding:26px 22px 56px}
+  .app{max-width:1080px;margin:0 auto;padding:30px 22px 56px}
+  input[type=number],.m-v,.s-v,.slide-val,.chips button b,.row .v,.uf-chip input{font-variant-numeric:tabular-nums}
 
   /* ---------- header ---------- */
   header.bar{
-    display:flex;align-items:flex-end;justify-content:space-between;
-    gap:18px;flex-wrap:wrap;margin-bottom:24px;
+    display:flex;align-items:flex-start;justify-content:space-between;
+    gap:18px;flex-wrap:wrap;margin-bottom:28px;
   }
   .brand{display:flex;gap:14px;align-items:flex-start}
   .logo{flex:none;width:44px;height:44px;border-radius:12px;display:block;
     box-shadow:0 6px 16px -6px rgba(13,125,116,.55)}
   .logo svg{display:block;width:44px;height:44px}
   .brand .eyebrow{
-    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--accent-deep);font-weight:600;margin-bottom:7px;
+    font-family:var(--body);font-size:12px;letter-spacing:.01em;
+    color:var(--accent);font-weight:600;margin-bottom:6px;
   }
   .brand h1{
-    font-family:var(--disp);font-weight:700;font-size:clamp(24px,3.4vw,33px);
-    line-height:1.05;margin:0;letter-spacing:-.02em;color:var(--ink);
+    font-family:var(--disp);font-weight:600;font-size:clamp(26px,3.6vw,35px);
+    line-height:1.08;margin:0;letter-spacing:-.01em;color:var(--ink);
   }
   .brand p{margin:6px 0 0;color:var(--ink-soft);font-size:13.5px;max-width:46ch}
 
@@ -86,8 +85,8 @@
     border:1px solid var(--line);border-radius:11px;padding:9px 12px;
     box-shadow:0 1px 2px rgba(20,32,46,.03), 0 12px 28px -18px rgba(20,32,46,.22);
   }
-  .uf-chip .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);line-height:1.2}
-  .uf-chip .lab b{display:block;color:var(--accent-deep);font-weight:600;letter-spacing:.1em}
+  .uf-chip .lab{font-family:var(--body);font-size:11px;color:var(--ink-faint);line-height:1.2;font-weight:500}
+  .uf-chip .lab b{display:block;color:var(--accent-deep);font-weight:600}
   .uf-chip .pfx{font-family:var(--mono);color:var(--ink-soft);font-weight:600;font-size:15px}
   .uf-chip input{
     width:78px;border:none;background:transparent;font-family:var(--mono);
@@ -96,9 +95,9 @@
   .uf-chip input:focus{outline:none}
   .uf-chip:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wash)}
   .uf-state{
-    display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9.5px;
-    letter-spacing:.07em;text-transform:uppercase;font-weight:600;white-space:nowrap;
-    padding-left:10px;margin-left:2px;border-left:1px solid var(--line);
+    display:flex;align-items:center;gap:5px;font-family:var(--body);font-size:10.5px;
+    font-weight:600;white-space:nowrap;
+    padding-left:11px;margin-left:2px;border-left:1px solid var(--line);
   }
   .uf-state .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-faint);flex:none}
   .uf-state[data-state="load"]{color:var(--ink-faint)}
@@ -125,8 +124,8 @@
   .grp:first-of-type{padding-top:2px;border-top:none}
   .grp:last-of-type{padding-bottom:2px}
   .grp-h{
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
-    color:var(--ink-faint);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;
+    font-family:var(--body);font-size:12.5px;letter-spacing:.01em;
+    color:var(--accent-deep);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;
   }
   .grp-h::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);flex:none}
 
@@ -192,19 +191,19 @@
   .tip:focus{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
   .tip .tipbox{
     position:fixed;left:0;top:0;z-index:40;width:268px;max-width:calc(100vw - 16px);
-    background:var(--panel);color:var(--on-dark);border:1px solid var(--panel-line);border-radius:10px;
+    background:#1b2733;color:#eef2f4;border:1px solid #2c3a48;border-radius:10px;
     padding:11px 13px;font-family:var(--body);font-size:12px;line-height:1.55;font-weight:400;
-    letter-spacing:normal;text-transform:none;box-shadow:0 10px 28px rgba(20,32,46,.24);
+    letter-spacing:normal;text-transform:none;box-shadow:0 12px 30px rgba(27,39,51,.3);
     opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .14s,transform .14s;pointer-events:none;
   }
-  .tip .tipbox b{color:var(--glow);font-weight:600}
+  .tip .tipbox b{color:#7fd8c6;font-weight:600}
   .tip:hover .tipbox,.tip:focus .tipbox,.tip:focus-within .tipbox{opacity:1;visibility:visible;transform:translateY(0)}
 
   /* advanced */
   details.adv{border-top:1px solid var(--line-soft);margin-top:4px}
   details.adv summary{
-    list-style:none;cursor:pointer;padding:16px 0 4px;font-family:var(--mono);
-    font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);
+    list-style:none;cursor:pointer;padding:16px 0 4px;font-family:var(--body);
+    font-size:12.5px;letter-spacing:.01em;color:var(--accent-deep);
     font-weight:600;display:flex;align-items:center;gap:8px;
   }
   details.adv summary::-webkit-details-marker{display:none}
@@ -220,14 +219,13 @@
     background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--radius);
     padding:22px;position:relative;overflow:hidden;
   }
-  .panel::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
-    background:linear-gradient(90deg,var(--glow),transparent 72%)}
+  .panel::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--glow)}
   .panel .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
-  .panel .top .eb{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--on-dark-soft);font-weight:500}
+  .panel .top .eb{font-family:var(--body);font-size:12px;letter-spacing:.01em;color:var(--on-dark-soft);font-weight:600}
   .badge{
-    font-family:var(--mono);font-size:10px;letter-spacing:.05em;font-weight:600;
-    padding:4px 9px;border-radius:20px;background:rgba(63,217,201,.12);
-    color:var(--glow);border:1px solid rgba(63,217,201,.3);white-space:nowrap;
+    font-family:var(--body);font-size:11px;font-weight:600;
+    padding:4px 11px;border-radius:20px;background:var(--accent-wash);
+    color:var(--accent-deep);border:1px solid #cfe3dd;white-space:nowrap;
   }
   .hero-sub{color:var(--on-dark-soft);font-size:12.5px;margin-top:16px;line-height:1.5}
   .hero-sub b{color:var(--on-dark);font-weight:600}
@@ -242,23 +240,21 @@
     justify-content:space-between;gap:8px 16px;flex-wrap:wrap;
   }
   .m-head{display:flex;flex-direction:column;gap:4px;min-width:0}
-  .m-l{font-size:11px;letter-spacing:.03em;color:var(--on-dark-soft);font-weight:500;line-height:1.2}
+  .m-l{font-size:12px;color:var(--on-dark-soft);font-weight:500;line-height:1.2}
   .m-v{
-    font-family:var(--mono);font-weight:700;font-size:clamp(21px,3.6vw,28px);color:var(--glow);
-    line-height:1;letter-spacing:-.012em;
+    font-family:var(--mono);font-weight:700;font-size:clamp(22px,3.6vw,30px);color:var(--glow);
+    line-height:1;letter-spacing:-.01em;
   }
   .m-s{font-family:var(--mono);font-size:12px;color:var(--on-dark-soft);font-weight:500;white-space:nowrap;padding-bottom:2px}
 
   /* tira de stats secundarias (tasa · CAE · plazo) */
   .stats{display:flex;flex-wrap:wrap;gap:9px 20px;margin-top:16px;padding-top:14px;border-top:1px solid var(--panel-line)}
   .stat{display:flex;align-items:baseline;gap:7px}
-  .s-l{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--on-dark-soft);font-weight:600}
+  .s-l{font-size:12px;color:var(--on-dark-soft);font-weight:500}
   .s-v{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--on-dark)}
-  .panel .tip{color:var(--glow);border-bottom-color:rgba(63,217,201,.45)}
-  .panel .tip:focus{outline-color:var(--glow)}
 
   /* ---------- breakdown cards ---------- */
-  .ttl{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin:0 0 14px}
+  .ttl{font-family:var(--body);font-size:12.5px;letter-spacing:.01em;color:var(--accent-deep);font-weight:600;margin:0 0 14px}
   .row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line-soft)}
   .row:first-of-type{border-top:none;padding-top:0}
   .row .k{font-size:13.5px;color:var(--ink-soft)}
@@ -300,15 +296,14 @@
     <div class="brand">
       <span class="logo" aria-hidden="true">
         <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-          <rect width="40" height="40" rx="12" fill="url(#lg)"/>
+          <rect width="40" height="40" rx="12" fill="#0a6b5f"/>
           <path d="M10.5 21 L20 12.5 L29.5 21" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
           <rect x="14" y="20.5" width="12" height="8.5" rx="1.6" fill="#fff"/>
-          <rect x="18.4" y="24" width="3.2" height="5" rx="0.6" fill="#0a5f58"/>
-          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#15a89c"/><stop offset="1" stop-color="#0a5f58"/></linearGradient></defs>
+          <rect x="18.4" y="24" width="3.2" height="5" rx="0.6" fill="#16324c"/>
         </svg>
       </span>
       <div class="brand-txt">
-        <div class="eyebrow">Crédito hipotecario · Chile</div>
+        <div class="eyebrow">calculatuhipotecario.cl</div>
         <h1>Calculadora de crédito hipotecario</h1>
         <p>Cuánta renta líquida necesitas, tu dividendo mensual y el monto del crédito para una propiedad.</p>
       </div>
