@@ -200,16 +200,20 @@
   .panel .tip:focus{outline-color:#cbe5db}
 
   /* advanced */
-  details.adv{border-top:1px solid var(--line-soft);margin-top:4px}
+  details.adv{margin-top:14px}
   details.adv summary{
-    list-style:none;cursor:pointer;padding:16px 0 4px;font-family:var(--body);
-    font-size:12.5px;letter-spacing:.01em;color:var(--accent-deep);
-    font-weight:600;display:flex;align-items:center;gap:8px;
+    list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;
+    padding:11px 13px;background:#f4f7f5;border:1px solid var(--line);border-radius:9px;
+    font-family:var(--body);font-size:13px;color:var(--accent-deep);font-weight:600;
+    transition:border-color .12s,background .12s;
   }
+  details.adv summary:hover{border-color:var(--accent);background:#eef3ef}
+  details.adv summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   details.adv summary::-webkit-details-marker{display:none}
   details.adv summary .tw{transition:transform .18s;display:inline-block;color:var(--accent);font-size:13px}
+  details.adv[open] summary{border-radius:9px 9px 0 0}
   details.adv[open] summary .tw{transform:rotate(90deg)}
-  details.adv .body{padding-top:14px}
+  details.adv .body{padding:14px 13px 4px;border:1px solid var(--line);border-top:none;border-radius:0 0 9px 9px;background:#fbfcfb}
 
   /* ---------- readout (dark) ---------- */
   .sticky{position:sticky;top:20px}
@@ -246,6 +250,7 @@
     line-height:1;letter-spacing:-.01em;
   }
   .m-s{font-family:var(--mono);font-size:12px;color:var(--on-dark-soft);font-weight:500;white-space:nowrap;padding-bottom:2px}
+  #rentaSub{flex-basis:100%;white-space:normal;font-family:var(--body);font-size:12px;color:var(--on-dark-soft);padding:3px 0 0;line-height:1.4}
 
   /* tira de stats secundarias (tasa · CAE · plazo) */
   .stats{display:flex;flex-wrap:wrap;gap:9px 20px;margin-top:16px;padding-top:14px;border-top:1px solid var(--panel-line)}
@@ -414,7 +419,7 @@
           <label for="otrasDeudas">Otras deudas mensuales</label>
           <div class="with-affix pre">
             <span class="affix">$</span>
-            <input id="otrasDeudas" type="number" value="0" min="0" step="10000" inputmode="numeric">
+            <input id="otrasDeudas" type="text" value="0" inputmode="numeric" class="money" autocomplete="off">
           </div>
           <span class="hint">Cuotas de auto, créditos de consumo, tarjetas. El banco exige que dividendo + deudas no superen el 45% de tu renta (<span class="tip" tabindex="0" role="note" aria-label="Carga financiera total: la suma de todas tus cuotas mensuales, este dividendo más tus otras deudas. El banco exige que no supere alrededor del 45% de tu renta líquida.">carga financiera total<span class="tipbox"><b>Carga financiera total</b> — la suma de <b>todas tus cuotas mensuales</b> (este dividendo + tus otras deudas). El banco exige que no supere ~45% de tu renta líquida.</span></span>).</span>
         </div>
@@ -473,7 +478,6 @@
       <div class="panel">
         <div class="top">
           <span class="eb">Resultado de la simulación</span>
-          <span class="badge" id="bindBadge">—</span>
         </div>
 
         <div class="metrics">
@@ -615,7 +619,11 @@
 
   function clp(n){return '$'+fmtCLP.format(Math.round(n||0));}
   function uf(n){ n=n||0; return (Math.abs(n)>=100?fmtUF1.format(n):fmtUF2.format(n))+' UF'; }
-  function num(id){var v=$(id).valueAsNumber; return isNaN(v)?0:v;}
+  function num(id){
+    var el=$(id);
+    if(el.classList && el.classList.contains('money')){ var d=el.value.replace(/[^0-9]/g,''); return d?parseInt(d,10):0; }
+    var v=el.valueAsNumber; return isNaN(v)?0:v;
+  }
 
   function valorPropUF(){
     var v = num('valorProp');
@@ -719,7 +727,7 @@
     if(r.vPropUF <= 0){
       $('rentaOut').textContent = '—'; $('divOut').textContent = '—'; $('costoOut').textContent = '—';
       $('divOutUF').textContent = ''; $('costoOutUF').textContent = '';
-      $('rentaSub').textContent = ''; $('bindBadge').textContent = '—';
+      $('rentaSub').textContent = '';
       $('resumen').innerHTML = 'Ingresa el <b>valor de la propiedad</b> para ver tu resultado.';
       $('warns').innerHTML = '';
       return;
@@ -740,9 +748,9 @@
     $('resumen').innerHTML = 'Para una propiedad de <b>'+uf(r.vPropUF)+'</b> (≈ '+clp(r.vPropCLP)+
       ') con <b>'+fmtInt.format(r.pieP)+'% de pie</b> a <b>'+r.plazo+' años</b>.';
 
-    var limita = (r.bind==='carga') ? 'tu deuda total (45%)' : 'la cuota ('+ratio+'%)';
-    $('rentaSub').textContent = 'al mes · te limita ' + limita;
-    $('bindBadge').textContent = (r.bind==='carga') ? 'Te limita tu deuda total' : 'Te limita la cuota';
+    $('rentaSub').textContent = (r.bind==='carga')
+      ? 'al mes — la define tu carga total (la cuota + tus deudas, máx. 45%)'
+      : 'al mes — la define tu cuota (máx. ' + ratio + '% de tu renta líquida)';
 
     // desglose
     setCurOut('rDivBase', clp(r.divBaseUF*UF), 'rDivBaseUF', uf(r.divBaseUF));
@@ -841,6 +849,14 @@
   $('rateChips').addEventListener('click',function(e){
     var b = e.target.closest('button'); if(!b) return;
     $('tasa').value = b.dataset.rate; render();
+  });
+
+  // ---- formato de miles (puntos) en campos de dinero ----
+  [].forEach.call(document.querySelectorAll('input.money'), function(el){
+    el.addEventListener('input', function(){
+      var d = el.value.replace(/[^0-9]/g,'');
+      el.value = d ? fmtInt.format(parseInt(d,10)) : '';
+    });
   });
 
   // ---- live recompute ----
