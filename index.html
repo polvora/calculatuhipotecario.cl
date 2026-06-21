@@ -287,6 +287,9 @@
   .panel::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
   .panel .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
   .panel .top .eb{font-family:var(--body);font-size:12px;letter-spacing:.01em;color:var(--on-dark-soft);font-weight:600}
+  .sharebtn{font-family:var(--body);font-size:11.5px;font-weight:600;color:var(--on-dark);background:rgba(255,255,255,.08);border:1px solid var(--panel-line);border-radius:7px;padding:5px 11px;cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s;display:inline-flex;align-items:center;gap:6px}
+  .sharebtn:hover{background:rgba(255,255,255,.16);border-color:var(--gold)}
+  .sharebtn:focus-visible{outline:2px solid var(--glow);outline-offset:2px}
   .badge{
     font-family:var(--body);font-size:11px;font-weight:600;
     padding:4px 11px;border-radius:20px;background:var(--accent-wash);
@@ -591,6 +594,7 @@
       <div class="panel">
         <div class="top">
           <span class="eb">Resultado de la simulación</span>
+          <button type="button" class="sharebtn" id="shareBtn" aria-label="Copiar enlace de esta simulación">Copiar enlace</button>
         </div>
 
         <div class="metrics">
@@ -828,6 +832,37 @@
     return {divTotCLP:divTotCLP, rentaReq:rentaReq, intCLP:intCLP};
   }
 
+  // ---- estado en la URL (compartir simulación) ----
+  function serializeState(){
+    var q = new URLSearchParams();
+    q.set('vp', $('valorProp').value);
+    q.set('u', unidad==='CLP'?'clp':'uf');
+    q.set('f', $('financiamiento').value);
+    q.set('p', $('plazo').value);
+    q.set('t', $('tasa').value);
+    q.set('d', $('otrasDeudas').value.replace(/[^0-9]/g,'')||'0');
+    q.set('r', String(ratio));
+    return q.toString();
+  }
+  var _urlTimer;
+  function updateURL(){
+    clearTimeout(_urlTimer);
+    _urlTimer = setTimeout(function(){
+      try{ history.replaceState(null, '', location.pathname + '?' + serializeState()); }catch(e){}
+    }, 300);
+  }
+  function hydrateFromURL(){
+    var q; try{ q = new URLSearchParams(location.search); }catch(e){ return; }
+    if(!q.toString()) return;
+    var u = q.get('u');
+    if(u==='clp'){ unidad='CLP'; $('vpUnit').textContent='$'; segSet($('unitCLP'),$('unitUF')); $('valorProp').step=100000; }
+    else if(u==='uf'){ unidad='UF'; $('vpUnit').textContent='UF'; segSet($('unitUF'),$('unitCLP')); $('valorProp').step=1; }
+    var setIf=function(id,key){ var v=q.get(key); if(v!==null && v!=='') $(id).value=v; };
+    setIf('valorProp','vp'); setIf('financiamiento','f'); setIf('plazo','p'); setIf('tasa','t');
+    var d=q.get('d'); if(d!==null && d!==''){ var dd=d.replace(/[^0-9]/g,''); $('otrasDeudas').value = dd?fmtInt.format(parseInt(dd,10)):'0'; }
+    var rr=q.get('r'); if(rr==='30'){ ratio=30; segSet($('ratio30'),$('ratio25')); } else if(rr==='25'){ ratio=25; segSet($('ratio25'),$('ratio30')); }
+  }
+
   function compute(){
     var UF = num('ufValue')||1;
     var vPropUF = valorPropUF(); if(vPropUF<0) vPropUF=0;
@@ -915,6 +950,7 @@
   }
 
   function render(){
+    updateURL();
     var r = compute();
     var UF = r.UF;
 
@@ -1156,6 +1192,15 @@
     render();
   });
 
+  // ---- compartir: copiar enlace ----
+  $('shareBtn').addEventListener('click', function(){
+    var url = location.origin + location.pathname + '?' + serializeState();
+    try{ history.replaceState(null,'',url); }catch(e){}
+    var b=$('shareBtn');
+    var done=function(){ b.textContent='¡Copiado!'; setTimeout(function(){ b.textContent='Copiar enlace'; },1600); };
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done, done); } else { done(); }
+  });
+
   // ---- referencias de tasas de mercado ----
   // Fuente única: ACTUALIZAR aquí cuando cambien las tasas. Datos del Banco Central
   // de Chile (promedio del sistema) y tasas publicadas por cada banco.
@@ -1215,6 +1260,7 @@
     });
   });
 
+  hydrateFromURL();
   render();
 })();
 </script>
