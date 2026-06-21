@@ -63,23 +63,20 @@
   input[type=number],.m-v,.s-v,.slide-val,.chips button b,.row .v,.uf-chip input{font-variant-numeric:tabular-nums}
 
   /* ---------- header ---------- */
-  header.bar{
-    display:flex;align-items:flex-start;justify-content:space-between;
-    gap:18px;flex-wrap:wrap;margin-bottom:28px;
+  .masthead{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    padding-bottom:18px;margin-bottom:26px;border-bottom:1px solid var(--line);
   }
-  .brand{display:flex;gap:14px;align-items:flex-start}
-  .logo{flex:none;width:44px;height:44px;border-radius:12px;display:block;
-    box-shadow:0 6px 16px -6px rgba(13,125,116,.55)}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{flex:none;width:44px;height:44px;border-radius:11px;display:block;
+    box-shadow:0 6px 16px -7px rgba(10,79,66,.55)}
   .logo svg{display:block;width:44px;height:44px}
-  .brand .eyebrow{
-    font-family:var(--body);font-size:12px;letter-spacing:.01em;
-    color:var(--accent);font-weight:600;margin-bottom:6px;
-  }
-  .brand h1{
-    font-family:var(--disp);font-weight:600;font-size:clamp(26px,3.6vw,35px);
-    line-height:1.08;margin:0;letter-spacing:-.01em;color:var(--ink);
-  }
-  .brand p{margin:6px 0 0;color:var(--ink-soft);font-size:13.5px;max-width:46ch}
+  .wordmark{font-family:var(--disp);font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.01em;line-height:1}
+  .wordmark .tld{color:var(--accent)}
+  .hero{margin-bottom:28px}
+  .kicker{font-size:12.5px;color:var(--accent);font-weight:600;letter-spacing:.01em;margin-bottom:10px}
+  .hero h1{font-family:var(--disp);font-weight:600;font-size:clamp(29px,4.2vw,42px);line-height:1.08;margin:0;letter-spacing:-.015em;color:var(--ink)}
+  .hero p{margin:12px 0 0;color:var(--ink-soft);font-size:15px;line-height:1.55;max-width:56ch}
 
   .uf-chip{
     display:flex;align-items:center;gap:10px;background:var(--card);
@@ -295,7 +292,7 @@
 <body>
 <div class="app">
 
-  <header class="bar">
+  <header class="masthead">
     <div class="brand">
       <span class="logo" aria-hidden="true">
         <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
@@ -305,11 +302,7 @@
           <rect x="18.4" y="24" width="3.2" height="5" rx="0.6" fill="#16324c"/>
         </svg>
       </span>
-      <div class="brand-txt">
-        <div class="eyebrow">calculatuhipotecario.cl</div>
-        <h1>Calculadora de crédito hipotecario</h1>
-        <p>Cuánta renta líquida necesitas, tu dividendo mensual y el monto del crédito para una propiedad.</p>
-      </div>
+      <span class="wordmark">Calcula tu hipotecario<span class="tld">.cl</span></span>
     </div>
     <label class="uf-chip" title="Valor de la UF de hoy — editable">
       <span class="lab">UF<b>hoy</b></span>
@@ -318,6 +311,12 @@
       <span class="uf-state" id="ufState" data-state="load" aria-live="polite"><span class="dot"></span><span id="ufStateTxt">cargando…</span></span>
     </label>
   </header>
+
+  <div class="hero">
+    <div class="kicker">Crédito hipotecario en Chile · UF en vivo</div>
+    <h1>Calculadora de crédito hipotecario</h1>
+    <p>Cuánta renta líquida necesitas, tu dividendo mensual y el monto del crédito para comprar una propiedad — con tasas de referencia actualizadas.</p>
+  </div>
 
   <div class="grid">
 
@@ -527,18 +526,22 @@
       </div>
 
       <div class="card">
-        <h3 class="ttl">Costo del crédito · capital + intereses</h3>
+        <h3 class="ttl">Cuánto pides y cuánto pagas</h3>
         <div class="row">
-          <span class="k">N.º de cuotas</span>
-          <span class="v" id="rN">0</span>
+          <span class="k">Monto del crédito<small>lo que te presta el banco</small></span>
+          <span class="v" id="rCapital">$0<small id="rCapitalUF">UF 0</small></span>
         </div>
         <div class="row">
-          <span class="k">Total intereses</span>
+          <span class="k">+ Intereses del crédito<small>a lo largo de <span id="rN">0</span> cuotas</small></span>
           <span class="v" id="rInt">$0<small id="rIntUF">UF 0</small></span>
         </div>
         <div class="row total">
-          <span class="k">Total pagado</span>
+          <span class="k">= Total que pagarás<small>capital + intereses, sin seguros</small></span>
           <span class="v" id="rTotPag">$0<small id="rTotPagUF">UF 0</small></span>
+        </div>
+        <div class="row hl">
+          <span class="k">Por cada $1 que pides, devuelves</span>
+          <span class="v" id="rRatio">$0</span>
         </div>
         <p class="note">No incluye seguros (varían con el saldo) ni la inflación: como el crédito está en UF, el monto en pesos sube con el IPC.</p>
       </div>
@@ -690,10 +693,13 @@
     setCurOut('rGastos', clp(r.gastosUF*UF), 'rGastosUF', uf(r.gastosUF));
     setCurOut('rCaja', clp(r.cajaUF*UF), 'rCajaUF', uf(r.cajaUF));
 
-    // costo
+    // cuánto pides y cuánto pagas
     $('rN').textContent = fmtInt.format(r.n);
+    setCurOut('rCapital', clp(r.montoUF*UF), 'rCapitalUF', uf(r.montoUF));
     setCurOut('rInt', clp(r.intUF*UF), 'rIntUF', uf(r.intUF));
     setCurOut('rTotPag', clp(r.totPagUF*UF), 'rTotPagUF', uf(r.totPagUF));
+    var ratioPago = r.montoUF>0 ? r.totPagUF/r.montoUF : 0;
+    $('rRatio').textContent = '$'+ratioPago.toFixed(2).replace('.', ',');
 
     // echoes
     $('finVal').textContent = r.fin;
