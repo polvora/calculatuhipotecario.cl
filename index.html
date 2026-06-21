@@ -330,7 +330,7 @@
     <label class="uf-chip" title="Valor de la UF de hoy — editable">
       <span class="lab">UF<b>hoy</b></span>
       <span class="pfx">$</span>
-      <input id="ufValue" type="number" value="40793" step="1" inputmode="numeric" aria-label="Valor de la UF en pesos">
+      <input id="ufValue" type="number" value="40793" min="1" step="1" inputmode="numeric" aria-label="Valor de la UF en pesos">
       <span class="uf-state" id="ufState" data-state="load" aria-live="polite"><span class="dot"></span><span id="ufStateTxt">cargando…</span></span>
     </label>
   </header>
@@ -351,7 +351,7 @@
         <div class="field">
           <label for="valorProp">Valor de la propiedad</label>
           <div class="with-affix">
-            <input id="valorProp" type="number" value="3000" step="1" inputmode="numeric">
+            <input id="valorProp" type="number" value="3000" min="0" step="1" inputmode="numeric">
             <span class="affix" id="vpUnit">UF</span>
           </div>
           <div style="margin-top:9px">
@@ -376,7 +376,7 @@
             <span>Monto del crédito<small>valor de la propiedad × <span id="finEcho3">80</span>% financiado</small></span>
             <span class="derived-v" id="montoEcho">$0<small id="montoEchoUF">UF 0</small></span>
           </div>
-          <span class="hint">Estándar: 80% (pie 20%). Hasta 90% (pie 10%) solo con <span class="tip" tabindex="0" role="note" aria-label="FOGAES: Fondo de Garantía Especial del Estado. El Estado avala parte del crédito, lo que permite financiar hasta el 90% (pie de 10%) y acceder a mejores tasas. Es para la compra de tu primera vivienda nueva, con un tope de valor de la propiedad.">FOGAES<span class="tipbox"><b>FOGAES</b> — Fondo de Garantía Especial del Estado. El Estado actúa como <b>aval de parte de tu crédito</b>, así el banco puede financiar hasta el <b>90% (pie de 10%)</b> y ofrecerte una mejor tasa. Aplica a la compra de tu <b>primera vivienda nueva</b>, con un tope de valor (del orden de UF 4.000–4.500 según el programa vigente).</span></span> o Subsidio Dividendo, en vivienda nueva (tope ~UF 4.000–4.500 según el programa).</span>
+          <span class="hint">Estándar: 80% (<span class="tip" tabindex="0" role="note" aria-label="Pie: la parte del valor de la propiedad que pagas de tu bolsillo al comprar; el banco financia el resto. Ejemplo: un pie de 20% sobre UF 3.000 son UF 600.">pie<span class="tipbox"><b>Pie</b> — la parte del valor que pagas <b>de tu bolsillo</b> al comprar; el banco financia el resto. Ej: pie 20% sobre UF 3.000 = UF 600.</span></span> 20%). Hasta 90% (pie 10%) solo con<span class="tip" tabindex="0" role="note" aria-label="FOGAES: Fondo de Garantía Especial del Estado. El Estado avala parte del crédito, lo que permite financiar hasta el 90% (pie de 10%) y acceder a mejores tasas. Es para la compra de tu primera vivienda nueva, con un tope de valor de la propiedad.">FOGAES<span class="tipbox"><b>FOGAES</b> — Fondo de Garantía Especial del Estado. El Estado actúa como <b>aval de parte de tu crédito</b>, así el banco puede financiar hasta el <b>90% (pie de 10%)</b> y ofrecerte una mejor tasa. Aplica a la compra de tu <b>primera vivienda nueva</b>, con un tope de valor (del orden de UF 4.000–4.500 según el programa vigente).</span></span> o Subsidio Dividendo, en vivienda nueva (tope ~UF 4.000–4.500 según el programa).</span>
         </div>
       </div>
 
@@ -392,7 +392,7 @@
         <div class="field">
           <label for="tasa">Tasa de interés anual (UF + %)</label>
           <div class="with-affix">
-            <input id="tasa" type="number" value="5.0" step="0.01" inputmode="decimal">
+            <input id="tasa" type="number" value="5.0" min="0" max="50" step="0.01" inputmode="decimal">
             <span class="affix">% anual</span>
           </div>
           <div class="chips" id="rateChips" role="group" aria-label="Tasas de referencia del mercado"></div>
@@ -414,7 +414,7 @@
           <label for="otrasDeudas">Otras deudas mensuales</label>
           <div class="with-affix pre">
             <span class="affix">$</span>
-            <input id="otrasDeudas" type="number" value="0" step="10000" inputmode="numeric">
+            <input id="otrasDeudas" type="number" value="0" min="0" step="10000" inputmode="numeric">
           </div>
           <span class="hint">Cuotas de auto, créditos de consumo, tarjetas. El banco exige que dividendo + deudas no superen el 45% de tu renta (<span class="tip" tabindex="0" role="note" aria-label="Carga financiera total: la suma de todas tus cuotas mensuales, este dividendo más tus otras deudas. El banco exige que no supere alrededor del 45% de tu renta líquida.">carga financiera total<span class="tipbox"><b>Carga financiera total</b> — la suma de <b>todas tus cuotas mensuales</b> (este dividendo + tus otras deudas). El banco exige que no supere ~45% de tu renta líquida.</span></span>).</span>
         </div>
@@ -482,7 +482,7 @@
               <div class="m-l">Renta líquida mínima</div>
               <div class="m-v" id="rentaOut">$0</div>
             </div>
-            <span class="m-s">requerida, al mes</span>
+            <span class="m-s" id="rentaSub">al mes</span>
           </div>
           <div class="metric">
             <div class="m-head">
@@ -493,7 +493,7 @@
           </div>
           <div class="metric">
             <div class="m-head">
-              <div class="m-l">Costo total de la propiedad</div>
+              <div class="m-l">Lo que pagarás en total</div>
               <div class="m-v" id="costoOut">$0</div>
             </div>
             <span class="m-s" id="costoOutUF">UF 0</span>
@@ -558,7 +558,7 @@
         </div>
 
         <div class="row total hl" style="border-top-width:2px">
-          <span class="k">Costo total de la propiedad</span>
+          <span class="k">Lo que pagarás en total<small>la propiedad + el costo de financiarla</small></span>
           <span class="v" id="rCostoTotal">$0<small id="rCostoTotalUF">UF 0</small></span>
         </div>
         <p class="note" id="costNote"></p>
@@ -594,7 +594,7 @@
   </div>
 
   <footer>
-    <b>Referencial — no es asesoría financiera ni preaprobación.</b> Cada banco aplica sus propias políticas de riesgo; la cifra final depende de tu historial (<span class="tip" tabindex="0" role="note" aria-label="REDEC: Registro de Deudores de la CMF, base de datos con el nivel de endeudamiento de cada persona que el banco consulta al evaluarte.">REDEC<span class="tipbox"><b>REDEC</b> — Registro de Deudores de la CMF: base de datos con el <b>nivel de endeudamiento</b> de cada persona, que el banco consulta al evaluarte.</span></span>), antigüedad laboral y la tasación. El cálculo asume una sola renta — con codeudor se suman ingresos (y deudas). La <span class="tip" tabindex="0" role="note" aria-label="CAE: Carga Anual Equivalente. Expresa el costo total del crédito en un solo porcentaje, incluyendo la tasa de interés y los seguros. Sirve para comparar ofertas de distintos bancos.">CAE<span class="tipbox"><b>CAE</b> — Carga Anual Equivalente: el <b>costo total del crédito</b> en un solo porcentaje (tasa + seguros). Sirve para comparar ofertas.</span></span> real del banco será algo mayor a la tasa nominal por seguros y comisiones.<br>
+    <b>Referencial — no es asesoría financiera ni preaprobación.</b> Cada banco aplica sus propias políticas de riesgo; la cifra final depende de tu historial (<span class="tip" tabindex="0" role="note" aria-label="REDEC: Registro de Deudores de la CMF, base de datos con el nivel de endeudamiento de cada persona que el banco consulta al evaluarte.">REDEC<span class="tipbox"><b>REDEC</b> — Registro de Deudores de la CMF: base de datos con el <b>nivel de endeudamiento</b> de cada persona, que el banco consulta al evaluarte.</span></span>), antigüedad laboral y la <span class="tip" tabindex="0" role="note" aria-label="Tasación: avalúo del inmueble que encarga el banco para confirmar cuánto vale; sobre ese valor calcula cuánto te presta. Es uno de los gastos operacionales.">tasación<span class="tipbox"><b>Tasación</b> — avalúo del inmueble que encarga el banco para confirmar cuánto vale; sobre ese valor calcula cuánto te presta. Es uno de los gastos operacionales.</span></span>. El cálculo asume una sola renta — con codeudor se suman ingresos (y deudas). La <span class="tip" tabindex="0" role="note" aria-label="CAE: Carga Anual Equivalente. Expresa el costo total del crédito en un solo porcentaje, incluyendo la tasa de interés y los seguros. Sirve para comparar ofertas de distintos bancos.">CAE<span class="tipbox"><b>CAE</b> — Carga Anual Equivalente: el <b>costo total del crédito</b> en un solo porcentaje (tasa + seguros). Sirve para comparar ofertas.</span></span> real del banco será algo mayor a la tasa nominal por seguros y comisiones.<br>
     Parámetros a junio 2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% (Banco Central) · tasa fija típica a 25–30 años ~5,0% UF · promedio del sistema 4,06% (Banco Central) · rango ~3,4%–5,5% según plazo, perfil y vinculación · <span class="tip" tabindex="0" role="note" aria-label="UF, Unidad de Fomento: unidad reajustable por inflación cuyo valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.">UF<span class="tipbox"><b>UF</b> — Unidad de Fomento: unidad <b>reajustable por inflación</b>; su valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.</span></span> actualizada en vivo desde mindicador.cl. <span class="tip" tabindex="0" role="note" aria-label="Amortización francesa: sistema de pago con cuota fija en UF; al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.">Amortización francesa<span class="tipbox"><b>Amortización francesa</b> — sistema de <b>cuota fija</b> (en UF): al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.</span></span>, tasa mensual = anual ÷ 12. Fuentes: <a href="https://www.bcentral.cl/contenido/-/detalle/tasas-de-interes" target="_blank" rel="noopener">Banco Central de Chile</a> (tasas de interés) y <a href="https://servicios.cmfchile.cl/simuladorhipotecario/aplicacion?indice=101.2.1" target="_blank" rel="noopener">simulador hipotecario CMF</a>.
   </footer>
 
@@ -644,7 +644,7 @@
 
   function compute(){
     var UF = num('ufValue')||1;
-    var vPropUF = valorPropUF();
+    var vPropUF = valorPropUF(); if(vPropUF<0) vPropUF=0;
     var vPropCLP = vPropUF*UF;
     var fin = num('financiamiento');
     var pieP = 100-fin;
@@ -652,8 +652,8 @@
     var pieUF = vPropUF-montoUF;
     var plazo = num('plazo');
     var n = plazo*12;
-    var tasa = num('tasa');
-    var otras = num('otrasDeudas');
+    var tasa = num('tasa'); if(tasa<0) tasa=0; if(tasa>50) tasa=50;
+    var otras = num('otrasDeudas'); if(otras<0) otras=0;
 
     var desg = num('desgravamen');
     var inc = num('incendio');
@@ -689,8 +689,17 @@
     var intUF = totPagUF-montoUF;
     var edadFin = edad>0 ? edad+plazo : 0;
 
-    // todo lo que vas a pagar
-    var segTotUF = segUF*n;
+    // todo lo que vas a pagar — desgravamen sobre el saldo que baja cada mes (realista),
+    // incendio sobre el valor asegurado fijo. (El dividendo mensual usa el seguro inicial,
+    // el más alto, para la renta requerida; por eso el total no es exactamente mensual × n.)
+    var desgTotUF = 0, saldo = montoUF;
+    for(var t=0; t<n; t++){
+      desgTotUF += saldo*(desg/100);
+      saldo = saldo*(1+i) - divBaseUF;
+      if(saldo < 0) saldo = 0;
+    }
+    var incTotUF = vAseg*(inc/100)*n;
+    var segTotUF = desgTotUF + incTotUF;
     var totalCuotasUF = totPagUF + segTotUF;
     var costoTotalUF = cajaUF + totalCuotasUF;
     var extraUF = intUF + segTotUF + gastosUF;
@@ -705,6 +714,16 @@
   function render(){
     var r = compute();
     var UF = r.UF;
+
+    // estado neutro si falta el valor de la propiedad (evita mostrar $0 como resultado)
+    if(r.vPropUF <= 0){
+      $('rentaOut').textContent = '—'; $('divOut').textContent = '—'; $('costoOut').textContent = '—';
+      $('divOutUF').textContent = ''; $('costoOutUF').textContent = '';
+      $('rentaSub').textContent = ''; $('bindBadge').textContent = '—';
+      $('resumen').innerHTML = 'Ingresa el <b>valor de la propiedad</b> para ver tu resultado.';
+      $('warns').innerHTML = '';
+      return;
+    }
 
     // métricas co-protagonistas (misma jerarquía visual)
     $('rentaOut').textContent = clp(r.rentaReq);
@@ -721,7 +740,9 @@
     $('resumen').innerHTML = 'Para una propiedad de <b>'+uf(r.vPropUF)+'</b> (≈ '+clp(r.vPropCLP)+
       ') con <b>'+fmtInt.format(r.pieP)+'% de pie</b> a <b>'+r.plazo+' años</b>.';
 
-    $('bindBadge').textContent = (r.bind==='carga')? 'Limita: carga 45%' : 'Limita: dividendo '+ratio+'%';
+    var limita = (r.bind==='carga') ? 'tu deuda total (45%)' : 'la cuota ('+ratio+'%)';
+    $('rentaSub').textContent = 'al mes · te limita ' + limita;
+    $('bindBadge').textContent = (r.bind==='carga') ? 'Te limita tu deuda total' : 'Te limita la cuota';
 
     // desglose
     setCurOut('rDivBase', clp(r.divBaseUF*UF), 'rDivBaseUF', uf(r.divBaseUF));
@@ -848,14 +869,19 @@
   }
   async function cargarUF(){
     var FALLBACK = 40793; // respaldo si la API falla — la página nunca se rompe
+    var to;
     try{
-      var r = await fetch('https://mindicador.cl/api/uf');
+      var ctrl = new AbortController();
+      to = setTimeout(function(){ ctrl.abort(); }, 5000); // corta si la red se cuelga
+      var r = await fetch('https://mindicador.cl/api/uf', {signal: ctrl.signal});
+      clearTimeout(to);
       if(!r.ok) throw new Error('HTTP '+r.status);
       var d = await r.json();
       var valor = d.serie && d.serie[0] && d.serie[0].valor;
       if(!valor) throw new Error('sin dato');
       return {valor:valor, fecha:d.serie[0].fecha, vivo:true};
     }catch(e){
+      clearTimeout(to);
       return {valor:FALLBACK, fecha:null, vivo:false};
     }
   }
