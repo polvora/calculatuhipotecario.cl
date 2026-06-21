@@ -165,6 +165,20 @@
   .chips button.on{border-color:var(--accent);background:var(--accent-wash)}
   .chips button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 
+  /* inline tooltip (término explicado) */
+  .tip{position:relative;cursor:help;border-bottom:1px dotted var(--accent-deep);color:var(--accent-deep);font-weight:500}
+  .tip:focus{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+  .tip .tipbox{
+    position:absolute;left:0;bottom:calc(100% + 9px);z-index:30;width:268px;max-width:76vw;
+    background:var(--panel);color:var(--on-dark);border:1px solid var(--panel-line);border-radius:10px;
+    padding:11px 13px;font-family:var(--body);font-size:12px;line-height:1.55;font-weight:400;
+    letter-spacing:normal;text-transform:none;box-shadow:0 10px 28px rgba(20,32,46,.24);
+    opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .14s,transform .14s;pointer-events:none;
+  }
+  .tip .tipbox b{color:var(--glow);font-weight:600}
+  .tip .tipbox::after{content:"";position:absolute;top:100%;left:16px;border:6px solid transparent;border-top-color:var(--panel)}
+  .tip:hover .tipbox,.tip:focus .tipbox,.tip:focus-within .tipbox{opacity:1;visibility:visible;transform:translateY(0)}
+
   /* advanced */
   details.adv{border-top:1px solid var(--line-soft);margin-top:4px}
   details.adv summary{
@@ -294,7 +308,7 @@
             <input id="financiamiento" type="range" min="50" max="90" step="1" value="80">
             <span class="slide-val"><span id="finVal">80</span>%<br><small id="pieVal">pie 20%</small></span>
           </div>
-          <span class="hint">Estándar: 80% (pie 20%). Hasta 90% (pie 10%) solo con FOGAES o Subsidio Dividendo, en vivienda nueva ≤ UF 4.000.</span>
+          <span class="hint">Estándar: 80% (pie 20%). Hasta 90% (pie 10%) solo con <span class="tip" tabindex="0" role="note" aria-label="FOGAES: Fondo de Garantía Especial del Estado. El Estado avala parte del crédito, lo que permite financiar hasta el 90% (pie de 10%) y acceder a mejores tasas. Es para la compra de tu primera vivienda nueva, con un tope de valor de la propiedad.">FOGAES<span class="tipbox"><b>FOGAES</b> — Fondo de Garantía Especial del Estado. El Estado actúa como <b>aval de parte de tu crédito</b>, así el banco puede financiar hasta el <b>90% (pie de 10%)</b> y ofrecerte una mejor tasa. Aplica a la compra de tu <b>primera vivienda nueva</b>, con un tope de valor (del orden de UF 4.000–4.500 según el programa vigente).</span></span> o Subsidio Dividendo, en vivienda nueva ≤ UF 4.000.</span>
         </div>
       </div>
 
@@ -719,7 +733,7 @@
     actualizado: 'junio 2026',
     promedioSistema: 4.06,
     refs: [
-      {lab:'FOGAES desde', rate:3.30},
+      {lab:'FOGAES desde', rate:3.30, tip:'FOGAES: garantía estatal que avala parte del crédito; permite financiar hasta 90% (pie 10%) y mejores tasas, para la primera vivienda nueva con tope de valor.'},
       {lab:'Itaú',         rate:3.39},
       {lab:'Promedio',     rate:4.06},
       {lab:'BancoEstado',  rate:4.19},
@@ -732,7 +746,8 @@
     var html = '';
     for(var i=0;i<TASAS.refs.length;i++){
       var c = TASAS.refs[i];
-      html += '<button type="button" data-rate="'+c.rate+'">'+c.lab+'<b>'+fmtPct(c.rate)+'</b></button>';
+      var t = c.tip ? ' title="'+c.tip+'"' : '';
+      html += '<button type="button" data-rate="'+c.rate+'"'+t+'>'+c.lab+'<b>'+fmtPct(c.rate)+'</b></button>';
     }
     $('rateChips').innerHTML = html;
     $('rateHint').innerHTML =
