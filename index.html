@@ -154,6 +154,26 @@
   .seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(20,32,46,.12)}
   .seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 
+  /* módulo ¿te alcanza? + veredicto */
+  .opt{font-size:10.5px;font-weight:500;color:var(--ink-faint);background:var(--line-soft);border-radius:5px;padding:2px 7px;margin-left:8px;letter-spacing:0;text-transform:none}
+  .linkbtn{background:none;border:none;color:var(--accent-deep);font-family:var(--body);font-size:13px;font-weight:600;cursor:pointer;padding:4px 0}
+  .linkbtn:hover{text-decoration:underline}
+  .linkbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+  .verdict{padding:16px 18px}
+  .verdict[data-state="ok"]{background:#f0f7f1;border-color:#c3e0c9}
+  .verdict[data-state="justo"]{background:#fbf6ea;border-color:#ecd9af}
+  .verdict[data-state="no"]{background:#fbefe9;border-color:#e8c6bb}
+  .vd-head{display:flex;align-items:center;gap:10px}
+  .vd-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex:none;color:#fff;line-height:1}
+  .verdict[data-state="ok"] .vd-icon{background:#2f8a55}
+  .verdict[data-state="justo"] .vd-icon{background:#c0900c}
+  .verdict[data-state="no"] .vd-icon{background:#b8492c}
+  .vd-title{font-family:var(--disp);font-size:17px;font-weight:600;color:var(--ink)}
+  .vd-detail{font-size:13px;color:var(--ink-soft);line-height:1.5;margin-top:9px}
+  .vd-detail b{color:var(--ink);font-weight:600}
+  .vd-max{font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin-top:10px;padding-top:10px;border-top:1px solid rgba(20,32,46,.08)}
+  .vd-max b{color:var(--ink);font-weight:600}
+
   /* slider */
   .slide-row{display:flex;align-items:center;gap:14px}
   .slide-row input[type=range]{flex:1;height:4px;-webkit-appearance:none;appearance:none;background:var(--line);border-radius:4px;cursor:pointer}
@@ -425,6 +445,36 @@
         </div>
       </div>
 
+      <div class="grp">
+        <div class="grp-h">¿Te alcanza tu renta?<span class="opt">opcional</span></div>
+        <div class="field">
+          <label for="rentaReal">Tu renta líquida mensual</label>
+          <div class="with-affix pre">
+            <span class="affix">$</span>
+            <input id="rentaReal" type="text" value="" placeholder="0" inputmode="numeric" class="money" autocomplete="off">
+          </div>
+          <div class="seg" role="group" aria-label="Tipo de renta" style="margin-top:9px">
+            <button id="tipo1Dep" class="on" type="button">Sueldo</button>
+            <button id="tipo1Hon" type="button">Honorarios</button>
+          </div>
+          <span class="hint">Por <span class="tip" tabindex="0" role="note" aria-label="Honorarios: como tus ingresos por boletas son variables, el banco castiga esa renta y considera solo alrededor del 70% para evaluarte (varía entre 70% y 80% según el banco). Un sueldo con contrato indefinido se considera al 100%.">honorarios<span class="tipbox"><b>Honorarios / independiente</b> — como tus ingresos son variables, el banco <b>castiga ~30%</b> y considera solo ~70% de tu renta (varía 70–80% según el banco). Un sueldo con contrato: 100%.</span></span> el banco considera ~70% de tu renta; con sueldo (contrato), el 100%.</span>
+        </div>
+        <div class="field">
+          <button type="button" class="linkbtn" id="addCodeudor" aria-expanded="false" aria-controls="codeudorBlock">+ Sumar codeudor</button>
+          <div id="codeudorBlock" hidden>
+            <label for="rentaReal2" style="margin-top:8px">Renta líquida del codeudor</label>
+            <div class="with-affix pre">
+              <span class="affix">$</span>
+              <input id="rentaReal2" type="text" value="" placeholder="0" inputmode="numeric" class="money" autocomplete="off">
+            </div>
+            <div class="seg" role="group" aria-label="Tipo de renta del codeudor" style="margin-top:9px">
+              <button id="tipo2Dep" class="on" type="button">Sueldo</button>
+              <button id="tipo2Hon" type="button">Honorarios</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <details class="adv">
         <summary><span class="tw">▸</span> Supuestos avanzados</summary>
         <div class="body">
@@ -514,6 +564,15 @@
           </div>
           <div class="stat"><span class="s-l">Plazo</span><span class="s-v" id="plazoEcho2">—</span></div>
         </div>
+      </div>
+
+      <div class="card verdict" id="verdictCard" data-state="ok" hidden>
+        <div class="vd-head">
+          <span class="vd-icon" id="vdIcon">✓</span>
+          <span class="vd-title" id="vdTitle"></span>
+        </div>
+        <div class="vd-detail" id="vdDetail"></div>
+        <div class="vd-max" id="vdMax"></div>
       </div>
 
       <div class="card">
@@ -611,6 +670,8 @@
   var unidad = 'UF';
   var ratio = 25;
   var ufEditadoManual = false;
+  var tipoRenta1 = 'dep', tipoRenta2 = 'dep', codeudorOn = false;
+  var FACTOR_HON = 0.70; // los bancos consideran ~70% de la renta por honorarios (castigo ~30%)
 
   var fmtCLP = new Intl.NumberFormat('es-CL',{maximumFractionDigits:0});
   var fmtUF1 = new Intl.NumberFormat('es-CL',{minimumFractionDigits:1,maximumFractionDigits:1});
@@ -712,11 +773,28 @@
     var costoTotalUF = cajaUF + totalCuotasUF;
     var extraUF = intUF + segTotUF + gastosUF;
 
+    // ¿califica? — renta del usuario con castigo por tipo (honorarios ~70%)
+    var f1 = (tipoRenta1==='hon') ? FACTOR_HON : 1;
+    var f2 = (tipoRenta2==='hon') ? FACTOR_HON : 1;
+    var renta1 = num('rentaReal');
+    var renta2 = codeudorOn ? num('rentaReal2') : 0;
+    var computableCLP = renta1*f1 + renta2*f2;
+    var tieneRenta = computableCLP > 0;
+    // propiedad máxima alcanzable con esa renta (renta requerida es ~lineal en el valor)
+    var kPorUF = vPropUF>0 ? divTotCLP/vPropUF : 0;
+    var maxPropUF = 0;
+    if(kPorUF>0 && computableCLP>0){
+      var byDiv = computableCLP*(ratio/100)/kPorUF;
+      var byCarga = (computableCLP*0.45 - otras)/kPorUF;
+      maxPropUF = Math.max(0, Math.min(byDiv, byCarga));
+    }
+
     return {UF:UF,vPropUF:vPropUF,vPropCLP:vPropCLP,fin:fin,pieP:pieP,montoUF:montoUF,pieUF:pieUF,
       plazo:plazo,n:n,tasa:tasa,cae:cae,divBaseUF:divBaseUF,segUF:segUF,divTotUF:divTotUF,divTotCLP:divTotCLP,
       rentaDiv:rentaDiv,rentaCarga:rentaCarga,rentaReq:rentaReq,bind:bind,
       gastosUF:gastosUF,cajaUF:cajaUF,totPagUF:totPagUF,intUF:intUF,edadFin:edadFin,otras:otras,
-      segTotUF:segTotUF,totalCuotasUF:totalCuotasUF,costoTotalUF:costoTotalUF,extraUF:extraUF};
+      segTotUF:segTotUF,totalCuotasUF:totalCuotasUF,costoTotalUF:costoTotalUF,extraUF:extraUF,
+      computableCLP:computableCLP,tieneRenta:tieneRenta,maxPropUF:maxPropUF};
   }
 
   function render(){
@@ -729,6 +807,7 @@
       $('divOutUF').textContent = ''; $('costoOutUF').textContent = '';
       $('rentaLabel').textContent = 'Renta líquida mínima';
       $('resumen').innerHTML = 'Ingresa el <b>valor de la propiedad</b> para ver tu resultado.';
+      $('verdictCard').hidden = true;
       $('warns').innerHTML = '';
       return;
     }
@@ -782,6 +861,28 @@
     setCurOut('rCostoTotal', clp(r.costoTotalUF*UF), 'rCostoTotalUF', uf(r.costoTotalUF));
     $('costLead').innerHTML = 'Para tener esta propiedad de <b>'+clp(r.vPropCLP)+'</b> vas a pagar en total <b>'+clp(r.costoTotalUF*UF)+'</b> en <b>'+r.plazo+' años</b> — todo lo que sale de tu bolsillo.';
     $('costNote').innerHTML = 'De ese total, <b>'+clp(r.vPropCLP)+'</b> es la propiedad y <b>'+clp(r.extraUF*UF)+'</b> es lo que cuesta financiarla (intereses + seguros + gastos). Montos en UF; no ajustados por inflación.';
+
+    // veredicto ¿califica? (solo si el usuario ingresó su renta)
+    var vc = $('verdictCard');
+    if(r.tieneRenta){
+      vc.hidden = false;
+      var C = r.computableCLP, req = r.rentaReq;
+      var st = C>=req ? 'ok' : (C>=req*0.95 ? 'justo' : 'no');
+      vc.dataset.state = st;
+      $('vdIcon').textContent = (st==='ok') ? '✓' : (st==='justo' ? '≈' : '✕');
+      $('vdTitle').textContent = (st==='ok') ? 'Calificas para esta propiedad'
+        : (st==='justo' ? 'Te alcanza, pero ajustado' : 'No te alcanza para esta propiedad');
+      var d = 'El banco considera <b>'+clp(C)+'</b> de tu renta';
+      if(st==='ok') d += '. Te sobra <b>'+clp(C-req)+'</b> sobre la renta mínima ('+clp(req)+').';
+      else if(st==='justo') d += '. Quedas al límite de la renta mínima ('+clp(req)+').';
+      else d += '. Te faltan <b>'+clp(req-C)+'</b> para la renta mínima ('+clp(req)+').';
+      $('vdDetail').innerHTML = d;
+      $('vdMax').innerHTML = (r.maxPropUF>0)
+        ? 'Con esa renta podrías financiar una propiedad de hasta <b>'+clp(r.maxPropUF*UF)+'</b> (≈ '+uf(r.maxPropUF)+'), manteniendo plazo, tasa y deudas iguales.'
+        : 'Con esa renta y tus deudas actuales no alcanzas a financiar una propiedad: reduce deudas o suma un codeudor.';
+    } else {
+      vc.hidden = true;
+    }
 
     // echoes
     $('finVal').textContent = r.fin;
@@ -845,6 +946,19 @@
   $('ratio25').addEventListener('click',function(){ratio=25;$('ratio25').classList.add('on');$('ratio30').classList.remove('on');render();});
   $('ratio30').addEventListener('click',function(){ratio=30;$('ratio30').classList.add('on');$('ratio25').classList.remove('on');render();});
 
+  // ---- tipo de renta (sueldo / honorarios) + codeudor ----
+  $('tipo1Dep').addEventListener('click',function(){tipoRenta1='dep';$('tipo1Dep').classList.add('on');$('tipo1Hon').classList.remove('on');render();});
+  $('tipo1Hon').addEventListener('click',function(){tipoRenta1='hon';$('tipo1Hon').classList.add('on');$('tipo1Dep').classList.remove('on');render();});
+  $('tipo2Dep').addEventListener('click',function(){tipoRenta2='dep';$('tipo2Dep').classList.add('on');$('tipo2Hon').classList.remove('on');render();});
+  $('tipo2Hon').addEventListener('click',function(){tipoRenta2='hon';$('tipo2Hon').classList.add('on');$('tipo2Dep').classList.remove('on');render();});
+  $('addCodeudor').addEventListener('click',function(){
+    codeudorOn = !codeudorOn;
+    $('codeudorBlock').hidden = !codeudorOn;
+    $('addCodeudor').setAttribute('aria-expanded', codeudorOn?'true':'false');
+    $('addCodeudor').textContent = codeudorOn ? '− Quitar codeudor' : '+ Sumar codeudor';
+    render();
+  });
+
   // ---- rate chips ----
   $('rateChips').addEventListener('click',function(e){
     var b = e.target.closest('button'); if(!b) return;
@@ -860,7 +974,7 @@
   });
 
   // ---- live recompute ----
-  ['ufValue','valorProp','financiamiento','plazo','tasa','otrasDeudas',
+  ['ufValue','valorProp','financiamiento','plazo','tasa','otrasDeudas','rentaReal','rentaReal2',
    'desgravamen','incendio','valorAsegurado','gastos','edad'].forEach(function(id){
     $(id).addEventListener('input', render);
   });
