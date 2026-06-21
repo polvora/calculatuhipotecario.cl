@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de renta hipotecaria · Banca chilena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#e7eaee;
+    --card:#ffffff;
+    --ink:#14202e;
+    --ink-soft:#5b6877;
+    --ink-faint:#8b97a4;
+    --line:#dbe0e6;
+    --line-soft:#e8ebef;
+    --accent:#0d7d74;
+    --accent-deep:#0a5f58;
+    --accent-wash:#e3f2f0;
+    --warn:#bf4318;
+    --warn-bg:#fbeee7;
+    --warn-line:#eccab8;
+    /* dark readout panel */
+    --panel:#14202e;
+    --panel-2:#1d2e40;
+    --panel-line:#2a3d52;
+    --on-dark:#eaf1f4;
+    --on-dark-soft:#90a4b5;
+    --glow:#3fd9c9;
+    --radius:14px;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --disp:'Space Grotesk',system-ui,sans-serif;
+    --body:'Inter',system-ui,sans-serif;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:15px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{max-width:1160px;margin:0 auto;padding:26px 22px 48px}
+
+  /* ---------- header ---------- */
+  header.bar{
+    display:flex;align-items:flex-end;justify-content:space-between;
+    gap:18px;flex-wrap:wrap;margin-bottom:24px;
+  }
+  .brand .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent-deep);font-weight:600;margin-bottom:7px;
+  }
+  .brand h1{
+    font-family:var(--disp);font-weight:700;font-size:clamp(24px,3.4vw,33px);
+    line-height:1.05;margin:0;letter-spacing:-.02em;color:var(--ink);
+  }
+  .brand p{margin:6px 0 0;color:var(--ink-soft);font-size:13.5px;max-width:46ch}
+
+  .uf-chip{
+    display:flex;align-items:center;gap:10px;background:var(--card);
+    border:1px solid var(--line);border-radius:11px;padding:9px 12px;
+  }
+  .uf-chip .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);line-height:1.2}
+  .uf-chip .lab b{display:block;color:var(--accent-deep);font-weight:600;letter-spacing:.1em}
+  .uf-chip .pfx{font-family:var(--mono);color:var(--ink-soft);font-weight:600;font-size:15px}
+  .uf-chip input{
+    width:78px;border:none;background:transparent;font-family:var(--mono);
+    font-weight:700;font-size:16px;color:var(--ink);padding:0;
+  }
+  .uf-chip input:focus{outline:none}
+  .uf-chip:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wash)}
+  .uf-state{
+    display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9.5px;
+    letter-spacing:.07em;text-transform:uppercase;font-weight:600;white-space:nowrap;
+    padding-left:10px;margin-left:2px;border-left:1px solid var(--line);
+  }
+  .uf-state .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-faint);flex:none}
+  .uf-state[data-state="load"]{color:var(--ink-faint)}
+  .uf-state[data-state="load"] .dot{animation:ufpulse 1s ease-in-out infinite}
+  .uf-state[data-state="live"]{color:var(--accent-deep)}
+  .uf-state[data-state="live"] .dot{background:var(--accent)}
+  .uf-state[data-state="fallback"]{color:var(--warn)}
+  .uf-state[data-state="fallback"] .dot{background:var(--warn)}
+  .uf-state[data-state="manual"]{color:var(--ink-soft)}
+  .uf-state[data-state="manual"] .dot{background:var(--ink-soft)}
+  @keyframes ufpulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+  /* ---------- layout ---------- */
+  .grid{display:grid;grid-template-columns:1.04fr .96fr;gap:26px;align-items:start}
+  @media (max-width:880px){.grid{grid-template-columns:1fr;gap:20px}}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .card + .card{margin-top:18px}
+
+  .grp{padding:18px 0;border-top:1px solid var(--line-soft)}
+  .grp:first-of-type{padding-top:2px;border-top:none}
+  .grp:last-of-type{padding-bottom:2px}
+  .grp-h{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--ink-faint);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;
+  }
+  .grp-h::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);flex:none}
+
+  .field{margin-bottom:15px}
+  .field:last-child{margin-bottom:0}
+  .field > label{display:block;font-weight:500;font-size:13.5px;color:var(--ink);margin-bottom:7px}
+  .field .hint{display:block;font-size:11.5px;color:var(--ink-faint);margin-top:6px;line-height:1.45}
+
+  input[type=number]{
+    width:100%;border:1px solid var(--line);border-radius:9px;background:#fcfdfd;
+    padding:10px 12px;font-family:var(--mono);font-size:15px;font-weight:500;color:var(--ink);
+  }
+  input[type=number]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wash);background:#fff}
+  input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{opacity:.4}
+
+  .with-affix{position:relative;display:flex;align-items:center}
+  .with-affix .affix{position:absolute;right:12px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);pointer-events:none;font-weight:500}
+  .with-affix input{padding-right:46px}
+  .with-affix.pre .affix{left:12px;right:auto}
+  .with-affix.pre input{padding-right:12px;padding-left:30px}
+
+  /* segmented */
+  .seg{display:inline-flex;background:#eef1f3;border:1px solid var(--line);border-radius:9px;padding:3px;gap:3px}
+  .seg button{
+    border:none;background:transparent;font-family:var(--mono);font-weight:600;font-size:12.5px;
+    color:var(--ink-soft);padding:6px 13px;border-radius:6px;cursor:pointer;transition:all .12s;
+  }
+  .seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(20,32,46,.12)}
+  .seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+  /* slider */
+  .slide-row{display:flex;align-items:center;gap:14px}
+  .slide-row input[type=range]{flex:1;height:4px;-webkit-appearance:none;appearance:none;background:var(--line);border-radius:4px;cursor:pointer}
+  .slide-row input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);
+    border:3px solid #fff;box-shadow:0 1px 4px rgba(13,125,116,.45);cursor:pointer;
+  }
+  .slide-row input[type=range]::-moz-range-thumb{
+    width:15px;height:15px;border-radius:50%;background:var(--accent);border:3px solid #fff;
+    box-shadow:0 1px 4px rgba(13,125,116,.45);cursor:pointer;
+  }
+  .slide-row input[type=range]:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+  .slide-val{
+    font-family:var(--mono);font-weight:700;font-size:15px;color:var(--ink);
+    min-width:74px;text-align:right;
+  }
+  .slide-val small{font-weight:500;color:var(--ink-faint);font-size:11.5px}
+
+  /* rate chips */
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+  .chips button{
+    border:1px solid var(--line);background:#fcfdfd;border-radius:7px;cursor:pointer;
+    font-family:var(--body);font-size:11.5px;color:var(--ink-soft);padding:5px 9px;
+    display:flex;flex-direction:column;align-items:flex-start;line-height:1.25;transition:all .12s;
+  }
+  .chips button b{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--ink)}
+  .chips button:hover{border-color:var(--accent);background:#fff}
+  .chips button.on{border-color:var(--accent);background:var(--accent-wash)}
+  .chips button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+  /* advanced */
+  details.adv{border-top:1px solid var(--line-soft);margin-top:4px}
+  details.adv summary{
+    list-style:none;cursor:pointer;padding:16px 0 4px;font-family:var(--mono);
+    font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);
+    font-weight:600;display:flex;align-items:center;gap:8px;
+  }
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary .tw{transition:transform .18s;display:inline-block;color:var(--accent);font-size:13px}
+  details.adv[open] summary .tw{transform:rotate(90deg)}
+  details.adv .body{padding-top:14px}
+
+  /* ---------- readout (dark) ---------- */
+  .sticky{position:sticky;top:20px}
+  @media (max-width:880px){.sticky{position:static}}
+
+  .panel{
+    background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--radius);
+    padding:22px;position:relative;overflow:hidden;
+  }
+  .panel::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--glow),transparent 72%)}
+  .panel .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+  .panel .top .eb{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--on-dark-soft);font-weight:500}
+  .badge{
+    font-family:var(--mono);font-size:10px;letter-spacing:.05em;font-weight:600;
+    padding:4px 9px;border-radius:20px;background:rgba(63,217,201,.12);
+    color:var(--glow);border:1px solid rgba(63,217,201,.3);white-space:nowrap;
+  }
+  .hero-lab{font-size:12.5px;color:var(--on-dark-soft);margin-bottom:4px;font-weight:500}
+  .hero-val{
+    font-family:var(--mono);font-weight:700;color:var(--glow);
+    font-size:clamp(34px,6vw,48px);line-height:1;letter-spacing:-.01em;
+    transition:opacity .14s ease;
+  }
+  .hero-val .cur{color:var(--on-dark);font-weight:500;font-size:.55em;vertical-align:top;margin-right:3px}
+  .hero-sub{color:var(--on-dark-soft);font-size:12.5px;margin-top:11px;line-height:1.5}
+  .hero-sub b{color:var(--on-dark);font-weight:600}
+
+  .subreads{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+  .subread{background:var(--panel-2);border:1px solid var(--panel-line);border-radius:10px;padding:12px 13px}
+  .subread .l{font-size:10.5px;color:var(--on-dark-soft);font-weight:500;margin-bottom:5px;letter-spacing:.02em}
+  .subread .v{font-family:var(--mono);font-weight:700;font-size:18px;color:var(--on-dark)}
+  .subread .v small{font-weight:500;font-size:11px;color:var(--on-dark-soft);display:block;margin-top:2px}
+
+  /* ---------- breakdown cards ---------- */
+  .ttl{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin:0 0 14px}
+  .row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line-soft)}
+  .row:first-of-type{border-top:none;padding-top:0}
+  .row .k{font-size:13.5px;color:var(--ink-soft)}
+  .row .k small{display:block;color:var(--ink-faint);font-size:11px;margin-top:1px}
+  .row .v{font-family:var(--mono);font-weight:600;font-size:14.5px;color:var(--ink);text-align:right;white-space:nowrap}
+  .row .v small{display:block;font-weight:500;color:var(--ink-faint);font-size:11px;margin-top:1px}
+  .row.total{border-top:1px solid var(--line);margin-top:4px;padding-top:12px}
+  .row.total .k{font-weight:600;color:var(--ink);font-size:14px}
+  .row.total .v{font-size:16px;font-weight:700}
+  .row.hl .k{color:var(--accent-deep);font-weight:600}
+  .row.hl .v{color:var(--accent-deep)}
+  .row .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;font-weight:600;color:var(--accent-deep);background:var(--accent-wash);border-radius:5px;padding:2px 6px;margin-left:8px;vertical-align:middle}
+
+  /* warnings */
+  .warn{
+    background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:11px;
+    padding:13px 15px;display:flex;gap:11px;margin-top:14px;
+  }
+  .warn .ic{color:var(--warn);font-weight:700;font-family:var(--mono);flex:none;font-size:14px;line-height:1.5}
+  .warn p{margin:0;font-size:12.5px;color:#7a3416;line-height:1.5}
+  .warn p + p{margin-top:7px}
+  .warn b{color:var(--warn)}
+
+  .note{font-size:12px;color:var(--ink-faint);line-height:1.55;margin-top:14px}
+  .note b{color:var(--ink-soft);font-weight:600}
+
+  footer{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-faint);line-height:1.6}
+  footer b{color:var(--ink-soft)}
+  footer a{color:var(--accent-deep);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="bar">
+    <div class="brand">
+      <div class="eyebrow">Banca chilena · jun 2026</div>
+      <h1>Calculadora de renta hipotecaria</h1>
+      <p>Cuánta renta líquida necesitas para que un banco te apruebe el crédito de una propiedad de cierto valor.</p>
+    </div>
+    <label class="uf-chip" title="Valor de la UF de hoy — editable">
+      <span class="lab">UF<b>hoy</b></span>
+      <span class="pfx">$</span>
+      <input id="ufValue" type="number" value="40793" step="1" inputmode="numeric" aria-label="Valor de la UF en pesos">
+      <span class="uf-state" id="ufState" data-state="load" aria-live="polite"><span class="dot"></span><span id="ufStateTxt">cargando…</span></span>
+    </label>
+  </header>
+
+  <div class="grid">
+
+    <!-- ============ CONTROLS ============ -->
+    <section class="card" aria-label="Parámetros">
+
+      <div class="grp">
+        <div class="grp-h">Propiedad</div>
+        <div class="field">
+          <label for="valorProp">Valor de la propiedad</label>
+          <div class="with-affix">
+            <input id="valorProp" type="number" value="3000" step="1" inputmode="numeric">
+            <span class="affix" id="vpUnit">UF</span>
+          </div>
+          <div style="margin-top:9px">
+            <div class="seg" role="group" aria-label="Unidad del valor">
+              <button id="unitUF" class="on" type="button">UF</button>
+              <button id="unitCLP" type="button">Pesos</button>
+            </div>
+          </div>
+          <span class="hint" id="vpEcho"></span>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="grp-h">Financiamiento</div>
+        <div class="field">
+          <label for="financiamiento">% financiado por el banco</label>
+          <div class="slide-row">
+            <input id="financiamiento" type="range" min="50" max="90" step="1" value="80">
+            <span class="slide-val"><span id="finVal">80</span>%<br><small id="pieVal">pie 20%</small></span>
+          </div>
+          <span class="hint">Estándar: 80% (pie 20%). Hasta 90% (pie 10%) solo con FOGAES o Subsidio Dividendo, en vivienda nueva ≤ UF 4.000.</span>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="grp-h">Crédito</div>
+        <div class="field">
+          <label for="plazo">Plazo</label>
+          <div class="slide-row">
+            <input id="plazo" type="range" min="5" max="30" step="1" value="25">
+            <span class="slide-val"><span id="plazoVal">25</span> <small>años</small></span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="tasa">Tasa de interés anual (UF + %)</label>
+          <div class="with-affix">
+            <input id="tasa" type="number" value="4.5" step="0.01" inputmode="decimal">
+            <span class="affix">% anual</span>
+          </div>
+          <div class="chips" id="rateChips" role="group" aria-label="Tasas de referencia del mercado">
+            <button type="button" data-rate="3.39">Itaú<b>3,39%</b></button>
+            <button type="button" data-rate="4.06">Promedio<b>4,06%</b></button>
+            <button type="button" data-rate="4.19">B.Estado<b>4,19%</b></button>
+            <button type="button" data-rate="5.0">Conservador<b>5,00%</b></button>
+          </div>
+          <span class="hint">Default conservador para planificar. Referencias de mercado jun-2026 sobre UF; tu tasa real depende de perfil, pie e institución.</span>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="grp-h">Evaluación de capacidad</div>
+        <div class="field">
+          <label>Dividendo máx. sobre renta líquida</label>
+          <div class="seg" role="group" aria-label="Relación dividendo / renta">
+            <button id="ratio25" class="on" type="button">25% · estricto</button>
+            <button id="ratio30" type="button">30% · flexible</button>
+          </div>
+          <span class="hint">25% es el criterio prudencial estándar (CMF Educa). Algunos bancos llegan a 30% con buen historial y estabilidad.</span>
+        </div>
+        <div class="field">
+          <label for="otrasDeudas">Otras deudas mensuales</label>
+          <div class="with-affix pre">
+            <span class="affix">$</span>
+            <input id="otrasDeudas" type="number" value="0" step="10000" inputmode="numeric">
+          </div>
+          <span class="hint">Cuotas de auto, créditos de consumo, tarjetas. El banco exige que dividendo + deudas no superen el 45% de tu renta (carga financiera total).</span>
+        </div>
+      </div>
+
+      <details class="adv">
+        <summary><span class="tw">▸</span> Supuestos avanzados</summary>
+        <div class="body">
+          <div class="field">
+            <label for="desgravamen">Seguro de desgravamen (mensual, sobre saldo)</label>
+            <div class="with-affix">
+              <input id="desgravamen" type="number" value="0.020" step="0.001" inputmode="decimal">
+              <span class="affix">%</span>
+            </div>
+            <span class="hint">Depende de tu edad y la aseguradora. Se calcula sobre el saldo insoluto; aquí se usa el saldo inicial (el más alto).</span>
+          </div>
+          <div class="field">
+            <label for="incendio">Seguro incendio + sismo (mensual, sobre valor asegurado)</label>
+            <div class="with-affix">
+              <input id="incendio" type="number" value="0.025" step="0.001" inputmode="decimal">
+              <span class="affix">%</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="valorAsegurado">Valor asegurado (opcional)</label>
+            <div class="with-affix">
+              <input id="valorAsegurado" type="number" placeholder="= valor propiedad" step="1" inputmode="numeric">
+              <span class="affix">UF</span>
+            </div>
+            <span class="hint">En la práctica es el valor de reconstrucción (solo la construcción, sin terreno), normalmente menor al precio. Vacío = usa el valor de la propiedad.</span>
+          </div>
+          <div class="field">
+            <label for="gastos">Gastos operacionales (% del crédito)</label>
+            <div class="with-affix">
+              <input id="gastos" type="number" value="2.5" step="0.1" inputmode="decimal">
+              <span class="affix">%</span>
+            </div>
+            <span class="hint">Tasación, estudio de títulos, notaría, impuesto al mutuo e inscripción en el Conservador. Suele ir entre 2% y 3%.</span>
+          </div>
+          <div class="field">
+            <label for="edad">Tu edad actual (opcional)</label>
+            <div class="with-affix">
+              <input id="edad" type="number" placeholder="—" step="1" inputmode="numeric">
+              <span class="affix">años</span>
+            </div>
+            <span class="hint">Los bancos suelen exigir no superar los 75 años al término del crédito.</span>
+          </div>
+        </div>
+      </details>
+
+    </section>
+
+    <!-- ============ READOUT ============ -->
+    <div class="sticky">
+
+      <div class="panel">
+        <div class="top">
+          <span class="eb">Resultado</span>
+          <span class="badge" id="bindBadge">—</span>
+        </div>
+        <div class="hero-lab">Renta líquida mínima requerida</div>
+        <div class="hero-val" id="rentaOut"><span class="cur">$</span>0</div>
+        <div class="hero-sub" id="resumen"></div>
+
+        <div class="subreads">
+          <div class="subread">
+            <div class="l">Dividendo mensual</div>
+            <div class="v" id="divOut">$0<small id="divOutUF">UF 0</small></div>
+          </div>
+          <div class="subread">
+            <div class="l">Monto del crédito</div>
+            <div class="v" id="credOut">$0<small id="credOutUF">UF 0</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="ttl">Desglose del dividendo</h3>
+        <div class="row">
+          <span class="k">Capital + intereses</span>
+          <span class="v" id="rDivBase">$0<small id="rDivBaseUF">UF 0</small></span>
+        </div>
+        <div class="row">
+          <span class="k">Seguros<small>desgravamen + incendio/sismo</small></span>
+          <span class="v" id="rSeg">$0<small id="rSegUF">UF 0</small></span>
+        </div>
+        <div class="row total">
+          <span class="k">Dividendo total mensual</span>
+          <span class="v" id="rDivTot">$0<small id="rDivTotUF">UF 0</small></span>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <span class="k">Renta por dividendo<small><span id="ratioEcho">25</span>% del líquido</small></span>
+          <span class="v" id="rRentaDiv">$0</span>
+        </div>
+        <div class="row">
+          <span class="k">Renta por carga total<small>45% (dividendo + deudas)</small></span>
+          <span class="v" id="rRentaCarga">$0</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="ttl">Caja necesaria al firmar</h3>
+        <div class="row">
+          <span class="k">Pie<small><span id="pieEcho">20</span>% del valor</small></span>
+          <span class="v" id="rPie">$0<small id="rPieUF">UF 0</small></span>
+        </div>
+        <div class="row">
+          <span class="k">Gastos operacionales</span>
+          <span class="v" id="rGastos">$0<small id="rGastosUF">UF 0</small></span>
+        </div>
+        <div class="row total hl">
+          <span class="k">Total en efectivo</span>
+          <span class="v" id="rCaja">$0<small id="rCajaUF">UF 0</small></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="ttl">Costo del crédito · capital + intereses</h3>
+        <div class="row">
+          <span class="k">N.º de cuotas</span>
+          <span class="v" id="rN">0</span>
+        </div>
+        <div class="row">
+          <span class="k">Total intereses</span>
+          <span class="v" id="rInt">$0<small id="rIntUF">UF 0</small></span>
+        </div>
+        <div class="row total">
+          <span class="k">Total pagado</span>
+          <span class="v" id="rTotPag">$0<small id="rTotPagUF">UF 0</small></span>
+        </div>
+        <p class="note">No incluye seguros (varían con el saldo) ni la inflación: como el crédito está en UF, el monto en pesos sube con el IPC.</p>
+      </div>
+
+      <div id="warns"></div>
+
+    </div>
+  </div>
+
+  <footer>
+    <b>Referencial — no es asesoría financiera ni preaprobación.</b> Cada banco aplica sus propias políticas de riesgo; la cifra final depende de tu historial (REDEC), antigüedad laboral y la tasación. El cálculo asume una sola renta — con codeudor se suman ingresos (y deudas). La CAE real del banco será algo mayor a la tasa nominal por seguros y comisiones.<br>
+    Parámetros a jun-2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% · tasas UF Itaú 3,39% / promedio 4,06% / BancoEstado 4,19% · UF ≈ $40.793. Sistema de amortización francés, tasa mensual = anual ÷ 12.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){return document.getElementById(id);};
+  var unidad = 'UF';
+  var ratio = 25;
+  var ufEditadoManual = false;
+
+  var fmtCLP = new Intl.NumberFormat('es-CL',{maximumFractionDigits:0});
+  var fmtUF1 = new Intl.NumberFormat('es-CL',{minimumFractionDigits:1,maximumFractionDigits:1});
+  var fmtUF2 = new Intl.NumberFormat('es-CL',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var fmtInt = new Intl.NumberFormat('es-CL',{maximumFractionDigits:0});
+
+  function clp(n){return '$'+fmtCLP.format(Math.round(n||0));}
+  function uf(n){ n=n||0; return (Math.abs(n)>=100?fmtUF1.format(n):fmtUF2.format(n))+' UF'; }
+  function num(id){var v=$(id).valueAsNumber; return isNaN(v)?0:v;}
+
+  function valorPropUF(){
+    var v = num('valorProp');
+    return unidad==='UF' ? v : v/(num('ufValue')||1);
+  }
+
+  function setCurOut(el, mainHtml, subId, subText){
+    $(el).innerHTML = mainHtml + '<small id="'+subId+'">'+subText+'</small>';
+  }
+
+  function compute(){
+    var UF = num('ufValue')||1;
+    var vPropUF = valorPropUF();
+    var vPropCLP = vPropUF*UF;
+    var fin = num('financiamiento');
+    var pieP = 100-fin;
+    var montoUF = vPropUF*fin/100;
+    var pieUF = vPropUF-montoUF;
+    var plazo = num('plazo');
+    var n = plazo*12;
+    var tasa = num('tasa');
+    var otras = num('otrasDeudas');
+
+    var desg = num('desgravamen');
+    var inc = num('incendio');
+    var vAseg = num('valorAsegurado')>0 ? num('valorAsegurado') : vPropUF;
+    var gastosP = num('gastos');
+    var edad = num('edad');
+
+    // dividendo base (UF) — sistema francés
+    var i = (tasa/100)/12;
+    var f = Math.pow(1+i,n);
+    var divBaseUF = (i===0)? montoUF/n : montoUF*(i*f)/(f-1);
+
+    // seguros (saldo inicial)
+    var segUF = montoUF*(desg/100) + vAseg*(inc/100);
+    var divTotUF = divBaseUF+segUF;
+    var divTotCLP = divTotUF*UF;
+
+    // renta requerida
+    var rentaDiv = divTotCLP/(ratio/100);
+    var rentaCarga = (divTotCLP+otras)/0.45;
+    var rentaReq = Math.max(rentaDiv, rentaCarga);
+    var bind = rentaCarga>rentaDiv ? 'carga' : 'dividendo';
+
+    // caja inicial
+    var gastosUF = montoUF*(gastosP/100);
+    var cajaUF = pieUF+gastosUF;
+
+    // costo total
+    var totPagUF = divBaseUF*n;
+    var intUF = totPagUF-montoUF;
+    var edadFin = edad>0 ? edad+plazo : 0;
+
+    return {UF:UF,vPropUF:vPropUF,vPropCLP:vPropCLP,fin:fin,pieP:pieP,montoUF:montoUF,pieUF:pieUF,
+      plazo:plazo,n:n,divBaseUF:divBaseUF,segUF:segUF,divTotUF:divTotUF,divTotCLP:divTotCLP,
+      rentaDiv:rentaDiv,rentaCarga:rentaCarga,rentaReq:rentaReq,bind:bind,
+      gastosUF:gastosUF,cajaUF:cajaUF,totPagUF:totPagUF,intUF:intUF,edadFin:edadFin,otras:otras};
+  }
+
+  function render(){
+    var r = compute();
+    var UF = r.UF;
+
+    // hero
+    var hv = $('rentaOut');
+    hv.style.opacity = .35;
+    setTimeout(function(){hv.style.opacity=1;},10);
+    hv.innerHTML = '<span class="cur">$</span>'+fmtCLP.format(Math.round(r.rentaReq));
+
+    $('resumen').innerHTML = 'Para una propiedad de <b>'+uf(r.vPropUF)+'</b> (≈ '+clp(r.vPropCLP)+
+      ') con <b>'+fmtInt.format(r.pieP)+'% de pie</b> a <b>'+r.plazo+' años</b>.';
+
+    $('bindBadge').textContent = (r.bind==='carga')? 'Limita: carga 45%' : 'Limita: dividendo '+ratio+'%';
+
+    setCurOut('divOut', clp(r.divTotCLP), 'divOutUF', uf(r.divTotUF));
+    setCurOut('credOut', clp(r.montoUF*UF), 'credOutUF', uf(r.montoUF));
+
+    // desglose
+    setCurOut('rDivBase', clp(r.divBaseUF*UF), 'rDivBaseUF', uf(r.divBaseUF));
+    setCurOut('rSeg', clp(r.segUF*UF), 'rSegUF', uf(r.segUF));
+    setCurOut('rDivTot', clp(r.divTotCLP), 'rDivTotUF', uf(r.divTotUF));
+    $('ratioEcho').textContent = ratio;
+    $('rRentaDiv').textContent = clp(r.rentaDiv);
+    $('rRentaCarga').textContent = clp(r.rentaCarga);
+
+    var rowDiv = $('rRentaDiv').parentElement;
+    var rowCar = $('rRentaCarga').parentElement;
+    rowDiv.classList.toggle('hl', r.bind==='dividendo');
+    rowCar.classList.toggle('hl', r.bind==='carga');
+
+    // caja
+    $('pieEcho').textContent = fmtInt.format(r.pieP);
+    setCurOut('rPie', clp(r.pieUF*UF), 'rPieUF', uf(r.pieUF));
+    setCurOut('rGastos', clp(r.gastosUF*UF), 'rGastosUF', uf(r.gastosUF));
+    setCurOut('rCaja', clp(r.cajaUF*UF), 'rCajaUF', uf(r.cajaUF));
+
+    // costo
+    $('rN').textContent = fmtInt.format(r.n);
+    setCurOut('rInt', clp(r.intUF*UF), 'rIntUF', uf(r.intUF));
+    setCurOut('rTotPag', clp(r.totPagUF*UF), 'rTotPagUF', uf(r.totPagUF));
+
+    // echoes
+    $('finVal').textContent = r.fin;
+    $('pieVal').textContent = 'pie '+fmtInt.format(r.pieP)+'%';
+    $('plazoVal').textContent = r.plazo;
+    $('vpEcho').innerHTML = (unidad==='UF')
+      ? '≈ '+clp(r.vPropCLP)+' al valor UF actual'
+      : '≈ '+uf(r.vPropUF)+' al valor UF actual';
+
+    // rate chips active state
+    var t = num('tasa').toFixed(2);
+    var chips = $('rateChips').querySelectorAll('button');
+    for(var c=0;c<chips.length;c++){
+      chips[c].classList.toggle('on', parseFloat(chips[c].dataset.rate).toFixed(2)===t);
+    }
+
+    // warnings
+    var w = [];
+    if(r.fin>90){
+      w.push('Financiamiento sobre 90% es excepcional. La mayoría de los bancos llega a 80%, o 90% solo con garantía estatal.');
+    } else if(r.pieP<20){
+      w.push('Pie bajo 20%: en general exige <b>FOGAES</b> o <b>Subsidio Dividendo</b>, válido solo para <b>vivienda nueva ≤ UF 4.000</b>. Fuera de eso, espera pie de 20%.');
+    }
+    if(r.pieP<20 && r.vPropUF>4000){
+      w.push('Esta propiedad supera UF 4.000, tope de los programas de pie reducido. Para este valor, presupuesta al menos 20% de pie.');
+    }
+    if(r.edadFin>75){
+      w.push('Con esa edad y plazo terminarías de pagar a los <b>'+fmtInt.format(r.edadFin)+' años</b>. Los bancos suelen exigir ≤ 75 al término — acorta el plazo.');
+    }
+    if(r.tasaWarn){}
+    var box = $('warns');
+    if(w.length){
+      var html='';
+      for(var k=0;k<w.length;k++){
+        html += '<div class="warn"><span class="ic">!</span><p>'+w[k]+'</p></div>';
+      }
+      box.innerHTML = html;
+    } else {
+      box.innerHTML = '';
+    }
+  }
+
+  // ---- unit toggle ----
+  function setUnit(u){
+    if(u===unidad) return;
+    var UF = num('ufValue')||1;
+    var v = num('valorProp');
+    if(u==='CLP'){ $('valorProp').value = Math.round(v*UF); $('valorProp').step=100000; }
+    else { $('valorProp').value = Math.round((v/UF)*10)/10; $('valorProp').step=1; }
+    unidad = u;
+    $('vpUnit').textContent = (u==='UF')?'UF':'$';
+    $('unitUF').classList.toggle('on', u==='UF');
+    $('unitCLP').classList.toggle('on', u==='CLP');
+    render();
+  }
+  $('unitUF').addEventListener('click',function(){setUnit('UF');});
+  $('unitCLP').addEventListener('click',function(){setUnit('CLP');});
+
+  // ---- ratio toggle ----
+  $('ratio25').addEventListener('click',function(){ratio=25;$('ratio25').classList.add('on');$('ratio30').classList.remove('on');render();});
+  $('ratio30').addEventListener('click',function(){ratio=30;$('ratio30').classList.add('on');$('ratio25').classList.remove('on');render();});
+
+  // ---- rate chips ----
+  $('rateChips').addEventListener('click',function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    $('tasa').value = b.dataset.rate; render();
+  });
+
+  // ---- live recompute ----
+  ['ufValue','valorProp','financiamiento','plazo','tasa','otrasDeudas',
+   'desgravamen','incendio','valorAsegurado','gastos','edad'].forEach(function(id){
+    $(id).addEventListener('input', render);
+  });
+
+  // ---- UF en vivo (mindicador.cl, Banco Central) ----
+  function setUFState(state, text, title){
+    var el = $('ufState');
+    el.dataset.state = state;
+    $('ufStateTxt').textContent = text;
+    el.title = title || '';
+  }
+  // Si el usuario edita la UF a mano, dejamos de pisarle el valor con el fetch.
+  $('ufValue').addEventListener('input', function(){
+    ufEditadoManual = true;
+    setUFState('manual', 'UF manual', 'Estás usando un valor de UF editado a mano.');
+  });
+  function fechaUF(iso){
+    try{
+      var d = new Date(iso);
+      return isNaN(d) ? '' : d.toLocaleDateString('es-CL',{day:'2-digit',month:'2-digit',year:'numeric'});
+    }catch(e){ return ''; }
+  }
+  async function cargarUF(){
+    var FALLBACK = 40793; // respaldo si la API falla — la página nunca se rompe
+    try{
+      var r = await fetch('https://mindicador.cl/api/uf');
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      var d = await r.json();
+      var valor = d.serie && d.serie[0] && d.serie[0].valor;
+      if(!valor) throw new Error('sin dato');
+      return {valor:valor, fecha:d.serie[0].fecha, vivo:true};
+    }catch(e){
+      return {valor:FALLBACK, fecha:null, vivo:false};
+    }
+  }
+  cargarUF().then(function(res){
+    if(ufEditadoManual) return; // el usuario ya tomó control del valor
+    $('ufValue').value = Math.round(res.valor);
+    if(res.vivo){
+      var f = fechaUF(res.fecha);
+      setUFState('live', 'UF en vivo', 'Valor oficial' + (f ? ' del ' + f : '') + ' · mindicador.cl (Banco Central).');
+    } else {
+      setUFState('fallback', 'UF respaldo', 'No se pudo obtener la UF en vivo; usando valor de respaldo. Puedes editarlo.');
+    }
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
