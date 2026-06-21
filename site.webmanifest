@@ -1,0 +1,13 @@
+{
+  "name": "Calcula tu hipotecario",
+  "short_name": "Hipotecario",
+  "description": "Calcula cuánta renta líquida necesitas, tu dividendo mensual y el costo total de un crédito hipotecario en Chile.",
+  "lang": "es-CL",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#efece4",
+  "theme_color": "#0a6b5f",
+  "icons": [
+    { "src": "/icon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" }
+  ]
+}
