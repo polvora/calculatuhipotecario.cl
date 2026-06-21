@@ -282,20 +282,27 @@
   .note b{color:var(--ink-soft);font-weight:600}
 
   /* desglose expandible (acordeón) */
-  .lead{font-size:13px;color:var(--ink-soft);line-height:1.55;margin:0 0 8px}
+  .lead{font-size:13px;color:var(--ink-soft);line-height:1.55;margin:0 0 4px}
   .lead b{color:var(--ink);font-weight:600}
-  .acc{border-top:1px solid var(--line-soft)}
-  .acc-h{width:100%;display:flex;align-items:baseline;gap:10px;background:none;border:none;cursor:pointer;padding:12px 0;text-align:left;font-family:var(--body)}
-  .acc-h:hover .acc-k{color:var(--accent-deep)}
-  .acc-h:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
-  .acc-tw{color:var(--accent);font-size:11px;transition:transform .18s;flex:none;line-height:1.7}
+  .acc-hint{font-size:11.5px;color:var(--ink-faint);margin:0 0 12px}
+  .acc{margin-top:8px}
+  .acc-h{width:100%;display:flex;align-items:center;gap:10px;background:#f4f7f5;border:1px solid var(--line);border-radius:9px;cursor:pointer;padding:11px 13px;text-align:left;font-family:var(--body);transition:border-color .12s,background .12s}
+  .acc-h:hover{border-color:var(--accent);background:#eef3ef}
+  .acc-h:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .acc-tw{color:var(--accent);font-size:11px;transition:transform .18s;flex:none}
+  .acc-h[aria-expanded="true"]{border-color:var(--accent);background:#eef3ef;border-radius:9px 9px 0 0}
   .acc-h[aria-expanded="true"] .acc-tw{transform:rotate(90deg)}
-  .acc-k{flex:1;font-size:13.5px;color:var(--ink);font-weight:500;line-height:1.3}
+  .acc-k{flex:1;font-size:13.5px;color:var(--ink);font-weight:600;line-height:1.3}
   .acc-k small{display:block;color:var(--ink-faint);font-size:11px;font-weight:400;margin-top:2px}
   .acc-v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:700;font-size:15px;color:var(--ink);white-space:nowrap}
-  .acc-body{display:none;padding:0 0 10px 21px}
+  .acc-body{display:none;padding:4px 13px 8px;border:1px solid var(--line);border-top:none;border-radius:0 0 9px 9px;background:#fbfcfb}
   .acc-h[aria-expanded="true"] + .acc-body{display:block}
-  .acc-body .row:first-child{border-top:none;padding-top:0}
+  .acc-body .row:first-child{border-top:none;padding-top:6px}
+  .derived{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:11px;padding:9px 12px;background:#f4f7f5;border:1px solid var(--line-soft);border-radius:8px}
+  .derived > span:first-child{font-size:12px;color:var(--ink-soft)}
+  .derived > span:first-child small{display:block;color:var(--ink-faint);font-size:10.5px;margin-top:1px}
+  .derived-v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:600;font-size:13.5px;color:var(--ink);text-align:right;white-space:nowrap}
+  .derived-v small{display:block;font-weight:500;color:var(--ink-faint);font-size:10.5px;margin-top:1px}
 
   footer{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-soft);line-height:1.6}
   footer b{color:var(--ink-soft)}
@@ -364,6 +371,10 @@
           <div class="slide-row">
             <input id="financiamiento" type="range" min="50" max="90" step="1" value="80">
             <span class="slide-val"><span id="finVal">80</span>%<br><small id="pieVal">pie 20%</small></span>
+          </div>
+          <div class="derived">
+            <span>Monto del crédito<small>valor de la propiedad × <span id="finEcho3">80</span>% financiado</small></span>
+            <span class="derived-v" id="montoEcho">$0<small id="montoEchoUF">UF 0</small></span>
           </div>
           <span class="hint">Estándar: 80% (pie 20%). Hasta 90% (pie 10%) solo con <span class="tip" tabindex="0" role="note" aria-label="FOGAES: Fondo de Garantía Especial del Estado. El Estado avala parte del crédito, lo que permite financiar hasta el 90% (pie de 10%) y acceder a mejores tasas. Es para la compra de tu primera vivienda nueva, con un tope de valor de la propiedad.">FOGAES<span class="tipbox"><b>FOGAES</b> — Fondo de Garantía Especial del Estado. El Estado actúa como <b>aval de parte de tu crédito</b>, así el banco puede financiar hasta el <b>90% (pie de 10%)</b> y ofrecerte una mejor tasa. Aplica a la compra de tu <b>primera vivienda nueva</b>, con un tope de valor (del orden de UF 4.000–4.500 según el programa vigente).</span></span> o Subsidio Dividendo, en vivienda nueva (tope ~UF 4.000–4.500 según el programa).</span>
         </div>
@@ -482,10 +493,10 @@
           </div>
           <div class="metric">
             <div class="m-head">
-              <div class="m-l">Monto del crédito</div>
-              <div class="m-v" id="credOut">$0</div>
+              <div class="m-l">Costo total de la propiedad</div>
+              <div class="m-v" id="costoOut">$0</div>
             </div>
-            <span class="m-s" id="credOutUF">UF 0</span>
+            <span class="m-s" id="costoOutUF">UF 0</span>
           </div>
         </div>
 
@@ -502,32 +513,9 @@
       </div>
 
       <div class="card">
-        <h3 class="ttl">Desglose del <span class="tip" tabindex="0" role="note" aria-label="Dividendo: la cuota mensual que pagas por el crédito hipotecario. Incluye capital, intereses y seguros.">dividendo<span class="tipbox"><b>Dividendo</b> — la <b>cuota mensual</b> que pagas por el crédito hipotecario. Incluye capital, intereses y seguros.</span></span></h3>
-        <div class="row">
-          <span class="k">Capital + intereses</span>
-          <span class="v" id="rDivBase">$0<small id="rDivBaseUF">UF 0</small></span>
-        </div>
-        <div class="row">
-          <span class="k">Seguros<small>desgravamen + incendio/sismo</small></span>
-          <span class="v" id="rSeg">$0<small id="rSegUF">UF 0</small></span>
-        </div>
-        <div class="row total">
-          <span class="k">Dividendo total mensual</span>
-          <span class="v" id="rDivTot">$0<small id="rDivTotUF">UF 0</small></span>
-        </div>
-        <div class="row" style="margin-top:8px">
-          <span class="k">Renta por dividendo<small><span id="ratioEcho">25</span>% del líquido</small></span>
-          <span class="v" id="rRentaDiv">$0</span>
-        </div>
-        <div class="row">
-          <span class="k">Renta por carga total<small>45% (dividendo + deudas)</small></span>
-          <span class="v" id="rRentaCarga">$0</span>
-        </div>
-      </div>
-
-      <div class="card">
         <h3 class="ttl">Todo lo que vas a pagar</h3>
         <p class="lead" id="costLead"></p>
+        <p class="acc-hint">Toca <b>“Al firmar”</b> y <b>“En cuotas”</b> para ver el detalle ▾</p>
 
         <div class="acc">
           <button class="acc-h" type="button" aria-expanded="false" aria-controls="accFirmar">
@@ -574,6 +562,30 @@
           <span class="v" id="rCostoTotal">$0<small id="rCostoTotalUF">UF 0</small></span>
         </div>
         <p class="note" id="costNote"></p>
+      </div>
+
+      <div class="card">
+        <h3 class="ttl">Desglose del <span class="tip" tabindex="0" role="note" aria-label="Dividendo: la cuota mensual que pagas por el crédito hipotecario. Incluye capital, intereses y seguros.">dividendo<span class="tipbox"><b>Dividendo</b> — la <b>cuota mensual</b> que pagas por el crédito hipotecario. Incluye capital, intereses y seguros.</span></span> mensual</h3>
+        <div class="row">
+          <span class="k">Capital + intereses</span>
+          <span class="v" id="rDivBase">$0<small id="rDivBaseUF">UF 0</small></span>
+        </div>
+        <div class="row">
+          <span class="k">Seguros<small>desgravamen + incendio/sismo</small></span>
+          <span class="v" id="rSeg">$0<small id="rSegUF">UF 0</small></span>
+        </div>
+        <div class="row total">
+          <span class="k">Dividendo total mensual</span>
+          <span class="v" id="rDivTot">$0<small id="rDivTotUF">UF 0</small></span>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <span class="k">Renta por dividendo<small><span id="ratioEcho">25</span>% del líquido</small></span>
+          <span class="v" id="rRentaDiv">$0</span>
+        </div>
+        <div class="row">
+          <span class="k">Renta por carga total<small>45% (dividendo + deudas)</small></span>
+          <span class="v" id="rRentaCarga">$0</span>
+        </div>
       </div>
 
       <div id="warns"></div>
@@ -677,10 +689,17 @@
     var intUF = totPagUF-montoUF;
     var edadFin = edad>0 ? edad+plazo : 0;
 
+    // todo lo que vas a pagar
+    var segTotUF = segUF*n;
+    var totalCuotasUF = totPagUF + segTotUF;
+    var costoTotalUF = cajaUF + totalCuotasUF;
+    var extraUF = intUF + segTotUF + gastosUF;
+
     return {UF:UF,vPropUF:vPropUF,vPropCLP:vPropCLP,fin:fin,pieP:pieP,montoUF:montoUF,pieUF:pieUF,
       plazo:plazo,n:n,tasa:tasa,cae:cae,divBaseUF:divBaseUF,segUF:segUF,divTotUF:divTotUF,divTotCLP:divTotCLP,
       rentaDiv:rentaDiv,rentaCarga:rentaCarga,rentaReq:rentaReq,bind:bind,
-      gastosUF:gastosUF,cajaUF:cajaUF,totPagUF:totPagUF,intUF:intUF,edadFin:edadFin,otras:otras};
+      gastosUF:gastosUF,cajaUF:cajaUF,totPagUF:totPagUF,intUF:intUF,edadFin:edadFin,otras:otras,
+      segTotUF:segTotUF,totalCuotasUF:totalCuotasUF,costoTotalUF:costoTotalUF,extraUF:extraUF};
   }
 
   function render(){
@@ -691,8 +710,8 @@
     $('rentaOut').textContent = clp(r.rentaReq);
     $('divOut').textContent = clp(r.divTotCLP);
     $('divOutUF').textContent = uf(r.divTotUF);
-    $('credOut').textContent = clp(r.montoUF*UF);
-    $('credOutUF').textContent = uf(r.montoUF);
+    $('costoOut').textContent = clp(r.costoTotalUF*UF);
+    $('costoOutUF').textContent = uf(r.costoTotalUF);
 
     // stats secundarias
     $('tasaEcho').textContent = fmtPct(r.tasa);
@@ -718,11 +737,6 @@
     rowCar.classList.toggle('hl', r.bind==='carga');
 
     // todo lo que vas a pagar
-    var segTotUF = r.segUF*r.n;                       // seguros de todo el período
-    var totalCuotasUF = r.totPagUF + segTotUF;        // capital + intereses + seguros
-    var costoTotalUF = r.cajaUF + totalCuotasUF;      // + pie + gastos
-    var extraUF = r.intUF + segTotUF + r.gastosUF;    // costo de financiar + trámites
-
     $('pieEcho').textContent = fmtInt.format(r.pieP);
     setCurOut('rPie', clp(r.pieUF*UF), 'rPieUF', uf(r.pieUF));
     setCurOut('rGastos', clp(r.gastosUF*UF), 'rGastosUF', uf(r.gastosUF));
@@ -733,16 +747,18 @@
     $('divEcho').textContent = clp(r.divTotCLP);
     setCurOut('rCapital', clp(r.montoUF*UF), 'rCapitalUF', uf(r.montoUF));
     setCurOut('rInt', clp(r.intUF*UF), 'rIntUF', uf(r.intUF));
-    setCurOut('rSegTot', clp(segTotUF*UF), 'rSegTotUF', uf(segTotUF));
-    $('aCuotas').textContent = clp(totalCuotasUF*UF);
+    setCurOut('rSegTot', clp(r.segTotUF*UF), 'rSegTotUF', uf(r.segTotUF));
+    $('aCuotas').textContent = clp(r.totalCuotasUF*UF);
 
-    setCurOut('rCostoTotal', clp(costoTotalUF*UF), 'rCostoTotalUF', uf(costoTotalUF));
-    $('costLead').innerHTML = 'Para tener esta propiedad de <b>'+clp(r.vPropCLP)+'</b> vas a pagar en total <b>'+clp(costoTotalUF*UF)+'</b> en <b>'+r.plazo+' años</b> — todo lo que sale de tu bolsillo.';
-    $('costNote').innerHTML = 'De ese total, <b>'+clp(r.vPropCLP)+'</b> es la propiedad y <b>'+clp(extraUF*UF)+'</b> es lo que cuesta financiarla (intereses + seguros + gastos). Montos en UF; no ajustados por inflación.';
+    setCurOut('rCostoTotal', clp(r.costoTotalUF*UF), 'rCostoTotalUF', uf(r.costoTotalUF));
+    $('costLead').innerHTML = 'Para tener esta propiedad de <b>'+clp(r.vPropCLP)+'</b> vas a pagar en total <b>'+clp(r.costoTotalUF*UF)+'</b> en <b>'+r.plazo+' años</b> — todo lo que sale de tu bolsillo.';
+    $('costNote').innerHTML = 'De ese total, <b>'+clp(r.vPropCLP)+'</b> es la propiedad y <b>'+clp(r.extraUF*UF)+'</b> es lo que cuesta financiarla (intereses + seguros + gastos). Montos en UF; no ajustados por inflación.';
 
     // echoes
     $('finVal').textContent = r.fin;
     $('pieVal').textContent = 'pie '+fmtInt.format(r.pieP)+'%';
+    $('finEcho3').textContent = fmtInt.format(r.fin);
+    setCurOut('montoEcho', clp(r.montoUF*UF), 'montoEchoUF', uf(r.montoUF));
     $('plazoVal').textContent = r.plazo;
     $('vpEcho').innerHTML = (unidad==='UF')
       ? '≈ '+clp(r.vPropCLP)+' al valor UF actual'
