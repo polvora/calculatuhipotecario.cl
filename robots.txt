@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://calculatuhipotecario.cl/sitemap.xml
+Sitemap: https://simulatuhipotecario.cl/sitemap.xml

@@ -1,6 +1,9 @@
-# calculatuhipotecario.cl
+# Simula tu hipotecario
 
-Calculadora de **renta líquida mínima requerida** para acceder a un crédito hipotecario en Chile, según el valor de una propiedad.
+**Simulador de crédito hipotecario en Chile**: dividendo mensual, **renta líquida mínima requerida**, monto del crédito y costo total, según el valor de una propiedad.
+
+- **Dominio principal:** [simulatuhipotecario.cl](https://simulatuhipotecario.cl)
+- **Alias con redirect 301:** `calculatuhipotecario.cl` → `simulatuhipotecario.cl` (el repositorio conserva el nombre histórico).
 
 Sitio 100% estático: un solo archivo `index.html` con CSS/JS inline, sin backend ni base de datos.
 

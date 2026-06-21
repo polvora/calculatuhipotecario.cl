@@ -7,8 +7,8 @@
     <rect x="25" y="48.5" width="50" height="31.5" fill="#f3efe4"/>
     <rect x="42.5" y="60" width="15" height="20" rx="2" fill="#c9a85f"/>
   </g>
-  <text x="96" y="345" font-family="Georgia, 'Times New Roman', serif" font-size="70" font-weight="700" fill="#f3efe4">Calcula tu hipotecario</text>
+  <text x="96" y="345" font-family="Georgia, 'Times New Roman', serif" font-size="70" font-weight="700" fill="#f3efe4">Simula tu hipotecario</text>
   <text x="98" y="415" font-family="system-ui, Arial, sans-serif" font-size="34" fill="#a9c6bb">Cuánta renta necesitas, tu dividendo mensual</text>
   <text x="98" y="461" font-family="system-ui, Arial, sans-serif" font-size="34" fill="#a9c6bb">y el costo total de tu crédito hipotecario en Chile</text>
-  <text x="98" y="566" font-family="system-ui, Arial, sans-serif" font-size="27" font-weight="600" fill="#c9a85f">calculatuhipotecario.cl</text>
+  <text x="98" y="566" font-family="system-ui, Arial, sans-serif" font-size="27" font-weight="600" fill="#c9a85f">simulatuhipotecario.cl</text>
 </svg>
