@@ -323,7 +323,7 @@
         <div class="field">
           <label for="tasa">Tasa de interés anual (UF + %)</label>
           <div class="with-affix">
-            <input id="tasa" type="number" value="4.06" step="0.01" inputmode="decimal">
+            <input id="tasa" type="number" value="5.0" step="0.01" inputmode="decimal">
             <span class="affix">% anual</span>
           </div>
           <div class="chips" id="rateChips" role="group" aria-label="Tasas de referencia del mercado"></div>
@@ -486,7 +486,7 @@
 
   <footer>
     <b>Referencial — no es asesoría financiera ni preaprobación.</b> Cada banco aplica sus propias políticas de riesgo; la cifra final depende de tu historial (<span class="tip r" tabindex="0" role="note" aria-label="REDEC: Registro de Deudores de la CMF, base de datos con el nivel de endeudamiento de cada persona que el banco consulta al evaluarte.">REDEC<span class="tipbox"><b>REDEC</b> — Registro de Deudores de la CMF: base de datos con el <b>nivel de endeudamiento</b> de cada persona, que el banco consulta al evaluarte.</span></span>), antigüedad laboral y la tasación. El cálculo asume una sola renta — con codeudor se suman ingresos (y deudas). La <span class="tip r" tabindex="0" role="note" aria-label="CAE: Carga Anual Equivalente. Expresa el costo total del crédito en un solo porcentaje, incluyendo tasa, seguros y comisiones. Sirve para comparar ofertas de distintos bancos.">CAE<span class="tipbox"><b>CAE</b> — Carga Anual Equivalente: el <b>costo total del crédito</b> en un solo porcentaje (tasa + seguros + comisiones). Sirve para comparar ofertas.</span></span> real del banco será algo mayor a la tasa nominal por seguros y comisiones.<br>
-    Parámetros a junio 2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% (Banco Central) · tasa hipotecaria promedio 4,06% UF, rango de mercado ~3,3%–5,0% según banco y perfil · <span class="tip" tabindex="0" role="note" aria-label="UF, Unidad de Fomento: unidad reajustable por inflación cuyo valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.">UF<span class="tipbox"><b>UF</b> — Unidad de Fomento: unidad <b>reajustable por inflación</b>; su valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.</span></span> actualizada en vivo desde mindicador.cl. <span class="tip r" tabindex="0" role="note" aria-label="Amortización francesa: sistema de pago con cuota fija en UF; al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.">Amortización francesa<span class="tipbox"><b>Amortización francesa</b> — sistema de <b>cuota fija</b> (en UF): al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.</span></span>, tasa mensual = anual ÷ 12. Fuentes: <a href="https://www.bcentral.cl" target="_blank" rel="noopener">Banco Central de Chile</a> y <a href="https://www.cmfchile.cl" target="_blank" rel="noopener">CMF</a>.
+    Parámetros a junio 2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% (Banco Central) · tasa fija típica a 25–30 años ~5,0% UF · promedio del sistema 4,06% (Banco Central) · rango ~3,4%–5,5% según plazo, perfil y vinculación · <span class="tip" tabindex="0" role="note" aria-label="UF, Unidad de Fomento: unidad reajustable por inflación cuyo valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.">UF<span class="tipbox"><b>UF</b> — Unidad de Fomento: unidad <b>reajustable por inflación</b>; su valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.</span></span> actualizada en vivo desde mindicador.cl. <span class="tip r" tabindex="0" role="note" aria-label="Amortización francesa: sistema de pago con cuota fija en UF; al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.">Amortización francesa<span class="tipbox"><b>Amortización francesa</b> — sistema de <b>cuota fija</b> (en UF): al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.</span></span>, tasa mensual = anual ÷ 12. Fuentes: <a href="https://www.bcentral.cl" target="_blank" rel="noopener">Banco Central de Chile</a> y <a href="https://www.cmfchile.cl" target="_blank" rel="noopener">CMF</a>.
   </footer>
 
 </div>
@@ -731,13 +731,12 @@
   var TASAS = {
     actualizado: 'junio 2026',
     promedioSistema: 4.06,
+    tasaDefault: 5.00,
     refs: [
-      {lab:'FOGAES desde', rate:3.30, tip:'FOGAES: garantía estatal que avala parte del crédito; permite financiar hasta 90% (pie 10%) y mejores tasas, para la primera vivienda nueva con tope de valor.'},
-      {lab:'Itaú',         rate:3.39},
-      {lab:'Promedio',     rate:4.06},
-      {lab:'BancoEstado',  rate:4.19},
-      {lab:'Coopeuch',     rate:4.50},
-      {lab:'Conservador',  rate:5.00}
+      {lab:'Mejor caso',  rate:3.40, tip:'Mejor caso publicitado ("desde"): renta alta e historial impecable, con vinculación (abono de sueldo), plazo corto y/o garantía estatal FOGAES. Pocos lo obtienen de entrada.'},
+      {lab:'Promedio',    rate:4.06, tip:'Promedio del sistema según el Banco Central. Mezcla todos los plazos, perfiles y productos (incluidos plazos cortos y refinanciamientos), por eso es menor a una tasa fija a 30 años.'},
+      {lab:'Típico fijo', rate:5.00, tip:'Tasa fija realista para un crédito a 25–30 años con perfil estándar, sin descuentos por vinculación. Es lo que suele entregar el simulador de un banco.'},
+      {lab:'Conservador', rate:5.50, tip:'Escenario alto, como colchón de planificación.'}
     ]
   };
   function fmtPct(n){ return n.toFixed(2).replace('.', ',') + '%'; }
@@ -750,13 +749,15 @@
     }
     $('rateChips').innerHTML = html;
     $('rateHint').innerHTML =
-      'Referencias de mercado a <b>'+TASAS.actualizado+'</b> sobre UF — promedio del sistema según el ' +
-      '<a href="https://www.bcentral.cl" target="_blank" rel="noopener">Banco Central</a> y tasas publicadas por cada banco. ' +
-      'Las tasas cambian seguido y la tuya depende de perfil, pie e institución: cotiza en al menos 3 bancos y simula en la ' +
+      'Escenarios de referencia a <b>'+TASAS.actualizado+'</b> (UF). Tu tasa real <b>sube con el plazo</b> y <b>baja</b> ' +
+      'con buen perfil, vinculación (abono de sueldo) y garantías como FOGAES; las tasas "desde" que publicitan los bancos ' +
+      'son el mejor caso, no lo típico. Promedio del sistema según el ' +
+      '<a href="https://www.bcentral.cl" target="_blank" rel="noopener">Banco Central</a>. ' +
+      'Cotiza en al menos 3 bancos y simula en la ' +
       '<a href="https://www.cmfchile.cl" target="_blank" rel="noopener">CMF</a>.';
   }
   renderChips();
-  $('tasa').value = TASAS.promedioSistema; // default = promedio del sistema
+  $('tasa').value = TASAS.tasaDefault; // default = tasa fija típica a 25–30 años
 
   // ---- posición de tooltips: se fija al abrir y se ajusta al viewport (mobile-safe) ----
   function placeTip(t){
