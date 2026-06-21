@@ -323,6 +323,15 @@
   .acc-body{display:none;padding:4px 13px 8px;border:1px solid var(--line);border-top:none;border-radius:0 0 9px 9px;background:#fbfcfb}
   .acc-h[aria-expanded="true"] + .acc-body{display:block}
   .acc-body .row:first-child{border-top:none;padding-top:6px}
+  .cmp-wrap{overflow-x:auto}
+  .cmp{width:100%;border-collapse:collapse;font-size:12.5px}
+  .cmp th{text-align:right;font-weight:600;color:var(--ink-faint);font-size:11px;padding:5px 7px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .cmp th:first-child{text-align:left}
+  .cmp td{text-align:right;padding:7px 7px;border-bottom:1px solid var(--line-soft);font-family:var(--num);font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
+  .cmp td:first-child{text-align:left;font-family:var(--body);color:var(--ink-soft)}
+  .cmp tr:last-child td{border-bottom:none}
+  .cmp tr.cur td{background:var(--accent-wash);font-weight:700;color:var(--accent-deep)}
+  .cmp tr.cur td:first-child{color:var(--accent-deep)}
   .derived{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:11px;padding:9px 12px;background:#f4f7f5;border:1px solid var(--line-soft);border-radius:8px}
   .derived > span:first-child{font-size:12px;color:var(--ink-soft)}
   .derived > span:first-child small{display:block;color:var(--ink-faint);font-size:10.5px;margin-top:1px}
@@ -651,6 +660,24 @@
         </div>
       </div>
 
+      <div class="card">
+        <div class="acc" style="margin-top:0">
+          <button class="acc-h" type="button" aria-expanded="false" aria-controls="cmpBody">
+            <span class="acc-tw" aria-hidden="true">▸</span>
+            <span class="acc-k">Comparar plazos<small>cómo cambian el dividendo y la renta de 15 a 30 años</small></span>
+          </button>
+          <div class="acc-body" id="cmpBody">
+            <div class="cmp-wrap">
+              <table class="cmp">
+                <thead><tr><th>Plazo</th><th>Dividendo</th><th>Renta mín.</th><th>Intereses</th></tr></thead>
+                <tbody id="cmpRows"></tbody>
+              </table>
+            </div>
+            <p class="note" style="margin-top:10px">A más plazo, el dividendo y la renta exigida bajan, pero pagas más intereses en total. Calculado con tu tasa actual.</p>
+          </div>
+        </div>
+      </div>
+
       <div id="warns"></div>
 
     </div>
@@ -709,6 +736,16 @@
       if(pv(mid) > montoUF) lo=mid; else hi=mid;
     }
     return ((lo+hi)/2)*12*100;
+  }
+
+  // cuota, renta requerida e intereses para un plazo/tasa dados (tabla comparar plazos)
+  function quote(plazoY, tasaPct, montoUF, segUF, ratioPct, otras, UF){
+    var i=(tasaPct/100)/12, n=plazoY*12, f=Math.pow(1+i,n);
+    var divBase=(i===0)?montoUF/n:montoUF*(i*f)/(f-1);
+    var divTotCLP=(divBase+segUF)*UF;
+    var rentaReq=Math.max(divTotCLP/(ratioPct/100),(divTotCLP+otras)/0.45);
+    var intCLP=(divBase*n-montoUF)*UF;
+    return {divTotCLP:divTotCLP, rentaReq:rentaReq, intCLP:intCLP};
   }
 
   function compute(){
@@ -883,6 +920,15 @@
     } else {
       vc.hidden = true;
     }
+
+    // comparar plazos
+    var cmpHtml='', plazosCmp=[15,20,25,30];
+    for(var pc=0;pc<plazosCmp.length;pc++){
+      var py=plazosCmp[pc];
+      var q=quote(py, r.tasa, r.montoUF, r.segUF, ratio, r.otras, UF);
+      cmpHtml += '<tr'+(py===r.plazo?' class="cur"':'')+'><td>'+py+' años</td><td>'+clp(q.divTotCLP)+'</td><td>'+clp(q.rentaReq)+'</td><td>'+clp(q.intCLP)+'</td></tr>';
+    }
+    $('cmpRows').innerHTML = cmpHtml;
 
     // echoes
     $('finVal').textContent = r.fin;
