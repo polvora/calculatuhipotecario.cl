@@ -166,17 +166,16 @@
   .chips button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 
   /* inline tooltip (término explicado) */
-  .tip{position:relative;cursor:help;border-bottom:1px dotted var(--accent-deep);color:var(--accent-deep);font-weight:500}
+  .tip{cursor:help;border-bottom:1px dotted var(--accent-deep);color:var(--accent-deep);font-weight:500}
   .tip:focus{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
   .tip .tipbox{
-    position:absolute;left:0;bottom:calc(100% + 9px);z-index:30;width:268px;max-width:76vw;
+    position:fixed;left:0;top:0;z-index:40;width:268px;max-width:calc(100vw - 16px);
     background:var(--panel);color:var(--on-dark);border:1px solid var(--panel-line);border-radius:10px;
     padding:11px 13px;font-family:var(--body);font-size:12px;line-height:1.55;font-weight:400;
     letter-spacing:normal;text-transform:none;box-shadow:0 10px 28px rgba(20,32,46,.24);
     opacity:0;visibility:hidden;transform:translateY(4px);transition:opacity .14s,transform .14s;pointer-events:none;
   }
   .tip .tipbox b{color:var(--glow);font-weight:600}
-  .tip .tipbox::after{content:"";position:absolute;top:100%;left:16px;border:6px solid transparent;border-top-color:var(--panel)}
   .tip:hover .tipbox,.tip:focus .tipbox,.tip:focus-within .tipbox{opacity:1;visibility:visible;transform:translateY(0)}
 
   /* advanced */
@@ -335,7 +334,7 @@
       <div class="grp">
         <div class="grp-h">Evaluación de capacidad</div>
         <div class="field">
-          <label>Dividendo máx. sobre renta líquida</label>
+          <label>Dividendo máx. sobre <span class="tip" tabindex="0" role="note" aria-label="Renta líquida: tu sueldo después de los descuentos (AFP, salud e impuestos), lo que efectivamente te llega a la cuenta. El banco evalúa sobre esta, no sobre el sueldo bruto.">renta líquida<span class="tipbox"><b>Renta líquida</b> — tu sueldo <b>después de los descuentos</b> (AFP, salud e impuestos): lo que efectivamente te llega a la cuenta. El banco evalúa sobre esta, no sobre el bruto.</span></span></label>
           <div class="seg" role="group" aria-label="Relación dividendo / renta">
             <button id="ratio25" class="on" type="button">25% · estricto</button>
             <button id="ratio30" type="button">30% · flexible</button>
@@ -348,7 +347,7 @@
             <span class="affix">$</span>
             <input id="otrasDeudas" type="number" value="0" step="10000" inputmode="numeric">
           </div>
-          <span class="hint">Cuotas de auto, créditos de consumo, tarjetas. El banco exige que dividendo + deudas no superen el 45% de tu renta (carga financiera total).</span>
+          <span class="hint">Cuotas de auto, créditos de consumo, tarjetas. El banco exige que dividendo + deudas no superen el 45% de tu renta (<span class="tip" tabindex="0" role="note" aria-label="Carga financiera total: la suma de todas tus cuotas mensuales, este dividendo más tus otras deudas. El banco exige que no supere alrededor del 45% de tu renta líquida.">carga financiera total<span class="tipbox"><b>Carga financiera total</b> — la suma de <b>todas tus cuotas mensuales</b> (este dividendo + tus otras deudas). El banco exige que no supere ~45% de tu renta líquida.</span></span>).</span>
         </div>
       </div>
 
@@ -356,7 +355,7 @@
         <summary><span class="tw">▸</span> Supuestos avanzados</summary>
         <div class="body">
           <div class="field">
-            <label for="desgravamen">Seguro de desgravamen (mensual, sobre saldo)</label>
+            <label for="desgravamen">Seguro de <span class="tip" tabindex="0" role="note" aria-label="Desgravamen: seguro que paga el saldo pendiente del crédito si el deudor fallece o queda inválido. Lo exige el banco.">desgravamen<span class="tipbox"><b>Desgravamen</b> — seguro que <b>paga el saldo del crédito</b> si el deudor fallece o queda inválido. Lo exige el banco.</span></span> (mensual, sobre saldo)</label>
             <div class="with-affix">
               <input id="desgravamen" type="number" value="0.020" step="0.001" inputmode="decimal">
               <span class="affix">%</span>
@@ -424,7 +423,7 @@
       </div>
 
       <div class="card">
-        <h3 class="ttl">Desglose del dividendo</h3>
+        <h3 class="ttl">Desglose del <span class="tip" tabindex="0" role="note" aria-label="Dividendo: la cuota mensual que pagas por el crédito hipotecario. Incluye capital, intereses y seguros.">dividendo<span class="tipbox"><b>Dividendo</b> — la <b>cuota mensual</b> que pagas por el crédito hipotecario. Incluye capital, intereses y seguros.</span></span></h3>
         <div class="row">
           <span class="k">Capital + intereses</span>
           <span class="v" id="rDivBase">$0<small id="rDivBaseUF">UF 0</small></span>
@@ -486,8 +485,8 @@
   </div>
 
   <footer>
-    <b>Referencial — no es asesoría financiera ni preaprobación.</b> Cada banco aplica sus propias políticas de riesgo; la cifra final depende de tu historial (REDEC), antigüedad laboral y la tasación. El cálculo asume una sola renta — con codeudor se suman ingresos (y deudas). La CAE real del banco será algo mayor a la tasa nominal por seguros y comisiones.<br>
-    Parámetros a junio 2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% (Banco Central) · tasa hipotecaria promedio 4,06% UF, rango de mercado ~3,3%–5,0% según banco y perfil · UF actualizada en vivo desde mindicador.cl. Amortización francesa, tasa mensual = anual ÷ 12. Fuentes: <a href="https://www.bcentral.cl" target="_blank" rel="noopener">Banco Central de Chile</a> y <a href="https://www.cmfchile.cl" target="_blank" rel="noopener">CMF</a>.
+    <b>Referencial — no es asesoría financiera ni preaprobación.</b> Cada banco aplica sus propias políticas de riesgo; la cifra final depende de tu historial (<span class="tip r" tabindex="0" role="note" aria-label="REDEC: Registro de Deudores de la CMF, base de datos con el nivel de endeudamiento de cada persona que el banco consulta al evaluarte.">REDEC<span class="tipbox"><b>REDEC</b> — Registro de Deudores de la CMF: base de datos con el <b>nivel de endeudamiento</b> de cada persona, que el banco consulta al evaluarte.</span></span>), antigüedad laboral y la tasación. El cálculo asume una sola renta — con codeudor se suman ingresos (y deudas). La <span class="tip r" tabindex="0" role="note" aria-label="CAE: Carga Anual Equivalente. Expresa el costo total del crédito en un solo porcentaje, incluyendo tasa, seguros y comisiones. Sirve para comparar ofertas de distintos bancos.">CAE<span class="tipbox"><b>CAE</b> — Carga Anual Equivalente: el <b>costo total del crédito</b> en un solo porcentaje (tasa + seguros + comisiones). Sirve para comparar ofertas.</span></span> real del banco será algo mayor a la tasa nominal por seguros y comisiones.<br>
+    Parámetros a junio 2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% (Banco Central) · tasa hipotecaria promedio 4,06% UF, rango de mercado ~3,3%–5,0% según banco y perfil · <span class="tip" tabindex="0" role="note" aria-label="UF, Unidad de Fomento: unidad reajustable por inflación cuyo valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.">UF<span class="tipbox"><b>UF</b> — Unidad de Fomento: unidad <b>reajustable por inflación</b>; su valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.</span></span> actualizada en vivo desde mindicador.cl. <span class="tip r" tabindex="0" role="note" aria-label="Amortización francesa: sistema de pago con cuota fija en UF; al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.">Amortización francesa<span class="tipbox"><b>Amortización francesa</b> — sistema de <b>cuota fija</b> (en UF): al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.</span></span>, tasa mensual = anual ÷ 12. Fuentes: <a href="https://www.bcentral.cl" target="_blank" rel="noopener">Banco Central de Chile</a> y <a href="https://www.cmfchile.cl" target="_blank" rel="noopener">CMF</a>.
   </footer>
 
 </div>
@@ -758,6 +757,23 @@
   }
   renderChips();
   $('tasa').value = TASAS.promedioSistema; // default = promedio del sistema
+
+  // ---- posición de tooltips: se fija al abrir y se ajusta al viewport (mobile-safe) ----
+  function placeTip(t){
+    var box = t.querySelector('.tipbox'); if(!box) return;
+    var bw = box.offsetWidth, bh = box.offsetHeight;
+    var r = t.getBoundingClientRect();
+    var vw = document.documentElement.clientWidth;
+    var left = Math.min(Math.max(8, r.left + r.width/2 - bw/2), vw - bw - 8);
+    var top = r.top - bh - 9;
+    if(top < 8) top = r.bottom + 9; // si no cabe arriba, se abre abajo
+    box.style.left = left + 'px';
+    box.style.top = top + 'px';
+  }
+  [].forEach.call(document.querySelectorAll('.tip'), function(t){
+    t.addEventListener('mouseenter', function(){ placeTip(t); });
+    t.addEventListener('focus', function(){ placeTip(t); });
+  });
 
   render();
 })();
