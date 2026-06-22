@@ -411,6 +411,8 @@
   footer b{color:var(--ink-soft)}
   footer a{color:var(--accent-deep);text-decoration:none}
   footer a:hover{text-decoration:underline}
+  .feedback{font-size:13px;color:var(--ink);margin:0 0 14px;font-weight:500}
+  .feedback a{font-weight:700}
 
   /* preguntas frecuentes */
   .faq{max-width:780px;margin:38px auto 0}
@@ -430,7 +432,7 @@
     @page{margin:11mm}
     body{background:#fff !important;background-image:none !important;color:#1b2733 !important;font-size:9.5px;line-height:1.35}
     .app{max-width:none;padding:0}
-    .sharebtn,.share,#rateChips,.faq,details.adv,.linkbtn,.hint,.note,.acc-hint,.kicker,.tip .tipbox,.card.qualify{display:none !important}
+    .sharebtn,.share,.feedback,#rateChips,.faq,details.adv,.linkbtn,.hint,.note,.acc-hint,.kicker,.tip .tipbox,.card.qualify{display:none !important}
     .card:has(#cmpRows){display:none !important}
     .tip{border-bottom:none}
     .masthead{margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #ccc}
@@ -846,6 +848,7 @@
   </main>
 
   <footer>
+    <p class="feedback">¿Comentarios o encontraste un error? <a href="https://tally.so/r/D4b0Pq" target="_blank" rel="noopener">Cuéntanos →</a></p>
     <b>Referencial — no es asesoría financiera ni preaprobación.</b> Cada banco aplica sus propias políticas de riesgo; la cifra final depende de tu historial (<span class="tip" tabindex="0" role="note" aria-label="REDEC: Registro de Deudores de la CMF, base de datos con el nivel de endeudamiento de cada persona que el banco consulta al evaluarte.">REDEC<span class="tipbox"><b>REDEC</b> — Registro de Deudores de la CMF: base de datos con el <b>nivel de endeudamiento</b> de cada persona, que el banco consulta al evaluarte.</span></span>), antigüedad laboral y la <span class="tip" tabindex="0" role="note" aria-label="Tasación: avalúo del inmueble que encarga el banco para confirmar cuánto vale; sobre ese valor calcula cuánto te presta. Es uno de los gastos operacionales.">tasación<span class="tipbox"><b>Tasación</b> — avalúo del inmueble que encarga el banco para confirmar cuánto vale; sobre ese valor calcula cuánto te presta. Es uno de los gastos operacionales.</span></span>. El cálculo asume una sola renta — con codeudor se suman ingresos (y deudas). La <span class="tip" tabindex="0" role="note" aria-label="CAE: Carga Anual Equivalente. Expresa el costo total del crédito en un solo porcentaje, incluyendo la tasa de interés y los seguros. Sirve para comparar ofertas de distintos bancos.">CAE<span class="tipbox"><b>CAE</b> — Carga Anual Equivalente: el <b>costo total del crédito</b> en un solo porcentaje (tasa + seguros). Sirve para comparar ofertas.</span></span> real del banco será algo mayor a la tasa nominal por seguros y comisiones.<br>
     Parámetros a junio 2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% (Banco Central) · tasa fija típica a 25–30 años ~5,0% UF · promedio del sistema 4,06% (Banco Central) · rango ~3,4%–5,5% según plazo, perfil y vinculación · <span class="tip" tabindex="0" role="note" aria-label="UF, Unidad de Fomento: unidad reajustable por inflación cuyo valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.">UF<span class="tipbox"><b>UF</b> — Unidad de Fomento: unidad <b>reajustable por inflación</b>; su valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.</span></span> actualizada en vivo desde mindicador.cl. <span class="tip" tabindex="0" role="note" aria-label="Amortización francesa: sistema de pago con cuota fija en UF; al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.">Amortización francesa<span class="tipbox"><b>Amortización francesa</b> — sistema de <b>cuota fija</b> (en UF): al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.</span></span>, tasa mensual = anual ÷ 12. Fuentes: <a href="https://www.bcentral.cl/contenido/-/detalle/tasas-de-interes" target="_blank" rel="noopener">Banco Central de Chile</a> (tasas de interés) y <a href="https://servicios.cmfchile.cl/simuladorhipotecario/aplicacion?indice=101.2.1" target="_blank" rel="noopener">simulador hipotecario CMF</a>.
   </footer>
