@@ -414,8 +414,8 @@
   .feedback{font-size:13px;color:var(--ink);margin:0 0 14px;font-weight:500}
   .feedback a{font-weight:700}
   /* beneficios estatales */
-  .viv-tipo{display:flex;align-items:center;gap:9px;margin-top:9px}
-  .viv-tipo .viv-lab{font-size:12.5px;color:var(--ink-soft)}
+  .ben-tipo{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:0 0 13px}
+  .ben-tipo .ben-tipo-lab{font-size:12.5px;color:var(--ink-soft)}
   .benefits .ben-intro{font-size:12.5px;color:var(--ink-soft);margin:0 0 13px;line-height:1.5}
   .ben-grp{margin-bottom:13px}
   .ben-grp:last-of-type{margin-bottom:0}
@@ -535,13 +535,6 @@
             <div class="seg" role="group" aria-label="Unidad del valor">
               <button id="unitUF" class="on" type="button" aria-pressed="true">UF</button>
               <button id="unitCLP" type="button" aria-pressed="false">Pesos</button>
-            </div>
-          </div>
-          <div class="viv-tipo">
-            <span class="viv-lab">Tipo:</span>
-            <div class="seg" role="group" aria-label="Tipo de vivienda (afecta los beneficios estatales)">
-              <button id="vivNueva" class="on" type="button" aria-pressed="true">Nueva</button>
-              <button id="vivUsada" type="button" aria-pressed="false">Usada</button>
             </div>
           </div>
           <span class="hint" id="vpEcho"></span>
@@ -704,11 +697,25 @@
       </div>
 
       <div class="card benefits" id="beneficiosCard">
-        <h3 class="ttl">Beneficios estatales a los que podrías optar<span class="opt">según el valor</span></h3>
-        <p class="ben-intro">Según el valor que ingresaste y si la vivienda es <b>nueva</b> o <b>usada</b>. Es orientativo: el acceso real depende también de tu renta, ahorro y Registro Social de Hogares.</p>
-        <div id="beneficiosBody"></div>
-        <p class="ben-nota">Además, casi cualquier comprador puede revisar beneficios <b>tributarios</b>: DFL-2 (viviendas hasta 140 m²), exención de contribuciones (según el avalúo fiscal) y, en vivienda nueva, el menor precio por el IVA a constructoras (CEEC, vigente hasta 2026). Vía alternativa sin crédito: leasing habitacional (DS.120, hasta ~2.000 UF).</p>
-        <p class="note" style="margin-top:8px">Solo orientativo: el valor en UF es uno de varios requisitos. Verifica requisitos y llamados vigentes en <a href="https://www.minvu.gob.cl" target="_blank" rel="noopener">minvu.gob.cl</a>, <a href="https://www.chileatiende.gob.cl" target="_blank" rel="noopener">ChileAtiende</a> y el SERVIU de tu región.</p>
+        <div class="acc" style="margin-top:0">
+          <button class="acc-h" type="button" aria-expanded="false" aria-controls="benBody">
+            <span class="acc-tw" aria-hidden="true">▸</span>
+            <span class="acc-k">Beneficios estatales a los que podrías optar<small>subsidios y apoyos según el valor de tu propiedad</small></span>
+          </button>
+          <div class="acc-body" id="benBody">
+            <div class="ben-tipo">
+              <span class="ben-tipo-lab">¿La vivienda es nueva o usada?</span>
+              <div class="seg" role="group" aria-label="Tipo de vivienda">
+                <button id="vivNueva" class="on" type="button" aria-pressed="true">Nueva</button>
+                <button id="vivUsada" type="button" aria-pressed="false">Usada</button>
+              </div>
+            </div>
+            <p class="ben-intro">Además del valor, el acceso real depende de tu renta, tu ahorro y tu tramo en el <span class="tip" tabindex="0" role="note" aria-label="Registro Social de Hogares: registro del Estado que clasifica a los hogares por nivel socioeconomico, del 40% mas vulnerable hasta el 100%. Muchos subsidios exigen estar dentro de cierto tramo.">Registro Social de Hogares<span class="tipbox"><b>Registro Social de Hogares</b> — clasifica a los hogares por nivel socioeconómico (del <b>40% más vulnerable</b> al 100%). Varios subsidios exigen estar bajo cierto tramo.</span></span>; por eso cada uno indica su requisito clave.</p>
+            <div id="beneficiosBody"></div>
+            <p class="ben-nota">También hay beneficios <b>tributarios</b> que casi cualquier comprador puede revisar: el <span class="tip" tabindex="0" role="note" aria-label="DFL-2: beneficio tributario para viviendas de hasta 140 metros cuadrados. Incluye rebaja del 50% en las contribuciones por un periodo, impuesto de timbres reducido y menor arancel del Conservador. Maximo 2 viviendas DFL-2 por persona.">DFL-2<span class="tipbox"><b>DFL-2</b> — para viviendas de hasta <b>140 m²</b>: rebaja del <b>50% en las contribuciones</b> por un período, timbres reducido y menor arancel del Conservador. Máximo 2 por persona.</span></span>, la <span class="tip" tabindex="0" role="note" aria-label="Exencion de contribuciones: las viviendas cuyo avaluo fiscal no supera el monto exento (primer semestre 2026: 60.030.710 pesos) no pagan contribuciones. Depende del avaluo fiscal, que suele ser menor al precio de compra.">exención de contribuciones<span class="tipbox"><b>Exención de contribuciones</b> — si el <b>avalúo fiscal</b> no supera el monto exento (1.er sem. 2026: $60.030.710), la vivienda no paga contribuciones. El avalúo suele ser menor al precio.</span></span> y, en vivienda nueva, el menor precio por el <span class="tip" tabindex="0" role="note" aria-label="IVA a constructoras (CEEC): Credito Especial para Empresas Constructoras. Lo recibe la constructora y abarata el precio final de viviendas nuevas. Se reduce gradualmente: en 2026 esta al 25% y se elimina el 1 de enero de 2027.">IVA a constructoras (CEEC)<span class="tipbox"><b>CEEC (IVA a constructoras)</b> — lo recibe la <b>constructora</b> y abarata el precio de viviendas nuevas. En <b>2026 está al 25%</b> y se elimina el 1-ene-2027.</span></span>. Una vía sin crédito es el <span class="tip" tabindex="0" role="note" aria-label="Leasing habitacional (DS.120): alternativa al credito hipotecario. Arriendas la vivienda con promesa de compraventa y al final del contrato queda tuya, con apoyo del Estado via SERVIU. Para viviendas de hasta unas 2.000 a 2.200 UF.">leasing habitacional<span class="tipbox"><b>Leasing habitacional (DS.120)</b> — <b>arriendas con promesa de compra</b> y al final la vivienda queda tuya, con apoyo de SERVIU. Hasta ~2.000–2.200 UF.</span></span>.</p>
+            <p class="note" style="margin-top:8px">Solo orientativo: el valor en UF es uno de varios requisitos. Verifica requisitos y llamados vigentes en <a href="https://www.minvu.gob.cl" target="_blank" rel="noopener">minvu.gob.cl</a>, <a href="https://www.chileatiende.gob.cl" target="_blank" rel="noopener">ChileAtiende</a> y tu SERVIU.</p>
+          </div>
+        </div>
       </div>
 
       <div class="card">
@@ -954,42 +961,41 @@
   var BENEFICIOS = [
     {code:'DS49', grupo:'compra', ufMin:0, ufMax:950, soloNueva:false, estado:'vigente',
      nombre:'DS49 — Fondo Solidario de Elección de Vivienda',
-     desc:'Subsidio para una vivienda de hasta 950 UF; normalmente se compra sin crédito.',
+     desc:'Para comprar una vivienda de hasta 950 UF, normalmente sin crédito',
      cond:'perteneces al 40% más vulnerable del Registro Social de Hogares y no eres propietario'},
     {code:'DS1T1', grupo:'compra', ufMin:0, ufMax:1100, soloNueva:false, estado:'vigente',
      nombre:'DS1 (sectores medios) — Tramo 1',
-     desc:'Subsidio para una vivienda de hasta 1.100 UF, complementando con crédito.',
+     desc:'Para una vivienda de hasta 1.100 UF, complementando con crédito',
      cond:'estás dentro del 60% del Registro Social de Hogares y reúnes ~30 UF de ahorro'},
     {code:'DS1T2', grupo:'compra', ufMin:1100, ufMax:1600, soloNueva:false, estado:'vigente',
      nombre:'DS1 (sectores medios) — Tramo 2',
-     desc:'Subsidio para una vivienda de hasta 1.600 UF, con crédito.',
+     desc:'Para una vivienda de hasta 1.600 UF, con crédito',
      cond:'estás dentro del 80% del Registro Social de Hogares y reúnes ~40 UF de ahorro'},
     {code:'DS1T3', grupo:'compra', ufMin:1600, ufMax:2200, soloNueva:false, estado:'vigente',
      nombre:'DS1 (sectores medios) — Tramo 3',
-     desc:'Subsidio para una vivienda de hasta 2.200 UF, con crédito.',
+     desc:'Para una vivienda de hasta 2.200 UF, con crédito',
      cond:'estás inscrito en el Registro Social de Hogares y reúnes ~80 UF de ahorro'},
     {code:'DS1T4', grupo:'compra', ufMin:2200, ufMax:4000, soloNueva:false, estado:'porconfirmar',
      nombre:'DS1 — nuevo Tramo 4',
-     desc:'Tramo anunciado para vivienda de hasta 4.000 UF (subsidio del orden de 400 UF).',
-     cond:'recién parte el 2.º semestre de 2026 y aún no se publica el reglamento; ahorro ~200 UF'},
+     desc:'Tramo nuevo para vivienda de hasta 4.000 UF (subsidio del orden de 400 UF)',
+     cond:'recién parte el 2.º semestre de 2026 y aún no se publica el reglamento; pide ~200 UF de ahorro'},
     {code:'DS19', grupo:'compra', ufMin:0, ufMax:2200, soloNueva:true, estado:'porconfirmar',
      nombre:'DS19 — Integración Social y Territorial',
-     desc:'Vivienda nueva en un proyecto seleccionado por el Estado (hasta ~2.200 UF).',
-     cond:'es vivienda nueva en un proyecto DS19 y traes un subsidio compatible; su vigencia 2026 está por confirmar'},
+     desc:'Vivienda nueva en un proyecto seleccionado por el Estado (hasta ~2.200 UF)',
+     cond:'la vivienda es nueva, en un proyecto DS19, y traes un subsidio compatible; su vigencia 2026 está por confirmar'},
     {code:'SUBDIV', grupo:'financiamiento', ufMin:0, ufMax:4000, soloNueva:true, estado:'vigente',
      nombre:'Subsidio a la Tasa / al Dividendo',
-     desc:'Baja ~0,6 puntos la tasa de tu crédito (Ley 21.748) y, con eso, tu dividendo.',
-     cond:'es vivienda nueva (primera venta). Cupos casi agotados en 2026 — confírmalo en el banco'},
+     desc:'Baja ~0,6 puntos la tasa de tu crédito (Ley 21.748) y, con eso, tu dividendo',
+     cond:'la vivienda es nueva (primera venta); cupos casi agotados en 2026 — confírmalo en el banco'},
     {code:'FOGAES', grupo:'financiamiento', ufMin:0, ufMax:4000, soloNueva:true, estado:'vigente',
      nombre:'FOGAES — Garantía Estatal Vivienda Nueva',
-     desc:'El Estado avala hasta el 60% del crédito (Ley 21.748): te permite un pie desde 10%.',
-     cond:'es vivienda nueva. Cupos casi agotados en 2026 — confírmalo en el banco'}
+     desc:'El Estado avala hasta el 60% del crédito (Ley 21.748) y te permite un pie desde 10%',
+     cond:'la vivienda es nueva; cupos casi agotados en 2026 — confírmalo en el banco'}
   ];
   function benItem(b){
     var badge = (b.estado==='porconfirmar') ? ' <span class="ben-badge">por confirmar 2026</span>' : '';
     return '<div class="ben-item"><div class="ben-name">'+escAttr(b.nombre)+badge+'</div>'+
-           '<div class="ben-desc">'+escAttr(b.desc)+'</div>'+
-           '<div class="ben-cond"><b>Si además:</b> '+escAttr(b.cond)+'.</div></div>';
+           '<div class="ben-desc">'+escAttr(b.desc)+'. <b>Aplica si</b> '+escAttr(b.cond)+'.</div></div>';
   }
   function renderBeneficios(){
     var box = $('beneficiosBody'); if(!box) return;
