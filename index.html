@@ -303,11 +303,17 @@
     padding:22px;position:relative;overflow:hidden;
   }
   .panel::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
-  .panel .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+  .panel .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px;flex-wrap:wrap}
   .panel .top .eb{font-family:var(--body);font-size:12px;letter-spacing:.01em;color:var(--on-dark-soft);font-weight:600;margin:0}
   .sharebtn{font-family:var(--body);font-size:11.5px;font-weight:600;color:var(--on-dark);background:rgba(255,255,255,.08);border:1px solid var(--panel-line);border-radius:7px;padding:5px 11px;cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s;display:inline-flex;align-items:center;gap:6px}
   .sharebtn:hover{background:rgba(255,255,255,.16);border-color:var(--gold)}
   .sharebtn:focus-visible{outline:2px solid var(--glow);outline-offset:2px}
+  .share{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .shareic{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;color:var(--on-dark);background:rgba(255,255,255,.08);border:1px solid var(--panel-line);border-radius:7px;cursor:pointer;text-decoration:none;transition:background .12s,border-color .12s,color .12s}
+  .shareic:hover{background:rgba(255,255,255,.16);border-color:var(--gold)}
+  .shareic:focus-visible{outline:2px solid var(--glow);outline-offset:2px}
+  .shareic svg{width:15px;height:15px;fill:currentColor;display:block}
+  .shareic.ok{color:var(--gold);border-color:var(--gold)}
   .badge{
     font-family:var(--body);font-size:11px;font-weight:600;
     padding:4px 11px;border-radius:20px;background:var(--accent-wash);
@@ -424,7 +430,7 @@
     @page{margin:11mm}
     body{background:#fff !important;background-image:none !important;color:#1b2733 !important;font-size:9.5px;line-height:1.35}
     .app{max-width:none;padding:0}
-    .sharebtn,#rateChips,.faq,details.adv,.linkbtn,.hint,.note,.acc-hint,.kicker,.tip .tipbox,.card.qualify{display:none !important}
+    .sharebtn,.share,#rateChips,.faq,details.adv,.linkbtn,.hint,.note,.acc-hint,.kicker,.tip .tipbox,.card.qualify{display:none !important}
     .card:has(#cmpRows){display:none !important}
     .tip{border-bottom:none}
     .masthead{margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #ccc}
@@ -626,7 +632,13 @@
       <div class="panel">
         <div class="top">
           <h2 class="eb">Resultado de la simulación</h2>
-          <button type="button" class="sharebtn" id="shareBtn" aria-label="Copiar enlace de esta simulación">Copiar enlace</button>
+          <div class="share" role="group" aria-label="Compartir esta simulación">
+            <button type="button" class="shareic" id="shareNative" aria-label="Compartir" title="Compartir" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg></button>
+            <a class="shareic" id="shareWa" target="_blank" rel="noopener" aria-label="Compartir por WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.02h-.01c-1.52 0-3.01-.41-4.3-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.23 8.23 0 0 1-1.26-4.04c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.1-8.43 8.1zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></a>
+            <a class="shareic" id="shareX" target="_blank" rel="noopener" aria-label="Compartir en X" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a class="shareic" id="shareFb" target="_blank" rel="noopener" aria-label="Compartir en Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6.02 4.39 11.01 10.13 11.93v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.69.24 2.69.24v2.97h-1.52c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8v8.44C19.61 23.08 24 18.09 24 12.07z"/></svg></a>
+            <button type="button" class="shareic" id="shareBtn" aria-label="Copiar enlace de esta simulación" title="Copiar enlace"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12a3.1 3.1 0 0 1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7A3.1 3.1 0 0 1 3.9 12zM17 7h-4v1.9h4a3.1 3.1 0 1 1 0 6.2h-4V17h4a5 5 0 0 0 0-10zm-9 4h8v2H8z"/></svg></button>
+          </div>
         </div>
 
         <div class="metrics">
@@ -919,6 +931,15 @@
       try{ history.replaceState(null, '', location.pathname + '?' + serializeState()); }catch(e){}
     }, 300);
   }
+  function shareURL(){ return location.origin + location.pathname + '?' + serializeState(); }
+  var SHARE_TXT = 'Simulador de crédito hipotecario en Chile — calcula tu dividendo y cuánta renta necesitas:';
+  function updateShareLinks(){
+    var url = shareURL(), eu = encodeURIComponent(url);
+    var wa = $('shareWa'), x = $('shareX'), fb = $('shareFb');
+    if(wa) wa.href = 'https://wa.me/?text=' + encodeURIComponent(SHARE_TXT + ' ' + url);
+    if(x)  x.href  = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(SHARE_TXT) + '&url=' + eu;
+    if(fb) fb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + eu;
+  }
   function hydrateFromURL(){
     var q; try{ q = new URLSearchParams(location.search); }catch(e){ return; }
     if(!q.toString()) return;
@@ -1168,6 +1189,7 @@
     } else {
       box.innerHTML = '';
     }
+    updateShareLinks();
   }
 
   // ---- unit toggle ----
@@ -1266,14 +1288,40 @@
     render();
   });
 
-  // ---- compartir: copiar enlace ----
-  $('shareBtn').addEventListener('click', function(){
-    var url = location.origin + location.pathname + '?' + serializeState();
-    try{ history.replaceState(null,'',url); }catch(e){}
-    var b=$('shareBtn');
-    var done=function(){ b.textContent='¡Copiado!'; setTimeout(function(){ b.textContent='Copiar enlace'; },1600); };
-    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done, done); } else { done(); }
-  });
+  // ---- compartir ----
+  (function(){
+    var copyBtn = $('shareBtn');
+    var copyIcon = copyBtn ? copyBtn.innerHTML : '';
+    var CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+    if(copyBtn) copyBtn.addEventListener('click', function(){
+      var url = shareURL();
+      try{ history.replaceState(null,'',url); }catch(e){}
+      var done=function(){
+        copyBtn.classList.add('ok'); copyBtn.innerHTML = CHECK;
+        copyBtn.setAttribute('title','¡Copiado!'); copyBtn.setAttribute('aria-label','Enlace copiado');
+        setTimeout(function(){
+          copyBtn.classList.remove('ok'); copyBtn.innerHTML = copyIcon;
+          copyBtn.setAttribute('title','Copiar enlace'); copyBtn.setAttribute('aria-label','Copiar enlace de esta simulación');
+        },1600);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done, done); } else { done(); }
+    });
+    if(navigator.share){
+      var nb = $('shareNative');
+      if(nb){
+        nb.hidden = false;
+        nb.addEventListener('click', function(){
+          var url = shareURL();
+          try{ history.replaceState(null,'',url); }catch(e){}
+          navigator.share({ title:'Simula tu hipotecario', text:'Simulador de crédito hipotecario en Chile', url:url }).catch(function(){});
+        });
+      }
+    }
+    ['shareWa','shareX','shareFb'].forEach(function(id){
+      var el = $(id);
+      if(el) el.addEventListener('click', function(){ try{ history.replaceState(null,'',shareURL()); }catch(e){} });
+    });
+  })();
 
   // ---- referencias de tasas de mercado ----
   // Fuente única: ACTUALIZAR aquí cuando cambien las tasas. Datos del Banco Central
