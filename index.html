@@ -429,43 +429,43 @@
   /* impresión / guardar PDF (para el banco) — compacto, 2 columnas como la web */
   @media print{
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    @page{margin:11mm}
-    body{background:#fff !important;background-image:none !important;color:#1b2733 !important;font-size:9.5px;line-height:1.35}
+    @page{margin:9mm}
+    body{background:#fff !important;background-image:none !important;color:#1b2733 !important;font-size:8.7px;line-height:1.26}
     .app{max-width:none;padding:0}
     .sharebtn,.share,.feedback,#rateChips,.faq,details.adv,.linkbtn,.hint,.note,.acc-hint,.kicker,.tip .tipbox,.card.qualify{display:none !important}
     .card:has(#cmpRows){display:none !important}
     .tip{border-bottom:none}
-    .masthead{margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #ccc}
-    .hero{margin-bottom:6px}
-    .hero h1{font-size:17px;line-height:1.1}
+    .masthead{margin-bottom:5px;padding-bottom:4px;border-bottom:1px solid #ccc}
+    .hero{margin-bottom:5px}
+    .hero h1{font-size:15px;line-height:1.1}
     .hero p{display:none}
-    .grid{display:grid !important;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
+    .grid{display:grid !important;grid-template-columns:1fr 1fr;gap:9px;align-items:start}
     .sticky{position:static}
-    .card,.panel{box-shadow:none !important;border:1px solid #ccc !important;padding:9px;margin:0 0 8px;break-inside:avoid}
-    .card + .card,.panel + .card{margin-top:8px}
-    .grp{padding:7px 0}
-    .field{margin-bottom:7px}
-    .field > label{font-size:11px;margin-bottom:3px}
+    .card,.panel{box-shadow:none !important;border:1px solid #ccc !important;padding:6px;margin:0 0 5px;break-inside:avoid}
+    .card + .card,.panel + .card{margin-top:5px}
+    .grp{padding:4px 0}
+    .field{margin-bottom:4px}
+    .field > label{font-size:9.5px;margin-bottom:2px}
     .panel{background:#fff !important}
     .panel::before{display:none}
-    .panel .top{margin-bottom:6px}
+    .panel .top{margin-bottom:4px}
     .panel .top .eb{color:#555 !important}
     .metrics{background:#cfcfcf !important;border-color:#ccc !important}
-    .metric{background:#f4f4f1 !important;padding:6px 9px}
+    .metric{background:#f4f4f1 !important;padding:4px 8px}
     .m-l,.m-l-note,.m-s,.hero-sub,.s-l,.lead{color:#444 !important}
-    .m-v{color:#0e3a32 !important;font-size:15px}
+    .m-v{color:#0e3a32 !important;font-size:13px}
     .s-v,.vd-title,.hero-sub b,.lead b{color:#111 !important}
-    .hero-sub{margin-top:8px}
-    .stats{margin-top:8px;padding-top:8px}
-    .acc{margin-top:6px}
-    .acc-body{display:block !important;border-color:#ccc !important;padding:2px 10px 4px}
-    .acc-h{background:#f4f4f1 !important;border-color:#ccc !important;padding:6px 10px}
+    .hero-sub{margin-top:5px}
+    .stats{margin-top:5px;padding-top:5px}
+    .acc{margin-top:4px}
+    .acc-body{display:block !important;border-color:#ccc !important;padding:1px 9px 3px}
+    .acc-h{background:#f4f4f1 !important;border-color:#ccc !important;padding:4px 9px}
     .acc-tw{transform:rotate(90deg)}
-    .ttl{margin-bottom:8px}
-    .row{padding:4px 0}
-    input[type=number],input.money{padding:3px 7px;font-size:10px}
-    .seg button{padding:3px 8px;font-size:10px}
-    footer{margin-top:8px;padding-top:6px;font-size:9px}
+    .ttl{margin-bottom:4px}
+    .row{padding:2px 0}
+    input[type=number],input.money{padding:2px 6px;font-size:9px}
+    .seg button{padding:2px 7px;font-size:9px}
+    footer{margin-top:5px;padding-top:4px;font-size:8px}
     footer::after{content:"simulatuhipotecario.cl · valores referenciales, no es asesoría financiera.";display:block;margin-top:5px;color:#666}
   }
 
@@ -490,7 +490,7 @@
     <label class="uf-chip" title="Valor de la UF de hoy — editable">
       <span class="lab">UF<b>hoy</b></span>
       <span class="pfx">$</span>
-      <input id="ufValue" type="number" value="40793" min="1" step="1" inputmode="numeric" aria-label="Valor de la UF en pesos">
+      <input id="ufValue" type="text" class="money" value="40.793" inputmode="numeric" aria-label="Valor de la UF en pesos">
       <span class="uf-state" id="ufState" data-state="load" aria-live="polite"><span class="dot"></span><span id="ufStateTxt">cargando…</span></span>
     </label>
   </header>
@@ -512,7 +512,7 @@
         <div class="field">
           <label for="valorProp">Valor de la propiedad</label>
           <div class="with-affix">
-            <input id="valorProp" type="number" value="3000" min="0" step="1" inputmode="numeric">
+            <input id="valorProp" type="text" class="money" value="3.000" inputmode="numeric">
             <span class="affix" id="vpUnit">UF</span>
           </div>
           <div style="margin-top:9px">
@@ -680,6 +680,25 @@
         </div>
       </div>
 
+      <div class="card">
+        <div class="acc" style="margin-top:0">
+          <button class="acc-h" type="button" aria-expanded="false" aria-controls="cmpBody">
+            <span class="acc-tw" aria-hidden="true">▸</span>
+            <span class="acc-k">Comparar plazos<small>cómo cambian el dividendo y la renta de 15 a 30 años</small></span>
+          </button>
+          <div class="acc-body" id="cmpBody">
+            <div class="cmp-wrap" tabindex="0" role="region" aria-label="Tabla comparativa de plazos, desplazable horizontalmente">
+              <table class="cmp">
+                <caption class="sr-only">Dividendo, renta mínima e intereses totales según el plazo del crédito</caption>
+                <thead><tr><th scope="col">Plazo</th><th scope="col">Dividendo</th><th scope="col">Renta mín.</th><th scope="col">Intereses</th></tr></thead>
+                <tbody id="cmpRows"></tbody>
+              </table>
+            </div>
+            <p class="note" style="margin-top:10px">A más plazo, el dividendo y la renta exigida bajan, pero pagas más intereses en total. Calculado con tu tasa actual.</p>
+          </div>
+        </div>
+      </div>
+
       <div class="card qualify">
         <h3 class="ttl">¿Te alcanza tu renta?<span class="opt">opcional</span></h3>
         <p class="lead">Ingresa tu renta líquida y te decimos si calificas para esta propiedad y cuánto podrías financiar.</p>
@@ -799,25 +818,6 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="acc" style="margin-top:0">
-          <button class="acc-h" type="button" aria-expanded="false" aria-controls="cmpBody">
-            <span class="acc-tw" aria-hidden="true">▸</span>
-            <span class="acc-k">Comparar plazos<small>cómo cambian el dividendo y la renta de 15 a 30 años</small></span>
-          </button>
-          <div class="acc-body" id="cmpBody">
-            <div class="cmp-wrap" tabindex="0" role="region" aria-label="Tabla comparativa de plazos, desplazable horizontalmente">
-              <table class="cmp">
-                <caption class="sr-only">Dividendo, renta mínima e intereses totales según el plazo del crédito</caption>
-                <thead><tr><th scope="col">Plazo</th><th scope="col">Dividendo</th><th scope="col">Renta mín.</th><th scope="col">Intereses</th></tr></thead>
-                <tbody id="cmpRows"></tbody>
-              </table>
-            </div>
-            <p class="note" style="margin-top:10px">A más plazo, el dividendo y la renta exigida bajan, pero pagas más intereses en total. Calculado con tu tasa actual.</p>
-          </div>
-        </div>
-      </div>
-
       <div id="warns" role="status" aria-live="polite"></div>
 
     </div>
@@ -919,7 +919,7 @@
   // ---- estado en la URL (compartir simulación) ----
   function serializeState(){
     var q = new URLSearchParams();
-    q.set('vp', $('valorProp').value);
+    q.set('vp', String(num('valorProp')));
     q.set('u', unidad==='CLP'?'clp':'uf');
     q.set('f', $('financiamiento').value);
     q.set('p', $('plazo').value);
@@ -951,7 +951,8 @@
     if(u==='clp'){ unidad='CLP'; $('vpUnit').textContent='$'; segSet($('unitCLP'),$('unitUF')); $('valorProp').step=100000; }
     else if(u==='uf'){ unidad='UF'; $('vpUnit').textContent='UF'; segSet($('unitUF'),$('unitCLP')); $('valorProp').step=1; }
     var setIf=function(id,key){ var v=q.get(key); if(v!==null && v!=='') $(id).value=v; };
-    setIf('valorProp','vp'); setIf('financiamiento','f'); setIf('plazo','p'); setIf('tasa','t');
+    var vpv=q.get('vp'); if(vpv!==null && vpv!==''){ var vpn=parseInt(vpv.replace(/[^0-9]/g,''),10); if(!isNaN(vpn)) $('valorProp').value = fmtInt.format(vpn); }
+    setIf('financiamiento','f'); setIf('plazo','p'); setIf('tasa','t');
     var d=q.get('d'); if(d!==null && d!==''){ var dd=d.replace(/[^0-9]/g,''); $('otrasDeudas').value = dd?fmtInt.format(parseInt(dd,10)):'0'; }
     var rr=q.get('r'); if(rr==='30'){ ratio=30; segSet($('ratio30'),$('ratio25')); } else if(rr==='25'){ ratio=25; segSet($('ratio25'),$('ratio30')); }
   }
@@ -1201,8 +1202,8 @@
     if(u===unidad) return;
     var UF = num('ufValue')||1;
     var v = num('valorProp');
-    if(u==='CLP'){ $('valorProp').value = Math.round(v*UF); $('valorProp').step=100000; }
-    else { $('valorProp').value = Math.round((v/UF)*10)/10; $('valorProp').step=1; }
+    if(u==='CLP'){ $('valorProp').value = fmtInt.format(Math.round(v*UF)); }
+    else { $('valorProp').value = fmtInt.format(Math.round(v/UF)); }
     unidad = u;
     $('vpUnit').textContent = (u==='UF')?'UF':'$';
     if(u==='UF') segSet($('unitUF'),$('unitCLP')); else segSet($('unitCLP'),$('unitUF'));
@@ -1282,7 +1283,7 @@
   }
   cargarUF().then(function(res){
     if(ufEditadoManual) return; // el usuario ya tomó control del valor
-    $('ufValue').value = Math.round(res.valor);
+    $('ufValue').value = fmtInt.format(Math.round(res.valor));
     if(res.vivo){
       var f = fechaUF(res.fecha);
       setUFState('live', 'UF en vivo', 'Valor oficial' + (f ? ' del ' + f : '') + ' · mindicador.cl (Banco Central).');
