@@ -398,11 +398,12 @@
   .acc-body{display:none;padding:4px 13px 8px;border:1px solid var(--line);border-top:none;border-radius:0 0 9px 9px;background:#fbfcfb}
   .acc-h[aria-expanded="true"] + .acc-body{display:block}
   .acc-body .row:first-child{border-top:none;padding-top:6px}
+  .cmp-dim{margin:0 0 11px}
   .cmp-wrap{overflow-x:auto}
-  .cmp{width:100%;border-collapse:collapse;font-size:12.5px}
-  .cmp thead th{text-align:right;font-weight:600;color:var(--ink-faint);font-size:11px;padding:5px 7px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .cmp{width:100%;border-collapse:collapse;font-size:11.5px}
+  .cmp thead th{text-align:right;font-weight:600;color:var(--ink-faint);font-size:10.5px;padding:5px 5px;border-bottom:1px solid var(--line);white-space:nowrap}
   .cmp thead th:first-child{text-align:left}
-  .cmp td,.cmp tbody th{text-align:right;padding:7px 7px;border-bottom:1px solid var(--line-soft);font-family:var(--num);font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
+  .cmp td,.cmp tbody th{text-align:right;padding:6px 5px;border-bottom:1px solid var(--line-soft);font-family:var(--num);font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
   .cmp tbody th{text-align:left;font-family:var(--body);color:var(--ink-soft);font-weight:500}
   .cmp tbody tr:last-child td,.cmp tbody tr:last-child th{border-bottom:none}
   .cmp tr.cur td,.cmp tr.cur th{background:var(--accent-wash);font-weight:700;color:var(--accent-deep)}
@@ -710,19 +711,19 @@
       </div>
 
       <div class="card benefits" id="beneficiosCard">
+        <div class="ben-tipo">
+          <span class="ben-tipo-lab">¿La vivienda es nueva o usada?</span>
+          <div class="seg" role="group" aria-label="Tipo de vivienda">
+            <button id="vivNueva" class="on" type="button" aria-pressed="true">Nueva</button>
+            <button id="vivUsada" type="button" aria-pressed="false">Usada</button>
+          </div>
+        </div>
         <div class="acc" style="margin-top:0">
           <button class="acc-h" type="button" aria-expanded="false" aria-controls="benBody">
             <span class="acc-tw" aria-hidden="true">▸</span>
             <span class="acc-k">Beneficios estatales a los que podrías optar<small id="benSummary">según el valor de tu propiedad</small></span>
           </button>
           <div class="acc-body" id="benBody">
-            <div class="ben-tipo">
-              <span class="ben-tipo-lab">¿La vivienda es nueva o usada?</span>
-              <div class="seg" role="group" aria-label="Tipo de vivienda">
-                <button id="vivNueva" class="on" type="button" aria-pressed="true">Nueva</button>
-                <button id="vivUsada" type="button" aria-pressed="false">Usada</button>
-              </div>
-            </div>
             <p class="ben-intro">Además del valor, el acceso real depende de tu renta, tu ahorro y tu tramo en el <span class="tip" tabindex="0" role="note" aria-label="Registro Social de Hogares: registro del Estado que clasifica a los hogares por nivel socioeconomico, del 40% mas vulnerable hasta el 100%. Muchos subsidios exigen estar dentro de cierto tramo.">Registro Social de Hogares<span class="tipbox"><b>Registro Social de Hogares</b> — clasifica a los hogares por nivel socioeconómico (del <b>40% más vulnerable</b> al 100%). Varios subsidios exigen estar bajo cierto tramo.</span></span>; por eso cada uno indica su requisito clave. <b>Toca el nombre</b> de cada beneficio para ver todos sus requisitos en el sitio oficial.</p>
             <div id="beneficiosBody"></div>
             <p class="ben-nota">También hay beneficios <b>tributarios</b> que casi cualquier comprador puede revisar: el <span class="tip" tabindex="0" role="note" aria-label="DFL-2: beneficio tributario para viviendas de hasta 140 metros cuadrados. Incluye rebaja del 50% en las contribuciones por un periodo, impuesto de timbres reducido y menor arancel del Conservador. Maximo 2 viviendas DFL-2 por persona.">DFL-2<span class="tipbox"><b>DFL-2</b> — para viviendas de hasta <b>140 m²</b>: rebaja del <b>50% en las contribuciones</b> por un período, timbres reducido y menor arancel del Conservador. Máximo 2 por persona.</span></span>, la <span class="tip" tabindex="0" role="note" aria-label="Exencion de contribuciones: las viviendas cuyo avaluo fiscal no supera el monto exento (primer semestre 2026: 60.030.710 pesos) no pagan contribuciones. Depende del avaluo fiscal, que suele ser menor al precio de compra.">exención de contribuciones<span class="tipbox"><b>Exención de contribuciones</b> — si el <b>avalúo fiscal</b> no supera el monto exento (1.er sem. 2026: $60.030.710), la vivienda no paga contribuciones. El avalúo suele ser menor al precio.</span></span> y, en vivienda nueva, el menor precio por el <span class="tip" tabindex="0" role="note" aria-label="IVA a constructoras (CEEC): Credito Especial para Empresas Constructoras. Lo recibe la constructora y abarata el precio final de viviendas nuevas. Se reduce gradualmente: en 2026 esta al 25% y se elimina el 1 de enero de 2027.">IVA a constructoras (CEEC)<span class="tipbox"><b>CEEC (IVA a constructoras)</b> — lo recibe la <b>constructora</b> y abarata el precio de viviendas nuevas. En <b>2026 está al 25%</b> y se elimina el 1-ene-2027.</span></span>. Una vía sin crédito es el <span class="tip" tabindex="0" role="note" aria-label="Leasing habitacional (DS.120): alternativa al credito hipotecario. Arriendas la vivienda con promesa de compraventa y al final del contrato queda tuya, con apoyo del Estado via SERVIU. Para viviendas de hasta unas 2.000 a 2.200 UF.">leasing habitacional<span class="tipbox"><b>Leasing habitacional (DS.120)</b> — <b>arriendas con promesa de compra</b> y al final la vivienda queda tuya, con apoyo de SERVIU. Hasta ~2.000–2.200 UF.</span></span>.</p>
@@ -735,17 +736,24 @@
         <div class="acc" style="margin-top:0">
           <button class="acc-h" type="button" aria-expanded="false" aria-controls="cmpBody">
             <span class="acc-tw" aria-hidden="true">▸</span>
-            <span class="acc-k">Comparar plazos<small>cómo cambian el dividendo y la renta de 15 a 30 años</small></span>
+            <span class="acc-k">Comparar escenarios<small>cómo cambian el dividendo, la renta y los intereses</small></span>
           </button>
           <div class="acc-body" id="cmpBody">
-            <div class="cmp-wrap" tabindex="0" role="region" aria-label="Tabla comparativa de plazos, desplazable horizontalmente">
+            <div class="cmp-dim">
+              <div class="seg" role="group" aria-label="Qué comparar">
+                <button id="cmpPlazo" class="on" type="button" aria-pressed="true">Plazos</button>
+                <button id="cmpTasa" type="button" aria-pressed="false">Tasas</button>
+                <button id="cmpValor" type="button" aria-pressed="false">Valor</button>
+              </div>
+            </div>
+            <div class="cmp-wrap" tabindex="0" role="region" aria-label="Tabla comparativa de escenarios, desplazable si no cabe">
               <table class="cmp">
-                <caption class="sr-only">Dividendo, renta mínima e intereses totales según el plazo del crédito</caption>
-                <thead><tr><th scope="col">Plazo</th><th scope="col">Dividendo</th><th scope="col">Renta mín.</th><th scope="col">Intereses</th></tr></thead>
+                <caption class="sr-only">Dividendo, renta mínima e intereses totales por escenario</caption>
+                <thead><tr><th scope="col" id="cmpHeadFirst">Plazo</th><th scope="col">Dividendo</th><th scope="col">Renta mín.</th><th scope="col">Intereses</th></tr></thead>
                 <tbody id="cmpRows"></tbody>
               </table>
             </div>
-            <p class="note" style="margin-top:10px">A más plazo, el dividendo y la renta exigida bajan, pero pagas más intereses en total. Calculado con tu tasa actual.</p>
+            <p class="note" id="cmpNote" style="margin-top:10px">A más plazo, el dividendo y la renta exigida bajan, pero pagas más intereses en total. Con tu valor, pie y tasa actuales.</p>
           </div>
         </div>
       </div>
@@ -916,8 +924,10 @@
   "use strict";
   var $ = function(id){return document.getElementById(id);};
   function segSet(on, off){ on.classList.add('on'); on.setAttribute('aria-pressed','true'); off.classList.remove('on'); off.setAttribute('aria-pressed','false'); }
+  function segSet3(on, a, b){ on.classList.add('on'); on.setAttribute('aria-pressed','true'); [a,b].forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-pressed','false'); }); }
   var unidad = 'UF';
   var tipoVivienda = 'nueva';
+  var cmpDim = 'plazo';
   var ratio = 25;
   var ufEditadoManual = false;
   var codeudorOn = false;
@@ -970,6 +980,53 @@
     var rentaReq=Math.max(divTotCLP/(ratioPct/100),(divTotCLP+otras)/0.45);
     var intCLP=(divBase*n-montoUF)*UF;
     return {divTotCLP:divTotCLP, rentaReq:rentaReq, intCLP:intCLP};
+  }
+
+  // monto y seguros (UF/mes) para un valor de propiedad dado — para comparar valores
+  function montoSegFor(vPropUF){
+    var finP = num('financiamiento');
+    var montoUF = vPropUF*finP/100;
+    var desg = num('desgravamen'), inc = num('incendio');
+    var vAseg = num('valorAsegurado')>0 ? num('valorAsegurado') : vPropUF;
+    return {montoUF:montoUF, segUF: montoUF*(desg/100) + vAseg*(inc/100)};
+  }
+  // tabla "Comparar escenarios": varía plazo, tasa o valor manteniendo el resto
+  function renderCompare(r, UF){
+    var rows=[], headFirst='Plazo', note='';
+    if(cmpDim==='tasa'){
+      headFirst='Tasa';
+      note='A mayor tasa, sube el dividendo, la renta exigida y los intereses. Con tu valor, pie y plazo actuales.';
+      var cur=Math.round(r.tasa*100)/100, rates=[3.40,4.06,5.00,5.50];
+      if(rates.indexOf(cur)<0) rates.push(cur);
+      rates.sort(function(a,b){return a-b;});
+      rates.forEach(function(t){
+        var q=quote(r.plazo, t, r.montoUF, r.segUF, ratio, r.otras, UF);
+        rows.push({lab:fmtUF2.format(t)+'%', cur:Math.abs(t-cur)<0.005, tag:'tu tasa', q:q});
+      });
+    } else if(cmpDim==='valor'){
+      headFirst='Valor';
+      note='Si compras una propiedad más barata o más cara, con el mismo pie, plazo y tasa.';
+      var base=r.vPropUF||0;
+      [0.8,0.9,1,1.1,1.2].forEach(function(fc){
+        var v=base*fc, ms=montoSegFor(v);
+        var q=quote(r.plazo, r.tasa, ms.montoUF, ms.segUF, ratio, r.otras, UF);
+        rows.push({lab:fmtInt.format(Math.round(v))+' UF', cur:fc===1, tag:'tu valor', q:q});
+      });
+    } else {
+      note='A más plazo, el dividendo y la renta exigida bajan, pero pagas más intereses en total. Con tu valor, pie y tasa actuales.';
+      [15,20,25,30].forEach(function(py){
+        var q=quote(py, r.tasa, r.montoUF, r.segUF, ratio, r.otras, UF);
+        rows.push({lab:py+' años', cur:py===r.plazo, tag:'tu plazo', q:q});
+      });
+    }
+    var html='';
+    for(var k=0;k<rows.length;k++){
+      var x=rows[k];
+      html += '<tr'+(x.cur?' class="cur" aria-current="true"':'')+'><th scope="row">'+x.lab+(x.cur?' <span class="cur-tag">· '+x.tag+'</span>':'')+'</th><td>'+clp(x.q.divTotCLP)+'</td><td>'+clp(x.q.rentaReq)+'</td><td>'+clp(x.q.intCLP)+'</td></tr>';
+    }
+    $('cmpRows').innerHTML = html;
+    var hf=$('cmpHeadFirst'); if(hf) hf.textContent=headFirst;
+    var nt=$('cmpNote'); if(nt) nt.textContent=note;
   }
 
   // ---- beneficios estatales según el valor de la propiedad (Chile 2026) ----
@@ -1291,15 +1348,8 @@
       vc.hidden = true;
     }
 
-    // comparar plazos
-    var cmpHtml='', plazosCmp=[15,20,25,30];
-    for(var pc=0;pc<plazosCmp.length;pc++){
-      var py=plazosCmp[pc];
-      var q=quote(py, r.tasa, r.montoUF, r.segUF, ratio, r.otras, UF);
-      var isCur=(py===r.plazo);
-      cmpHtml += '<tr'+(isCur?' class="cur" aria-current="true"':'')+'><th scope="row">'+py+' años'+(isCur?' <span class="cur-tag">· tu plazo</span>':'')+'</th><td>'+clp(q.divTotCLP)+'</td><td>'+clp(q.rentaReq)+'</td><td>'+clp(q.intCLP)+'</td></tr>';
-    }
-    $('cmpRows').innerHTML = cmpHtml;
+    // comparar escenarios (plazos / tasas / valor)
+    renderCompare(r, UF);
 
     // echoes
     $('finVal').textContent = r.fin;
@@ -1365,6 +1415,11 @@
   // ---- tipo de vivienda (nueva/usada) — solo afecta los beneficios ----
   $('vivNueva').addEventListener('click',function(){ if(tipoVivienda==='nueva')return; tipoVivienda='nueva'; segSet($('vivNueva'),$('vivUsada')); renderBeneficios(); });
   $('vivUsada').addEventListener('click',function(){ if(tipoVivienda==='usada')return; tipoVivienda='usada'; segSet($('vivUsada'),$('vivNueva')); renderBeneficios(); });
+
+  // ---- comparar: qué dimensión (plazos / tasas / valor) ----
+  $('cmpPlazo').addEventListener('click',function(){ if(cmpDim==='plazo')return; cmpDim='plazo'; segSet3($('cmpPlazo'),$('cmpTasa'),$('cmpValor')); render(); });
+  $('cmpTasa').addEventListener('click',function(){ if(cmpDim==='tasa')return; cmpDim='tasa'; segSet3($('cmpTasa'),$('cmpPlazo'),$('cmpValor')); render(); });
+  $('cmpValor').addEventListener('click',function(){ if(cmpDim==='valor')return; cmpDim='valor'; segSet3($('cmpValor'),$('cmpPlazo'),$('cmpTasa')); render(); });
 
   // ---- ratio toggle ----
   $('ratio25').addEventListener('click',function(){ratio=25;segSet($('ratio25'),$('ratio30'));render();});
