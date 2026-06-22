@@ -8,13 +8,15 @@ cuánto**, y el **estándar de proceso** para mantenerlo con la misma calidad.
 
 Nada sale a producción sin aprobación. El proceso de cada revisión es:
 
-1. **Leer** los valores actuales en `index.html` (objeto `TASAS`, array `BENEFICIOS`, tooltips, footer).
+1. **Leer** los valores actuales en `index.html`: objeto `TASAS`, array `BENEFICIOS`, tooltips, footer, las **constantes** (`ratio`, `FACTOR_HON`, `/0.45`, `edadFin>75`) y el **FAQ + JSON-LD**.
 2. **Investigar** con el workflow multi-agente `.claude/mantenimiento-workflow.js` (fuentes oficiales, orientado a Chile y a la fecha vigente).
 3. **Verificar de forma adversarial** cada cambio propuesto (que el dato sea real y citado; descartar alucinaciones).
 4. **Informe de diffs**: por cada ítem → valor en código vs encontrado, ¿cambia?, valor propuesto, fuente, confianza, ubicación exacta.
 5. **Aprobación del usuario** (este paso no se omite).
 6. **Editar** `index.html`, **verificar en preview** (`preview_eval`, consola, responsivo) y **commit** con la convención de abajo → push → deploy automático.
 7. Actualizar la etiqueta "actualizado" correspondiente y agregar una línea al **changelog** de este archivo.
+
+> **Consistencia (importante):** varios datos financieros viven a la vez en el **cálculo** (constantes) y en **textos** (FAQ, JSON-LD, footer, tooltips, hints). Al cambiar uno, actualizar **todas** sus apariciones — y el **FAQ del JSON-LD debe quedar idéntico al FAQ visible**.
 
 ## Cómo dispararlo
 
@@ -28,6 +30,7 @@ Nada sale a producción sin aprobación. El proceso de cada revisión es:
 |---|---|---|---|
 | Tasas (refs, típica, promedio) | objeto `TASAS` + footer "Parámetros a…" | [Banco Central](https://www.bcentral.cl/contenido/-/detalle/tasas-de-interes) + tasas de bancos | Mensual |
 | Beneficios (topes UF, vigencia, cupos) | array `BENEFICIOS` | [MINVU](https://www.minvu.gob.cl), [ChileAtiende](https://www.chileatiende.gob.cl), gob.cl | Trimestral + por noticia |
+| **Supuestos/reglas** (ratio 25/30, carga 45%, honorarios ~70%, pie 20/10%, edad ≤75) | constantes (`ratio`, `FACTOR_HON`, `/0.45`, `edadFin>75`) **+ textos** (FAQ, JSON-LD, footer, tooltips) | [CMF Educa](https://www.cmfchile.cl/educa/) + bancos | Anual / al cambiar políticas |
 | Monto exento contribuciones | tooltip "exención de contribuciones" | [SII](https://www.sii.cl) | Semestral (ene/jul) |
 | Enlaces oficiales (que sigan 200) | `BENEFICIOS` (`url`) + footer + JSON-LD | — | Mensual |
 | UF (valor de respaldo) | `FALLBACK` en `cargarUF()` | mindicador.cl (Banco Central) | Solo si la API falla seguido |
@@ -56,6 +59,16 @@ Verificar 200: las 7 URLs de `BENEFICIOS`, las del footer (bcentral, simulador C
 
 ### 5. Etiquetas de año
 En enero: revisar "2026" en `<title>`, `meta description`, footer ("Parámetros a … 2026"), `og.svg`/`og.png`, y JSON-LD. Actualizar al año vigente si corresponde.
+
+### 6. Supuestos y reglas financieras (cálculo + textos)
+Reglas que la banca/CMF puede cambiar y que están **a la vez en el cálculo y en varios textos** — al tocar una, hay que actualizar **todas** sus apariciones:
+- **Ratio dividendo/renta 25% (estricto) / 30% (flexible)** — `ratio` (toggle), `compute()`, FAQ, JSON-LD, footer ("ratio 25% CMF Educa"), tooltips de "¿Te alcanza tu renta?".
+- **Carga financiera total máx 45%** — `/0.45` en `compute()` (~líneas 980 y 1200), FAQ, JSON-LD, fila "Renta por carga total".
+- **Honorarios castigo ~70%** — `FACTOR_HON = 0.70` (~línea 934), FAQ, tooltip "honorarios", hint de la tarjeta de renta.
+- **Pie 20% / 10% con FOGAES** (financiamiento 80%/90%) — default del slider, hint de financiamiento, FAQ, footer.
+- **Edad máx al término ~75** — `edadFin>75` (~línea 1383) + texto del aviso.
+- **Seguros típicos** — defaults desgravamen 0,020% / incendio 0,025% (inputs).
+Fuente: [CMF Educa](https://www.cmfchile.cl/educa/) y prácticas bancarias. Recordatorio: el **FAQ del JSON-LD debe quedar idéntico al FAQ visible**.
 
 ## Convención de commits
 
