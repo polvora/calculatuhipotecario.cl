@@ -914,7 +914,7 @@
   <footer>
     <p class="feedback">¿Comentarios o encontraste un error? <a href="https://tally.so/r/D4b0Pq" target="_blank" rel="noopener">Cuéntanos →</a></p>
     <b>Referencial — no es asesoría financiera ni preaprobación.</b> Cada banco aplica sus propias políticas de riesgo; la cifra final depende de tu historial (<span class="tip" tabindex="0" role="note" aria-label="REDEC: Registro de Deudores de la CMF, base de datos con el nivel de endeudamiento de cada persona que el banco consulta al evaluarte.">REDEC<span class="tipbox"><b>REDEC</b> — Registro de Deudores de la CMF: base de datos con el <b>nivel de endeudamiento</b> de cada persona, que el banco consulta al evaluarte.</span></span>), antigüedad laboral y la <span class="tip" tabindex="0" role="note" aria-label="Tasación: avalúo del inmueble que encarga el banco para confirmar cuánto vale; sobre ese valor calcula cuánto te presta. Es uno de los gastos operacionales.">tasación<span class="tipbox"><b>Tasación</b> — avalúo del inmueble que encarga el banco para confirmar cuánto vale; sobre ese valor calcula cuánto te presta. Es uno de los gastos operacionales.</span></span>. El cálculo asume una sola renta — con codeudor se suman ingresos (y deudas). La <span class="tip" tabindex="0" role="note" aria-label="CAE: Carga Anual Equivalente. Expresa el costo total del crédito en un solo porcentaje, incluyendo la tasa de interés y los seguros. Sirve para comparar ofertas de distintos bancos.">CAE<span class="tipbox"><b>CAE</b> — Carga Anual Equivalente: el <b>costo total del crédito</b> en un solo porcentaje (tasa + seguros). Sirve para comparar ofertas.</span></span> real del banco será algo mayor a la tasa nominal por seguros y comisiones.<br>
-    Parámetros a junio 2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% (Banco Central) · tasa fija típica a 25–30 años ~5,0% UF · promedio del sistema 4,06% (Banco Central) · rango ~3,4%–5,5% según plazo, perfil y vinculación · <span class="tip" tabindex="0" role="note" aria-label="UF, Unidad de Fomento: unidad reajustable por inflación cuyo valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.">UF<span class="tipbox"><b>UF</b> — Unidad de Fomento: unidad <b>reajustable por inflación</b>; su valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.</span></span> actualizada en vivo desde mindicador.cl. <span class="tip" tabindex="0" role="note" aria-label="Amortización francesa: sistema de pago con cuota fija en UF; al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.">Amortización francesa<span class="tipbox"><b>Amortización francesa</b> — sistema de <b>cuota fija</b> (en UF): al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.</span></span>, tasa mensual = anual ÷ 12. Fuentes: <a href="https://www.bcentral.cl/contenido/-/detalle/tasas-de-interes" target="_blank" rel="noopener">Banco Central de Chile</a> (tasas de interés) y <a href="https://servicios.cmfchile.cl/simuladorhipotecario/aplicacion?indice=101.2.1" target="_blank" rel="noopener">simulador hipotecario CMF</a>.
+    Parámetros a junio 2026: ratio 25% (CMF Educa) · financiamiento estándar 80% · TPM 4,5% (Banco Central) · tasa fija típica a 25–30 años ~5,0% UF · promedio del sistema 3,96% (Banco Central) · rango ~3,4%–5,5% según plazo, perfil y vinculación · <span class="tip" tabindex="0" role="note" aria-label="UF, Unidad de Fomento: unidad reajustable por inflación cuyo valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.">UF<span class="tipbox"><b>UF</b> — Unidad de Fomento: unidad <b>reajustable por inflación</b>; su valor en pesos cambia a diario. Los créditos hipotecarios se expresan en UF.</span></span> actualizada en vivo desde mindicador.cl. <span class="tip" tabindex="0" role="note" aria-label="Amortización francesa: sistema de pago con cuota fija en UF; al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.">Amortización francesa<span class="tipbox"><b>Amortización francesa</b> — sistema de <b>cuota fija</b> (en UF): al principio pagas más interés y menos capital, y esa proporción se invierte con el tiempo.</span></span>, tasa mensual = anual ÷ 12. Fuentes: <a href="https://www.bcentral.cl/contenido/-/detalle/tasas-de-interes" target="_blank" rel="noopener">Banco Central de Chile</a> (tasas de interés) y <a href="https://servicios.cmfchile.cl/simuladorhipotecario/aplicacion?indice=101.2.1" target="_blank" rel="noopener">simulador hipotecario CMF</a>.
   </footer>
 
 </div>
@@ -996,7 +996,7 @@
     if(cmpDim==='tasa'){
       headFirst='Tasa';
       note='A mayor tasa, sube el dividendo, la renta exigida y los intereses. Con tu valor, pie y plazo actuales.';
-      var cur=Math.round(r.tasa*100)/100, rates=[3.40,4.06,5.00,5.50];
+      var cur=Math.round(r.tasa*100)/100, rates=[3.40,3.96,5.00,5.50];
       if(rates.indexOf(cur)<0) rates.push(cur);
       rates.sort(function(a,b){return a-b;});
       rates.forEach(function(t){
@@ -1074,7 +1074,7 @@
     {code:'FOGAES', grupo:'financiamiento', ufMin:0, ufMax:4000, soloNueva:true, estado:'vigente',
      nombre:'FOGAES — Garantía Estatal Vivienda Nueva',
      url:'https://www.gob.cl/noticias/nuevo-fogaes-compra-vivienda-credito-hipotecario-ley-subsidio-dividendo',
-     desc:'El Estado avala hasta el 60% del crédito (Ley 21.748) y te permite un pie desde 10%',
+     desc:'El Estado avala hasta el 60% del valor de la vivienda (Ley 21.748) y te permite un pie desde 10%',
      cond:'la vivienda es nueva',
      nota:'Cupos casi agotados en 2026 — confírmalo en el banco.'}
   ];
@@ -1544,11 +1544,11 @@
   // de Chile (promedio del sistema) y tasas publicadas por cada banco.
   var TASAS = {
     actualizado: 'junio 2026',
-    promedioSistema: 4.06,
+    promedioSistema: 3.96,
     tasaDefault: 5.00,
     refs: [
       {lab:'Mejor caso',  rate:3.40, tip:'Mejor caso publicitado ("desde"): renta alta e historial impecable, con vinculación (abono de sueldo), plazo corto y/o garantía estatal FOGAES. Pocos lo obtienen de entrada.'},
-      {lab:'Promedio',    rate:4.06, tip:'Promedio del sistema según el Banco Central. Mezcla todos los plazos, perfiles y productos (incluidos plazos cortos y refinanciamientos), por eso es menor a una tasa fija a 30 años.'},
+      {lab:'Promedio',    rate:3.96, tip:'Promedio del sistema según el Banco Central. Mezcla todos los plazos, perfiles y productos (incluidos plazos cortos y refinanciamientos), por eso es menor a una tasa fija a 30 años.'},
       {lab:'Típico fijo', rate:5.00, tip:'Tasa fija realista para un crédito a 25–30 años con perfil estándar, sin descuentos por vinculación. Es lo que suele entregar el simulador de un banco.'},
       {lab:'Conservador', rate:5.50, tip:'Escenario alto, como colchón de planificación.'}
     ]

@@ -68,3 +68,4 @@ En enero: revisar "2026" en `<title>`, `meta description`, footer ("Parámetros 
 <!-- Una línea por revisión: AAAA-MM-DD — qué se revisó y qué cambió. -->
 
 - 2026-06-21 — Plan de mantenimiento creado. Línea base: tasas jun 2026 (típica 5,0%, promedio 4,06%), beneficios verificados vs MINVU/ChileAtiende/SII, monto exento $60.030.710.
+- 2026-06-21 — 1.ª revisión (workflow). Cambios aplicados: promedio del sistema 4,06% → **3,96%** (Banco Central, dato de mayo 2026) en `TASAS.promedioSistema`, ref "Promedio", tabla "Comparar tasas" y footer; corregida redacción de FOGAES ("60% del crédito" → "del valor de la vivienda", per gob.cl). Verificado vigente sin cambios: TPM 4,5%, tasas típica/mejor caso/conservador, DS49/DS1/DS19/Subsidio al Dividendo/CEEC, monto exento $60.030.710 y los 12 enlaces oficiales (HTTP 200).
