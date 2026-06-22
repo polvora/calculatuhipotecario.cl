@@ -640,6 +640,7 @@
             <a class="shareic" id="shareX" target="_blank" rel="noopener" aria-label="Compartir en X" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
             <a class="shareic" id="shareFb" target="_blank" rel="noopener" aria-label="Compartir en Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6.02 4.39 11.01 10.13 11.93v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.69.24 2.69.24v2.97h-1.52c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8v8.44C19.61 23.08 24 18.09 24 12.07z"/></svg></a>
             <button type="button" class="shareic" id="shareBtn" aria-label="Copiar enlace de esta simulación" title="Copiar enlace"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12a3.1 3.1 0 0 1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7A3.1 3.1 0 0 1 3.9 12zM17 7h-4v1.9h4a3.1 3.1 0 1 1 0 6.2h-4V17h4a5 5 0 0 0 0-10zm-9 4h8v2H8z"/></svg></button>
+            <button type="button" class="shareic" id="printBtn" aria-label="Imprimir o guardar como PDF" title="Imprimir / Guardar PDF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1 0-.55.45-1 1-1s1 .45 1 1c0 .55-.45 1-1 1zm-1-9H6v4h12V3z"/></svg></button>
           </div>
         </div>
 
@@ -1324,6 +1325,8 @@
       var el = $(id);
       if(el) el.addEventListener('click', function(){ try{ history.replaceState(null,'',shareURL()); }catch(e){} });
     });
+    var printBtn = $('printBtn');
+    if(printBtn) printBtn.addEventListener('click', function(){ window.print(); });
   })();
 
   // ---- referencias de tasas de mercado ----
